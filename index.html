@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GUARDIAN-X Dashboard</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <style>
+        /* --- PASSWORD MODAL STYLES --- */
+        .auth-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(20px);
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .auth-overlay.hidden {
+            display: none;
+        }
+        
+        .auth-modal {
+            background: linear-gradient(135deg, rgba(26, 26, 46, 0.95), rgba(22, 33, 62, 0.95));
+            border: 2px solid rgba(0, 212, 255, 0.3);
+            border-radius: 25px;
+            padding: 3rem 2.5rem;
+            max-width: 450px;
+            width: 90%;
+            box-shadow: 0 20px 60px rgba(0, 212, 255, 0.4);
+            animation: modalSlideDown 0.6s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .auth-modal::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 212, 255, 0.1), transparent);
+            animation: shimmer 3s infinite;
+        }
+        
+        @keyframes shimmer {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+        
+        @keyframes modalSlideDown {
+            from { transform: translateY(-100px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        
+        .auth-icon {
+            text-align: center;
+            font-size: 4rem;
+            margin-bottom: 1.5rem;
+            filter: drop-shadow(0 0 20px rgba(0, 212, 255, 0.8));
+        }
+        
+        .auth-title {
+            text-align: center;
+            font-size: 2rem;
+            font-weight: bold;
+            background: linear-gradient(45deg, #00d4ff, #ff6b35);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+        }
+        
+        .auth-subtitle {
+            text-align: center;
+            color: #a0a8b0;
+            margin-bottom: 2rem;
+            font-size: 0.95rem;
+        }
+        
+        .auth-input-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .auth-label {
+            display: block;
+            color: #e0e6ed;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+        
+        .auth-input-wrapper {
+            position: relative;
+        }
+        
+        .auth-input {
+            width: 100%;
+            padding: 1rem 3rem 1rem 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid rgba(0, 212, 255, 0.3);
+            border-radius: 15px;
+            color: white;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .auth-input:focus {
+            outline: none;
+            border-color: #00d4ff;
+            background: rgba(255, 255, 255, 0.08);
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.3);
+        }
+        
+        .toggle-password {
+            position: absolute;
+            right: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: #a0a8b0;
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: color 0.3s ease;
+        }
+        
+        .toggle-password:hover {
+            color: #00d4ff;
+        }
+        
+        .auth-button {
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(45deg, #00d4ff, #0099cc);
+            border: none;
+            border-radius: 15px;
+            color: white;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 1rem;
+        }
+        
+        .auth-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0, 212, 255, 0.5);
+        }
+        
+        .auth-error {
+            background: rgba(255, 107, 53, 0.2);
+            border: 1px solid rgba(255, 107, 53, 0.5);
+            color: #ff6b35;
+            padding: 0.8rem;
+            border-radius: 10px;
+            margin-top: 1rem;
+            text-align: center;
+            font-size: 0.9rem;
+            display: none;
+        }
+        
+        .auth-error.show {
+            display: block;
+            animation: shake 0.5s ease;
+        }
+        
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+        
+        .blur-content {
+            filter: blur(10px);
+            pointer-events: none;
+        }
+
+        /* --- MAIN DASHBOARD STYLES --- */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Arial', sans-serif; background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%); color: #e0e6ed; min-height: 100vh; position: relative; overflow-x: hidden; }
+        .particles { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1; }
+        .particle { position: absolute; background: rgba(255, 255, 255, 0.1); border-radius: 50%; animation: float 6s ease-in-out infinite; }
+        @keyframes float { 0%, 100% { transform: translateY(0px) rotate(0deg); } 50% { transform: translateY(-20px) rotate(180deg); } }
+        .container { max-width: 1400px; margin: 0 auto; padding: 2rem; position: relative; z-index: 10; }
+        .header { text-align: center; margin-bottom: 3rem; animation: slideDown 1s ease-out; }
+        @keyframes slideDown { from { transform: translateY(-50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        .title { font-size: 4rem; font-weight: bold; background: linear-gradient(45deg, #00d4ff, #ff6b35, #f7931e, #00d4ff); background-size: 400% 400%; -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; animation: gradientShift 3s ease infinite; text-shadow: 0 0 30px rgba(0, 212, 255, 0.5); margin-bottom: 1rem; letter-spacing: 2px; }
+        @keyframes gradientShift { 0%, 100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
+        .subtitle { font-size: 1.8rem; color: #e0e6ed; margin-bottom: 2rem; text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5); animation: fadeIn 1.5s ease-out; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes fadeOut { from { opacity: 1; } to { opacity: 0; } }
+        .tagline { font-size: 1.2rem; color: #a0a8b0; font-style: italic; margin-bottom: 3rem; animation: fadeIn 2s ease-out; }
+        .dashboard-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; margin-top: 2rem; max-width: 1200px; margin-left: auto; margin-right: auto; }
+        .dashboard-card { background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); border-radius: 20px; padding: 1.5rem; border: 1px solid rgba(255, 255, 255, 0.2); transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); cursor: pointer; position: relative; overflow: hidden; animation: slideUp 1s ease-out; animation-fill-mode: both; height: auto; min-height: 280px; display: flex; flex-direction: column; justify-content: space-between; }
+        .dashboard-card:nth-child(1) { animation-delay: 0.2s; } .dashboard-card:nth-child(2) { animation-delay: 0.4s; } .dashboard-card:nth-child(3) { animation-delay: 0.6s; } .dashboard-card:nth-child(4) { animation-delay: 0.8s; }
+        @keyframes slideUp { from { transform: translateY(50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        .dashboard-card:hover { transform: translateY(-10px) scale(1.02); box-shadow: 0 20px 40px rgba(0, 212, 255, 0.3); border-color: #00d4ff; }
+        .card-icon { font-size: 2.5rem; margin-bottom: 1rem; text-align: center; filter: drop-shadow(0 0 10px currentColor); }
+        .coaching-room .card-icon { color: #ff6b35; } .maintenance-kit .card-icon { color: #00d4ff; } .learning-corner .card-icon { color: #f7931e; } .explore-more .card-icon { color: #4ecdc4; }
+        .card-title { font-size: 1.2rem; font-weight: bold; color: white; margin-bottom: 0.8rem; text-align: center; }
+        .card-description { color: #b0b8c0; text-align: center; line-height: 1.4; margin-bottom: 1.5rem; font-size: 0.85rem; flex: 1; }
+        .card-button { background: linear-gradient(45deg, #00d4ff, #0099cc); color: white; border: none; padding: 0.7rem 1.5rem; border-radius: 25px; font-weight: bold; cursor: pointer; transition: all 0.3s ease; width: 100%; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; margin-top: auto; }
+        .dashboard-card .card-button:hover { transform: translateY(-2px); box-shadow: 0 10px 20px rgba(0, 212, 255, 0.4); }
+        .stats-banner { background: rgba(0, 0, 0, 0.3); backdrop-filter: blur(10px); border-radius: 15px; padding: 1.5rem; margin: 3rem 0; display: flex; justify-content: space-around; flex-wrap: wrap; border: 1px solid rgba(255, 255, 255, 0.1); }
+        .stat-item { text-align: center; margin: 0.5rem; } .stat-number { font-size: 2rem; font-weight: bold; color: #00d4ff; display: block; } .stat-label { color: #a0a8b0; font-size: 0.9rem; }
+        .cta-section { background: linear-gradient(135deg, rgba(0, 212, 255, 0.1), rgba(255, 107, 53, 0.1)); backdrop-filter: blur(15px); border-radius: 20px; padding: 2.5rem; margin: 4rem auto; text-align: center; border: 1px solid rgba(255, 255, 255, 0.2); position: relative; overflow: hidden; animation: slideUp 1s ease-out 1s both; max-width: 1000px; display: flex; flex-direction: column; align-items: center; }
+        .image-slider { width: 100%; height: 220px; position: relative; overflow: hidden; border-radius: 15px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5); }
+        .cta-header { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 5; width: 90%; max-width: 600px; pointer-events: none; }
+        .cta-title { font-size: 1.8rem; font-weight: bold; color: white; margin-bottom: 0.5rem; text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8); }
+        .cta-subtitle { font-size: 1rem; color: #e0e6ed; line-height: 1.5; text-shadow: 0 2px 6px rgba(0, 0, 0, 0.8); }
+        .cta-button { background: linear-gradient(45deg, #00d4ff, #0099cc); color: white; border: none; padding: 0.8rem 2rem; border-radius: 25px; font-size: 0.95rem; font-weight: bold; cursor: pointer; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); text-transform: uppercase; letter-spacing: 1px; box-shadow: 0 8px 20px rgba(0, 212, 255, 0.3); position: relative; overflow: hidden; z-index: 2; margin-top: 2rem; display: inline-block; }
+        .cta-button:hover { transform: translateY(-3px) scale(1.03); box-shadow: 0 15px 30px rgba(0, 212, 255, 0.5); }
+        .slide { width: 100%; height: 100%; position: absolute; top: 0; left: 0; opacity: 0; transition: opacity 1s ease-in-out; }
+        .slide.active { opacity: 1; }
+        .slide img { width: 100%; height: 100%; object-fit: cover; }
+        .slider-nav { position: absolute; bottom: 10px; left: 50%; transform: translateX(-50%); display: flex; gap: 8px; z-index: 10; }
+        .nav-dot { width: 10px; height: 10px; background-color: rgba(255, 255, 255, 0.5); border-radius: 50%; cursor: pointer; transition: all 0.3s ease; }
+        .nav-dot.active { background-color: #00d4ff; transform: scale(1.2); }
+        .footer { background: rgba(0, 0, 0, 0.4); backdrop-filter: blur(15px); border-top: 1px solid rgba(255, 255, 255, 0.1); padding: 3rem 0 1.5rem 0; margin-top: 2rem; position: relative; z-index: 10; }
+        .footer-content { max-width: 1200px; margin: 0 auto; padding: 0 2rem; text-align: center; }
+        
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .title { font-size: 2.5rem; }
+            .subtitle { font-size: 1.2rem; }
+            .dashboard-grid { grid-template-columns: 1fr; gap: 1rem; }
+            .auth-modal { padding: 2rem 1.5rem; }
+            .auth-title { font-size: 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+    <!-- PASSWORD AUTHENTICATION MODAL -->
+    <div class="auth-overlay" id="authOverlay">
+        <div class="auth-modal">
+            <div class="auth-icon">🔐</div>
+            <h2 class="auth-title">GUARDIAN-X</h2>
+            <p class="auth-subtitle">Admin Access Required</p>
+            
+            <div class="auth-input-group">
+                <label class="auth-label">Enter Admin Password</label>
+                <div class="auth-input-wrapper">
+                    <input 
+                        type="password" 
+                        id="passwordInput" 
+                        class="auth-input" 
+                        placeholder="Enter your password"
+                        autocomplete="off"
+                    >
+                    <button class="toggle-password" id="togglePassword">👁️</button>
+                </div>
+            </div>
+            
+            <button class="auth-button" id="loginButton">ACCESS DASHBOARD</button>
+            
+            <div class="auth-error" id="errorMessage">
+                ❌ Invalid password. Please try again.
+            </div>
+        </div>
+    </div>
+
+    <!-- Animated Background Particles -->
+    <div class="particles" id="particles"></div>
+
+    <!-- Main Dashboard Content -->
+    <div class="container" id="mainContent">
+        <!-- Header -->
+        <header class="header">
+            <h1 class="title">GUARDIAN-X DASHBOARD</h1>
+            <p class="subtitle">Welcome to Your Guard</p>
+            <p class="tagline">Your one-stop solution for excellence, security, and growth</p>
+        </header>
+
+        <!-- Stats Banner -->
+        <div class="stats-banner">
+            <div class="stat-item">
+                <span class="stat-number">2,500+</span>
+                <span class="stat-label">Active Users</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">15+</span>
+                <span class="stat-label">Services</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">98%</span>
+                <span class="stat-label">Satisfaction Rate</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">24/7</span>
+                <span class="stat-label">Support</span>
+            </div>
+        </div>
+
+        <!-- Dashboard Cards -->
+        <div class="dashboard-grid">
+            <!-- Card 1: Elite Coaching Hub -->
+            <div class="dashboard-card coaching-room">
+                <div class="card-icon">🎯</div>
+                <h3 class="card-title">Elite Coaching Hub</h3>
+                <p class="card-description">
+                    Professional mentorship and guidance to elevate your career and personal growth to new heights.
+                </p>
+                <button class="card-button" onclick="alert('Elite Coaching Hub - Coming Soon!')">Explore Now</button>
+            </div>
+
+            <!-- Card 2: PC Guardian Toolkit -->
+            <div class="dashboard-card maintenance-kit">
+                <div class="card-icon">🛡️</div>
+                <h3 class="card-title">PC Guardian Toolkit</h3>
+                <p class="card-description">
+                    Complete suite of tools for PC optimization, maintenance, and security. Keep your system running smoothly.
+                </p>
+                <button class="card-button" onclick="window.open('https://app.gurdianx.com', '_blank')">Launch App</button>
+            </div>
+
+            <!-- Card 3: Knowledge Academy -->
+            <div class="dashboard-card learning-corner">
+                <div class="card-icon">📚</div>
+                <h3 class="card-title">Knowledge Academy</h3>
+                <p class="card-description">
+                    Access a comprehensive library of courses, tutorials, and learning resources for continuous growth.
+                </p>
+                <button class="card-button" onclick="alert('Knowledge Academy - Coming Soon!')">Start Learning</button>
+            </div>
+
+            <!-- Card 4: Innovation Lab -->
+            <div class="dashboard-card explore-more">
+                <div class="card-icon">💡</div>
+                <h3 class="card-title">Innovation Lab</h3>
+                <p class="card-description">
+                    Discover cutting-edge tools and resources for creators, developers, and innovators.
+                </p>
+                <button class="card-button" onclick="alert('Innovation Lab - Coming Soon!')">Explore More</button>
+            </div>
+        </div>
+
+        <!-- CTA Section with Image Slider -->
+        <div class="cta-section">
+            <div class="image-slider">
+                <div class="slide active">
+                    <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800" alt="Dashboard Analytics">
+                </div>
+                <div class="slide">
+                    <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800" alt="Data Visualization">
+                </div>
+                <div class="slide">
+                    <img src="https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?w=800" alt="Team Collaboration">
+                </div>
+                
+                <div class="cta-header">
+                    <h3 class="cta-title">Ready to Get Started?</h3>
+                    <p class="cta-subtitle">Join thousands who trust Guardian-X for their success</p>
+                </div>
+                
+                <div class="slider-nav">
+                    <span class="nav-dot active" data-slide="0"></span>
+                    <span class="nav-dot" data-slide="1"></span>
+                    <span class="nav-dot" data-slide="2"></span>
+                </div>
+            </div>
+            
+            <button class="cta-button" onclick="window.open('https://app.gurdianx.com', '_blank')">Launch Guardian-X Now</button>
+        </div>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="footer-content">
+                <p>&copy; 2025 Guardian-X. All rights reserved.</p>
+                <p style="margin-top: 0.5rem; color: #a0a8b0; font-size: 0.9rem;">
+                    Empowering excellence through innovation
+                </p>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // PASSWORD AUTHENTICATION
+        const ADMIN_PASSWORD = 'GuardianX2025!Kapipo';
+        const authOverlay = document.getElementById('authOverlay');
+        const passwordInput = document.getElementById('passwordInput');
+        const loginButton = document.getElementById('loginButton');
+        const togglePassword = document.getElementById('togglePassword');
+        const errorMessage = document.getElementById('errorMessage');
+        const mainContent = document.getElementById('mainContent');
+
+        // Check if already authenticated
+        if (sessionStorage.getItem('authenticated') === 'true') {
+            authOverlay.classList.add('hidden');
+            mainContent.classList.remove('blur-content');
+        } else {
+            mainContent.classList.add('blur-content');
+        }
+
+        // Toggle password visibility
+        togglePassword.addEventListener('click', () => {
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                togglePassword.textContent = '🙈';
+            } else {
+                passwordInput.type = 'password';
+                togglePassword.textContent = '👁️';
+            }
+        });
+
+        // Login function
+        function attemptLogin() {
+            const enteredPassword = passwordInput.value;
+            
+            if (enteredPassword === ADMIN_PASSWORD) {
+                sessionStorage.setItem('authenticated', 'true');
+                authOverlay.style.animation = 'fadeOut 0.5s ease';
+                setTimeout(() => {
+                    authOverlay.classList.add('hidden');
+                    mainContent.classList.remove('blur-content');
+                }, 500);
+            } else {
+                errorMessage.classList.add('show');
+                passwordInput.value = '';
+                passwordInput.focus();
+                setTimeout(() => {
+                    errorMessage.classList.remove('show');
+                }, 3000);
+            }
+        }
+
+        // Login button click
+        loginButton.addEventListener('click', attemptLogin);
+
+        // Enter key press
+        passwordInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                attemptLogin();
+            }
+        });
+
+        // Focus on password input
+        setTimeout(() => passwordInput.focus(), 100);
+
+        // Create animated particles
+        const particlesContainer = document.getElementById('particles');
+        for (let i = 0; i < 20; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.style.width = Math.random() * 10 + 5 + 'px';
+            particle.style.height = particle.style.width;
+            particle.style.top = Math.random() * 100 + '%';
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.animationDelay = Math.random() * 3 + 's';
+            particlesContainer.appendChild(particle);
+        }
+
+        // Image slider functionality
+        const slides = document.querySelectorAll('.slide');
+        const navDots = document.querySelectorAll('.nav-dot');
+        let currentSlide = 0;
+
+        function showSlide(index) {
+            slides.forEach(slide => slide.classList.remove('active'));
+            navDots.forEach(dot => dot.classList.remove('active'));
+            
+            slides[index].classList.add('active');
+            navDots[index].classList.add('active');
+        }
+
+        function nextSlide() {
+            currentSlide = (currentSlide + 1) % slides.length;
+            showSlide(currentSlide);
+        }
+
+        // Auto-advance slides
+        setInterval(nextSlide, 5000);
+
+        // Manual navigation
+        navDots.forEach((dot, index) => {
+            dot.addEventListener('click', () => {
+                currentSlide = index;
+                showSlide(currentSlide);
+            });
+        });
+    </script>
+</body>
+</html>
