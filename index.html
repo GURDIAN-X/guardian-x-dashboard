@@ -210,20 +210,34 @@
       .site-footer { padding: 20px 0 28px; border-top: 1px solid rgba(167, 181, 182, 0.18); color: var(--muted); font-size: 12px; }
       .admin-status { display: none; margin: 0 0 28px; padding: 16px; border: 1px solid rgba(98, 214, 197, 0.45); border-radius: 8px; background: rgba(98, 214, 197, 0.08); }
       .admin-status.visible { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
-      dialog { width: min(420px, calc(100% - 28px)); padding: 0; color: var(--ink); border: 1px solid var(--line); border-radius: 10px; background: var(--panel); box-shadow: 0 28px 90px rgba(0, 0, 0, 0.55); }
-      dialog::backdrop { background: rgba(3, 8, 10, 0.76); backdrop-filter: blur(5px); }
-      .dialog-body { padding: 26px; }
-      .dialog-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 14px; }
-      .dialog-top h2 { margin: 0; font-size: 21px; }
-      .dialog-top p { margin: 7px 0 20px; color: var(--muted); font-size: 13px; line-height: 1.5; }
-      .icon-button { width: 32px; height: 32px; border: 1px solid var(--line); border-radius: 6px; background: transparent; color: var(--ink); cursor: pointer; }
-      .field { display: grid; gap: 7px; margin: 15px 0; }
-      .field label { font-size: 12px; font-weight: 700; }
-      .field input { width: 100%; min-height: 44px; padding: 0 12px; border: 1px solid var(--line); border-radius: 6px; background: #101619; color: var(--ink); }
-      .field input:focus { outline: 2px solid var(--aqua); outline-offset: 1px; }
-      .primary-button { width: 100%; margin-top: 8px; border: 0; color: #0c211f; background: var(--aqua); }
+      dialog { width: min(820px, calc(100% - 28px)); max-width: 820px; padding: 0; overflow: visible; color: var(--ink); border: 0; background: transparent; box-shadow: none; }
+      dialog::backdrop { background: rgba(3, 8, 10, 0.78); backdrop-filter: blur(8px); }
+      .auth-shell { position: relative; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); min-height: 410px; overflow: hidden; border: 1px solid rgba(255, 255, 255, 0.18); border-radius: 16px; background: rgba(17, 22, 27, 0.76); box-shadow: 0 30px 90px rgba(0, 0, 0, 0.56); backdrop-filter: blur(26px) saturate(125%); -webkit-backdrop-filter: blur(26px) saturate(125%); }
+      .auth-form-pane, .auth-promo-pane { grid-row: 1; min-width: 0; padding: 44px 34px 32px; transition: transform 620ms cubic-bezier(0.68, -0.08, 0.24, 1.08); }
+      .auth-form-pane { z-index: 2; grid-column: 1; border-right: 1px solid rgba(255, 255, 255, 0.1); background: linear-gradient(145deg, rgba(20, 25, 30, 0.74), rgba(11, 15, 20, 0.88)); }
+      .auth-promo-pane { z-index: 1; grid-column: 2; display: flex; flex-direction: column; justify-content: center; padding-left: 42px; background: linear-gradient(145deg, rgba(255, 255, 255, 0.17), rgba(255, 255, 255, 0.045)); }
+      .auth-shell.mode-signup .auth-form-pane { transform: translateX(100%); }
+      .auth-shell.mode-signup .auth-promo-pane { transform: translateX(-100%); }
+      .auth-close { position: absolute; top: 12px; right: 12px; z-index: 5; width: 32px; height: 32px; border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 50%; color: var(--ink); background: rgba(10, 14, 18, 0.32); cursor: pointer; }
+      .auth-heading { margin: 0 0 20px; font-size: 21px; }
+      .auth-promo-title { max-width: 240px; margin: 0 0 12px; font-size: 31px; font-weight: 800; line-height: 1.02; text-transform: uppercase; }
+      .auth-promo-copy { max-width: 230px; margin: 0 0 20px; color: rgba(237, 244, 242, 0.74); font-size: 13px; line-height: 1.55; }
+      .auth-form { display: grid; gap: 10px; }
+      .auth-form[hidden] { display: none; }
+      .auth-form .field { display: grid; gap: 6px; margin: 0; }
+      .auth-form .field label { color: rgba(237, 244, 242, 0.78); font-size: 11px; font-weight: 700; }
+      .auth-form .field input { width: 100%; min-height: 40px; padding: 0 11px; border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 7px; color: var(--ink); background: rgba(3, 7, 10, 0.2); font-size: 12px; }
+      .auth-form .field input:focus { outline: 2px solid rgba(98, 214, 197, 0.78); outline-offset: 1px; }
+      .primary-button { width: 100%; min-height: 40px; margin-top: 2px; border: 1px solid rgba(255, 255, 255, 0.22); border-radius: 999px; color: var(--ink); background: linear-gradient(135deg, rgba(255, 255, 255, 0.16), rgba(255, 255, 255, 0.055)); box-shadow: 0 5px 16px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.14); cursor: pointer; font-size: 12px; font-weight: 700; transition: transform 180ms ease, background 180ms ease, border-color 180ms ease; }
+      .primary-button:hover { transform: translateY(-1px); border-color: rgba(255, 255, 255, 0.42); background: linear-gradient(135deg, rgba(255, 255, 255, 0.22), rgba(255, 255, 255, 0.08)); }
       .primary-button:disabled { opacity: 0.6; cursor: wait; }
-      .form-message { min-height: 20px; margin: 12px 0 0; color: var(--orange); font-size: 12px; line-height: 1.5; }
+      .auth-mode-toggle { width: fit-content; min-height: 34px; padding: 0 14px; border: 1px solid rgba(255, 255, 255, 0.26); border-radius: 999px; color: var(--ink); background: rgba(255, 255, 255, 0.09); cursor: pointer; font-size: 11px; transition: background 180ms ease, transform 180ms ease; }
+      .auth-mode-toggle:hover { transform: translateY(-1px); background: rgba(255, 255, 255, 0.17); }
+      .auth-switch-note { margin: 4px 0 0; color: rgba(237, 244, 242, 0.66); font-size: 10px; text-align: center; }
+      .auth-switch-note button { padding: 0; border: 0; color: var(--ink); background: transparent; cursor: pointer; font-size: inherit; text-decoration: underline; }
+      .auth-switch-note button:hover { color: var(--aqua); }
+      .form-message { min-height: 18px; margin: 0; color: #ffc098; font-size: 11px; line-height: 1.45; }
+      .auth-status-title { display: block; margin-bottom: 4px; }
       .secondary-button { min-height: 36px; padding: 0 12px; font-size: 12px; }
       @keyframes arrive { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
       @media (max-width: 820px) { .product-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
@@ -272,6 +286,15 @@
         .theme-toggle canvas { width: 44px; }
         .admin-trigger { padding: 0 4px; font-size: 9px; }
       }
+      @media (max-width: 600px) {
+        dialog { width: min(440px, calc(100% - 24px)); }
+        .auth-shell { display: block; min-height: 0; }
+        .auth-form-pane { min-height: 380px; padding: 50px 24px 26px; border: 0; }
+        .auth-promo-pane { display: none; }
+        .auth-shell.mode-signup .auth-form-pane { transform: none; }
+        .auth-shell.mode-signup .auth-promo-pane { transform: none; }
+        .auth-promo-title { font-size: 26px; }
+      }
       @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; } }
     </style>
   </head>
@@ -300,7 +323,7 @@
           <canvas id="themeCanvas" width="228" height="68" aria-hidden="true"></canvas>
         </button>
         <button class="menu-toggle" id="menuToggle" type="button" aria-expanded="false" aria-controls="siteNav">Menu</button>
-        <button class="admin-trigger" id="adminLoginTrigger" type="button">Login as Admin</button>
+        <button class="admin-trigger" id="adminLoginTrigger" type="button">Sign in</button>
       </div>
     </header>
 
@@ -332,24 +355,38 @@
       </section>
 
       <section class="admin-status" id="adminStatus" aria-live="polite">
-        <div><strong>Admin access verified</strong><div id="adminEmail"></div></div>
+        <div><strong class="auth-status-title" id="accountStatusTitle">Signed in</strong><div id="adminEmail"></div></div>
         <button class="secondary-button" id="adminSignOut" type="button">Sign out</button>
       </section>
       <footer class="site-footer">&copy; 2026 Guardian-X Digital Solutions</footer>
     </main>
 
-    <dialog id="adminDialog" aria-labelledby="adminDialogTitle">
-      <div class="dialog-body">
-        <div class="dialog-top">
-          <div><h2 id="adminDialogTitle">Admin sign-in</h2><p>Sign in with your Guardian-X admin account.</p></div>
-          <button class="icon-button" id="closeAdminDialog" type="button" aria-label="Close">&times;</button>
-        </div>
-        <form id="adminLoginForm">
-          <div class="field"><label for="adminEmailInput">Email</label><input id="adminEmailInput" name="email" type="email" autocomplete="username" required /></div>
-          <div class="field"><label for="adminPasswordInput">Password</label><input id="adminPasswordInput" name="password" type="password" autocomplete="current-password" required /></div>
-          <button class="primary-button" id="adminSubmit" type="submit">Sign in</button>
-          <p class="form-message" id="adminMessage" aria-live="polite"></p>
-        </form>
+    <dialog id="adminDialog" aria-label="Sign in or create a Guardian-X account">
+      <div class="auth-shell" id="authShell">
+        <button class="auth-close" id="closeAdminDialog" type="button" aria-label="Close sign in">&times;</button>
+        <section class="auth-form-pane">
+          <h2 class="auth-heading" id="authHeading">Login</h2>
+          <form class="auth-form" id="loginForm">
+            <div class="field"><label for="loginEmail">Email</label><input id="loginEmail" name="email" type="email" autocomplete="username" required /></div>
+            <div class="field"><label for="loginPassword">Password</label><input id="loginPassword" name="password" type="password" autocomplete="current-password" required /></div>
+            <button class="primary-button" id="loginSubmit" type="submit">Login</button>
+            <p class="form-message" id="loginMessage" aria-live="polite"></p>
+            <p class="auth-switch-note">New to Guardian-X? <button type="button" data-auth-mode="signup">Create account</button></p>
+          </form>
+          <form class="auth-form" id="signupForm" hidden>
+            <div class="field"><label for="signupEmail">Email</label><input id="signupEmail" name="email" type="email" autocomplete="email" required /></div>
+            <div class="field"><label for="signupPassword">Password</label><input id="signupPassword" name="password" type="password" autocomplete="new-password" minlength="8" required /></div>
+            <div class="field"><label for="signupConfirmPassword">Confirm password</label><input id="signupConfirmPassword" name="confirmPassword" type="password" autocomplete="new-password" minlength="8" required /></div>
+            <button class="primary-button" id="signupSubmit" type="submit">Create account</button>
+            <p class="form-message" id="signupMessage" aria-live="polite"></p>
+            <p class="auth-switch-note">Already have an account? <button type="button" data-auth-mode="login">Sign in</button></p>
+          </form>
+        </section>
+        <aside class="auth-promo-pane" aria-live="polite">
+          <h2 class="auth-promo-title" id="authPromoTitle">Hello, friend!</h2>
+          <p class="auth-promo-copy" id="authPromoCopy">Enter your details and start your journey with Guardian-X.</p>
+          <button class="auth-mode-toggle" id="authModeToggle" type="button">Create account <span aria-hidden="true">&rarr;</span></button>
+        </aside>
       </div>
     </dialog>
 
@@ -363,10 +400,19 @@
       );
 
       const dialog = document.getElementById("adminDialog");
-      const form = document.getElementById("adminLoginForm");
-      const message = document.getElementById("adminMessage");
-      const submit = document.getElementById("adminSubmit");
+      const authShell = document.getElementById("authShell");
+      const authHeading = document.getElementById("authHeading");
+      const authPromoTitle = document.getElementById("authPromoTitle");
+      const authPromoCopy = document.getElementById("authPromoCopy");
+      const authModeToggle = document.getElementById("authModeToggle");
+      const loginForm = document.getElementById("loginForm");
+      const signupForm = document.getElementById("signupForm");
+      const loginMessage = document.getElementById("loginMessage");
+      const signupMessage = document.getElementById("signupMessage");
+      const loginSubmit = document.getElementById("loginSubmit");
+      const signupSubmit = document.getElementById("signupSubmit");
       const status = document.getElementById("adminStatus");
+      const accountStatusTitle = document.getElementById("accountStatusTitle");
       const emailLabel = document.getElementById("adminEmail");
       const loginTrigger = document.getElementById("adminLoginTrigger");
       const siteHeader = document.getElementById("siteHeader");
@@ -383,6 +429,7 @@
       const themeContext = themeCanvas.getContext("2d");
       const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
       let themeAnimationFrame = null;
+      let authMode = "login";
 
       function sizeThemeCanvas() {
         const bounds = themeCanvas.getBoundingClientRect();
@@ -609,7 +656,7 @@
         if (event.key === "Escape") closeProductSearch();
       });
 
-      async function showAdminSession(user) {
+      async function showAccountSession(user) {
         const { data: role, error } = await supabase
           .from("user_roles")
           .select("role")
@@ -617,54 +664,115 @@
           .eq("role", "admin")
           .maybeSingle();
 
-        if (error || !role) return false;
+        const isAdmin = !error && role?.role === "admin";
         status.classList.add("visible");
+        accountStatusTitle.textContent = isAdmin ? "Admin access verified" : "Signed in";
         emailLabel.textContent = user.email || "";
-        loginTrigger.textContent = "Admin signed in";
-        return true;
+        loginTrigger.textContent = isAdmin ? "Admin" : "Account";
+        return isAdmin;
       }
 
-      loginTrigger.addEventListener("click", () => dialog.showModal());
+      function setAuthMode(mode) {
+        authMode = mode;
+        const isSignup = mode === "signup";
+        authShell.classList.toggle("mode-signup", isSignup);
+        loginForm.hidden = isSignup;
+        signupForm.hidden = !isSignup;
+        authHeading.textContent = isSignup ? "Create account" : "Login";
+        authPromoTitle.textContent = isSignup ? "Welcome back!" : "Hello, friend!";
+        authPromoCopy.textContent = isSignup
+          ? "Already have an account? Sign in to continue your journey with Guardian-X."
+          : "Enter your details and start your journey with Guardian-X.";
+        authModeToggle.innerHTML = isSignup
+          ? 'Sign in <span aria-hidden="true">&rarr;</span>'
+          : 'Create account <span aria-hidden="true">&rarr;</span>';
+        loginMessage.textContent = "";
+        signupMessage.textContent = "";
+      }
+
+      loginTrigger.addEventListener("click", () => {
+        setAuthMode("login");
+        dialog.showModal();
+      });
       document.getElementById("closeAdminDialog").addEventListener("click", () => dialog.close());
       dialog.addEventListener("click", (event) => {
         if (event.target === dialog) dialog.close();
       });
 
-      form.addEventListener("submit", async (event) => {
+      authModeToggle.addEventListener("click", () => setAuthMode(authMode === "login" ? "signup" : "login"));
+      authShell.querySelectorAll("[data-auth-mode]").forEach((button) => {
+        button.addEventListener("click", () => setAuthMode(button.dataset.authMode));
+      });
+
+      loginForm.addEventListener("submit", async (event) => {
         event.preventDefault();
-        message.textContent = "";
-        submit.disabled = true;
-        submit.textContent = "Signing in...";
-        const formData = new FormData(form);
+        loginMessage.textContent = "";
+        loginSubmit.disabled = true;
+        loginSubmit.textContent = "Signing in...";
+        const formData = new FormData(loginForm);
         const { data, error } = await supabase.auth.signInWithPassword({
           email: String(formData.get("email")).trim(),
           password: String(formData.get("password")),
         });
 
         if (error) {
-          message.textContent = "Sign-in failed. Check your email and password.";
-        } else if (!(await showAdminSession(data.user))) {
-          await supabase.auth.signOut();
-          message.textContent = "This account does not have admin access.";
+          loginMessage.textContent = "Sign-in failed. Check your email and password.";
         } else {
-          form.reset();
+          await showAccountSession(data.user);
+          loginForm.reset();
           dialog.close();
         }
 
-        submit.disabled = false;
-        submit.textContent = "Sign in";
+        loginSubmit.disabled = false;
+        loginSubmit.textContent = "Login";
+      });
+
+      signupForm.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        signupMessage.textContent = "";
+        signupSubmit.disabled = true;
+        signupSubmit.textContent = "Creating account...";
+        const formData = new FormData(signupForm);
+        const email = String(formData.get("email")).trim();
+        const password = String(formData.get("password"));
+        const confirmPassword = String(formData.get("confirmPassword"));
+
+        if (password !== confirmPassword) {
+          signupMessage.textContent = "Passwords do not match.";
+        } else {
+          const { data, error } = await supabase.auth.signUp({
+            email,
+            password,
+            options: { emailRedirectTo: window.location.origin },
+          });
+
+          if (error) {
+            signupMessage.textContent = error.message;
+          } else if (data.session && data.user) {
+            await showAccountSession(data.user);
+            signupForm.reset();
+            dialog.close();
+          } else {
+            signupMessage.textContent = "Account request received. Check your email to confirm, then sign in.";
+            signupForm.reset();
+          }
+        }
+
+        signupSubmit.disabled = false;
+        signupSubmit.textContent = "Create account";
       });
 
       document.getElementById("adminSignOut").addEventListener("click", async () => {
         await supabase.auth.signOut();
         status.classList.remove("visible");
+        accountStatusTitle.textContent = "Signed in";
         emailLabel.textContent = "";
-        loginTrigger.textContent = "Login as Admin";
+        loginTrigger.textContent = "Sign in";
       });
 
       const { data: { session } } = await supabase.auth.getSession();
-      if (session?.user && !(await showAdminSession(session.user))) {
-        await supabase.auth.signOut();
+      if (session?.user) {
+        await showAccountSession(session.user);
       }
     </script>
   </body>
