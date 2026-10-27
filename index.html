@@ -289,6 +289,7 @@
       @media (max-width: 600px) {
         dialog { width: min(440px, calc(100% - 24px)); }
         .auth-shell { display: block; min-height: 0; }
+        #adminDialog .auth-shell { transform: scale(0.88); }
         .auth-form-pane { min-height: 380px; padding: 50px 24px 26px; border: 0; }
         .auth-promo-pane { display: none; }
         .auth-shell.mode-signup .auth-form-pane { transform: none; }
@@ -296,6 +297,265 @@
         .auth-promo-title { font-size: 26px; }
       }
       @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; } }
+
+      :root {
+        --gx-paper: #f0f0e9;
+        --gx-paper-light: #f8f8f3;
+        --gx-deep: #182125;
+        --gx-teal-dark: #2c9f91;
+        --gx-line: #cdd0c8;
+      }
+      #adminDialog .auth-shell { transform: scale(0.7); }
+      .gx-main { width: 100%; overflow: hidden; background: var(--gx-paper); }
+      .gx-hero {
+        position: relative;
+        min-height: 720px;
+        padding: 150px clamp(24px, 7vw, 112px) 90px;
+        display: grid;
+        grid-template-columns: minmax(0, .83fr) minmax(0, 1.17fr);
+        align-items: center;
+        gap: 6vw;
+        overflow: hidden;
+        color: #fff;
+        background: var(--ink);
+      }
+      .gx-hero::before { position: absolute; inset: 0 0 0 auto; width: 56%; content: ""; background: linear-gradient(135deg, transparent 0 45%, rgba(98, 214, 197, .045) 45% 65%, transparent 65%), radial-gradient(circle at 65% 47%, rgba(45, 96, 91, .36), transparent 47%); }
+      .gx-hero-copy, .gx-hero-stage { position: relative; z-index: 1; }
+      .gx-eyebrow, .gx-section-index { display: inline-flex; align-items: center; gap: 10px; color: var(--teal); font: 500 10px "DM Mono", monospace; letter-spacing: .14em; text-transform: uppercase; }
+      .gx-eyebrow i { width: 7px; height: 7px; background: var(--coral); border-radius: 50%; box-shadow: 0 0 0 5px rgba(255, 154, 103, .1); }
+      .gx-hero h1 { margin: 28px 0 26px; font-size: clamp(58px, 7vw, 104px); font-weight: 500; line-height: .9; letter-spacing: -.06em; }
+      .gx-hero h1 em, .gx-section-heading h2 em, .gx-manifesto em, .gx-about h2 em, .gx-contact h2 em { color: var(--teal); font-style: normal; }
+      .gx-hero-copy > p { max-width: 520px; margin: 0; color: #aab5b6; font-size: 15px; line-height: 1.75; }
+      .gx-hero-actions { margin-top: 32px; display: flex; align-items: center; gap: 24px; flex-wrap: wrap; }
+      .gx-primary, .gx-text-link { display: inline-flex; align-items: center; gap: 20px; font-size: 11px; font-weight: 700; text-decoration: none; }
+      .gx-primary { min-height: 48px; padding: 0 18px; color: var(--ink); background: var(--teal); border: 1px solid var(--teal); border-radius: 4px; }
+      .gx-primary:hover { background: var(--coral); border-color: var(--coral); }
+      .gx-text-link { color: #dfe6e6; }
+      .gx-text-link:hover { color: var(--teal); }
+      .gx-hero-stage { min-height: 450px; perspective: 1000px; }
+      .gx-orbit { position: absolute; border: 1px solid rgba(98, 214, 197, .16); border-radius: 50%; pointer-events: none; }
+      .gx-orbit-one { top: -50px; right: -120px; width: 520px; height: 520px; }
+      .gx-orbit-two { top: 28px; right: -42px; width: 360px; height: 360px; }
+      .gx-stage-window { position: absolute; top: 25px; right: 3%; width: min(540px, 92%); min-height: 380px; padding: 20px 22px; color: var(--ink); background: #f7f8f3; border: 1px solid rgba(255, 255, 255, .36); border-radius: 14px; box-shadow: 0 35px 80px rgba(0, 0, 0, .5); transform: rotateY(-5deg) rotateZ(1.3deg); animation: gx-arrive 650ms cubic-bezier(.2,.8,.2,1) both; }
+      .gx-window-top { padding-bottom: 16px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #d8dcd5; }
+      .gx-window-brand { display: flex; align-items: center; gap: 10px; font: 500 9px "DM Mono", monospace; letter-spacing: .1em; }
+      .gx-window-brand .brand-mark { width: 21px; height: 21px; border-radius: 4px; font-size: 7px; }
+      .gx-window-top small { color: #778083; font: 9px "DM Mono", monospace; }
+      .gx-window-intro { padding: 24px 4px 16px; }
+      .gx-window-intro small { color: var(--gx-teal-dark); font: 8px "DM Mono", monospace; letter-spacing: .12em; }
+      .gx-window-intro h2 { margin: 7px 0 3px; font-size: 25px; letter-spacing: -.045em; }
+      .gx-window-intro p { margin: 0; color: #727d7e; font-size: 9px; }
+      .gx-stage-products { display: grid; gap: 7px; }
+      .gx-stage-product { min-height: 52px; padding: 8px 10px; display: grid; grid-template-columns: 32px 1fr auto; align-items: center; gap: 10px; background: #fff; border: 1px solid #e0e2dc; border-radius: 5px; }
+      .gx-stage-code { width: 30px; height: 30px; display: grid; place-items: center; color: #267e73; font: 600 8px "DM Mono", monospace; background: rgba(98, 214, 197, .15); border-radius: 4px; }
+      .gx-stage-product:nth-child(2) .gx-stage-code { color: #ad603b; background: rgba(255, 154, 103, .16); }
+      .gx-stage-product:nth-child(3) .gx-stage-code { color: #647074; background: rgba(16, 22, 25, .08); }
+      .gx-stage-product strong { font-size: 9px; }
+      .gx-stage-product small { margin-top: 2px; display: block; color: #8a9293; font: 6px "DM Mono", monospace; text-transform: uppercase; }
+      .gx-stage-status { padding: 4px 7px; color: #667174; font: 7px "DM Mono", monospace; background: #f0f1ed; border-radius: 12px; }
+      .gx-stage-note { position: absolute; z-index: 3; right: -1%; bottom: 4px; width: 150px; padding: 16px; color: var(--ink); background: #f7f8f3; border: 1px solid #fff9; border-radius: 9px; box-shadow: 0 20px 45px #0007; transform: rotate(2deg); }
+      .gx-stage-note small { color: #798184; font: 7px "DM Mono", monospace; }
+      .gx-stage-note strong { margin: 8px 0; display: block; font-size: 27px; letter-spacing: -.05em; }
+      .gx-stage-note strong span { color: #9fa6a5; font-size: 11px; }
+      .gx-progress { height: 3px; overflow: hidden; background: #d9dcd6; border-radius: 4px; }
+      .gx-progress i { width: 62%; height: 100%; display: block; background: var(--coral); }
+      .gx-stage-note p { margin: 7px 0 0; color: #7a8384; font-size: 8px; }
+      .gx-prompt-tag { position: absolute; z-index: 4; bottom: 46px; left: -1%; padding: 10px 12px; display: flex; align-items: center; gap: 8px; color: var(--ink); background: #f7f8f3; border-radius: 6px; box-shadow: 0 12px 30px #0006; transform: rotate(-3deg); }
+      .gx-prompt-tag b { width: 24px; height: 24px; display: grid; place-items: center; color: #206f66; font: 600 8px "DM Mono", monospace; background: rgba(98, 214, 197, .23); border-radius: 4px; }
+      .gx-prompt-tag span { font-size: 8px; font-weight: 700; }
+      .gx-scroll-note { position: absolute; bottom: 28px; left: clamp(24px, 7vw, 112px); display: flex; align-items: center; gap: 14px; color: #697577; font: 8px "DM Mono", monospace; letter-spacing: .12em; }
+      .gx-scroll-note i { width: 45px; height: 1px; background: #697577; }
+      @keyframes ticker { to { transform: translateX(-50%); } }
+      @keyframes gx-arrive { from { opacity: 0; transform: translateY(14px) rotateY(-5deg) rotateZ(1.3deg); } to { opacity: 1; transform: translateY(0) rotateY(-5deg) rotateZ(1.3deg); } }
+      .gx-ticker { padding: 17px 0; overflow: hidden; color: white; background: var(--coral); }
+      .gx-ticker-track { width: max-content; display: flex; align-items: center; gap: 30px; animation: ticker 24s linear infinite; font: 500 9px "DM Mono", monospace; letter-spacing: .16em; }
+      .gx-ticker-track i { width: 6px; height: 6px; background: var(--ink); transform: rotate(45deg); }
+      .gx-section { padding: 112px clamp(24px, 6vw, 96px); }
+      .gx-products { color: var(--ink); background: var(--gx-paper); }
+      .gx-container { width: min(1240px, 100%); margin: 0 auto; }
+      .gx-section-heading { margin-bottom: 58px; display: grid; grid-template-columns: .65fr 1.3fr .8fr; align-items: end; gap: 34px; }
+      .gx-section-index { color: #647073; align-self: start; }
+      .gx-section-heading h2 { margin: 0; font-size: clamp(44px, 5.2vw, 76px); font-weight: 500; line-height: .98; letter-spacing: -.055em; }
+      .gx-section-heading h2 em { color: var(--gx-teal-dark); }
+      .gx-section-heading > p { margin: 0 0 4px; color: var(--muted); font-size: 12px; line-height: 1.7; }
+      .gx-flagship { min-height: 560px; display: grid; grid-template-columns: .4fr .6fr; overflow: hidden; background: var(--gx-paper-light); border: 1px solid var(--gx-line); border-radius: 10px; }
+      .gx-product-copy { position: relative; padding: 34px clamp(26px, 4vw, 58px) 40px; display: flex; flex-direction: column; }
+      .gx-product-meta { margin-bottom: 58px; display: flex; align-items: center; justify-content: space-between; color: #526063; font: 500 9px "DM Mono", monospace; }
+      .gx-product-meta i { padding: 6px 8px; color: #647073; font: normal 7px "DM Mono", monospace; border: 1px solid var(--gx-line); border-radius: 20px; }
+      .gx-eyebrow-dark { color: var(--gx-teal-dark); }
+      .gx-product-copy h3 { margin: 12px 0 17px; font-size: clamp(46px, 5vw, 68px); font-weight: 500; line-height: .86; letter-spacing: -.065em; }
+      .gx-product-copy > p { margin: 0; color: var(--muted); font-size: 12px; line-height: 1.7; }
+      .gx-feature-list { margin: 23px 0 16px; padding: 0; display: grid; gap: 9px; color: #3d474a; font-size: 10px; list-style: none; }
+      .gx-feature-list li::before { margin-right: 7px; color: var(--gx-teal-dark); content: "—"; }
+      .gx-circle-link { position: absolute; right: 28px; bottom: 28px; width: 46px; height: 46px; display: grid; place-items: center; color: white; background: var(--ink); border: 0; border-radius: 50%; text-decoration: none; }
+      .gx-circle-link:hover { color: var(--ink); background: var(--teal); transform: rotate(8deg); }
+      .gx-flagship-visual { position: relative; min-height: 560px; display: grid; place-items: center; overflow: hidden; background: var(--gx-deep); }
+      .gx-visual-orbit { position: absolute; width: 470px; height: 470px; border: 1px solid rgba(98, 214, 197, .16); border-radius: 50%; box-shadow: 0 0 0 70px rgba(98, 214, 197, .035), 0 0 0 140px rgba(98, 214, 197, .02); }
+      .gx-forge-window { position: relative; z-index: 1; width: 88%; min-height: 360px; overflow: hidden; color: var(--ink); background: #f8f9f5; border: 1px solid #fff8; border-radius: 9px; box-shadow: 0 32px 70px #0008; transform: rotate(-1.3deg); }
+      .gx-window-bar { height: 36px; padding: 0 12px; display: flex; align-items: center; gap: 5px; background: white; border-bottom: 1px solid #e2e4df; }
+      .gx-window-bar i { width: 7px; height: 7px; background: #c9cfca; border-radius: 50%; }
+      .gx-window-bar i:first-child { background: var(--coral); }
+      .gx-window-bar i:nth-child(2) { background: #edbd52; }
+      .gx-window-bar i:nth-child(3) { background: #62c390; }
+      .gx-window-bar strong { margin-left: 8px; font-size: 8px; }
+      .gx-window-bar small { margin-left: auto; color: #929b9b; font: 6px "DM Mono", monospace; }
+      .gx-forge-layout { min-height: 324px; display: grid; grid-template-columns: 108px minmax(0, 1fr) 102px; }
+      .gx-forge-sidebar { padding: 17px 9px; color: #b5c0c0; background: #151c1f; }
+      .gx-forge-sidebar b { width: 100%; min-height: 27px; display: grid; place-items: center; color: var(--ink); font-size: 7px; background: var(--teal); border-radius: 3px; }
+      .gx-forge-sidebar small { margin: 19px 3px 8px; display: block; color: #677476; font: 6px "DM Mono", monospace; letter-spacing: .08em; }
+      .gx-forge-sidebar span { margin-top: 4px; padding: 7px 5px; display: block; color: #b5c0c0; font-size: 6px; }
+      .gx-forge-sidebar span:first-of-type { color: white; background: #ffffff10; border-radius: 3px; }
+      .gx-forge-main { padding: 42px 22px 24px; }
+      .gx-forge-main small { color: var(--gx-teal-dark); font: 6px "DM Mono", monospace; letter-spacing: .1em; }
+      .gx-forge-main h4 { max-width: 210px; margin: 9px 0 6px; font-size: 17px; line-height: 1.1; }
+      .gx-forge-main p { max-width: 200px; margin: 0; color: #7d8687; font-size: 7px; line-height: 1.5; }
+      .gx-prompt-box { min-height: 74px; margin-top: 20px; padding: 10px; display: flex; align-items: flex-end; justify-content: space-between; color: #697375; font-size: 7px; line-height: 1.45; background: white; border: 1px solid #dfe2dc; border-radius: 4px; }
+      .gx-prompt-box b { width: 20px; height: 20px; display: grid; place-items: center; color: white; background: var(--ink); border-radius: 50%; }
+      .gx-forge-inspector { padding: 42px 10px 12px; background: white; border-left: 1px solid #e1e4de; }
+      .gx-forge-inspector small { color: #8a9293; font: 6px "DM Mono", monospace; }
+      .gx-forge-inspector strong { margin: 8px 0; display: block; font-size: 8px; }
+      .gx-quality-meter { height: 3px; background: #e3e6e1; border-radius: 4px; }
+      .gx-quality-meter i { width: 82%; height: 100%; display: block; background: var(--gx-teal-dark); }
+      .gx-forge-inspector p { margin-top: 11px; color: #747e7f; font-size: 6px; }
+      .gx-forge-tag { position: absolute; right: 4%; bottom: 4%; z-index: 2; padding: 8px 10px; color: var(--teal); font: 7px "DM Mono", monospace; letter-spacing: .1em; background: #101619e8; border: 1px solid #ffffff2b; border-radius: 4px; backdrop-filter: blur(10px); }
+      .gx-product-grid { margin-top: 19px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 19px; }
+      .gx-secondary-product { overflow: hidden; border: 1px solid var(--gx-line); border-radius: 10px; }
+      .gx-secondary-product.minute { background: #d9ebe6; }
+      .gx-secondary-product.action { background: #efdfd3; }
+      .gx-secondary-head { padding: 22px 24px 14px; display: flex; justify-content: space-between; color: #5f6b6d; font: 500 8px "DM Mono", monospace; letter-spacing: .1em; text-transform: uppercase; }
+      .gx-product-preview { min-height: 210px; margin: 0 24px; padding: 22px; color: var(--ink); background: #f9faf6; border: 1px solid #daddd6; border-radius: 7px; box-shadow: 0 20px 42px rgba(23, 50, 45, .16); }
+      .gx-product-preview small { color: var(--gx-teal-dark); font: 7px "DM Mono", monospace; letter-spacing: .1em; }
+      .gx-product-preview h4 { margin: 8px 0 11px; font-size: 17px; letter-spacing: -.04em; }
+      .gx-meeting-row { padding: 8px 0; display: flex; justify-content: space-between; border-top: 1px solid #e0e3dd; font-size: 8px; }
+      .gx-meeting-row span { color: #788283; }
+      .gx-week-grid { margin-top: 15px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 7px; }
+      .gx-week-grid div { min-height: 102px; padding: 8px; background: #eff0eb; border-radius: 4px; }
+      .gx-week-grid small { color: #7a8586; font: 6px "DM Mono", monospace; }
+      .gx-week-grid b { margin-top: 9px; padding: 7px 5px; display: block; font-size: 7px; background: white; border-left: 2px solid var(--coral); border-radius: 3px; }
+      .gx-secondary-copy { padding: 24px; display: grid; grid-template-columns: 1fr 1.3fr; gap: 18px; align-items: start; }
+      .gx-secondary-copy h3 { margin: 0; font-size: 25px; letter-spacing: -.05em; }
+      .gx-secondary-copy p { margin: 0; color: #566164; font-size: 10px; line-height: 1.65; }
+      .gx-secondary-copy a { grid-column: 2; color: var(--ink); font-size: 9px; font-weight: 700; text-decoration: none; }
+      .gx-secondary-copy a:hover { color: var(--gx-teal-dark); }
+      .gx-manifesto { position: relative; min-height: 520px; padding: 100px clamp(24px, 9vw, 145px); display: flex; flex-direction: column; justify-content: center; overflow: hidden; color: white; background: var(--gx-deep); }
+      .gx-manifesto::after { position: absolute; right: -170px; bottom: -270px; width: 620px; height: 620px; content: ""; border: 1px solid rgba(98, 214, 197, .22); border-radius: 50%; box-shadow: 0 0 0 100px rgba(98, 214, 197, .035), 0 0 0 200px rgba(98, 214, 197, .02); }
+      .gx-manifesto > p { z-index: 1; max-width: 1000px; margin: 42px 0 0; font-size: clamp(40px, 5.5vw, 78px); font-weight: 500; line-height: 1.08; letter-spacing: -.05em; }
+      .gx-manifesto s { color: #667274; text-decoration-color: var(--coral); text-decoration-thickness: 3px; }
+      .gx-manifesto-note { position: absolute; z-index: 2; right: 8%; bottom: 12%; display: flex; align-items: center; gap: 16px; color: #aeb8b9; font: 8px/1.6 "DM Mono", monospace; letter-spacing: .08em; text-transform: uppercase; }
+      .gx-pricing { color: white; background: var(--ink); }
+      .gx-pricing .gx-section-index { color: #798587; }
+      .gx-pricing .gx-section-heading h2 em { color: var(--coral); }
+      .gx-pricing .gx-section-heading > p { color: #8f9a9b; }
+      .gx-plans { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border-top: 1px solid #354044; border-bottom: 1px solid #354044; }
+      .gx-plan { min-height: 430px; padding: 26px clamp(20px, 3vw, 42px) 30px; display: flex; flex-direction: column; border-right: 1px solid #354044; }
+      .gx-plan:last-child { border-right: 0; }
+      .gx-plan.featured { color: var(--ink); background: var(--teal); transform: translateY(-10px); border-radius: 7px 7px 0 0; }
+      .gx-plan-top { min-height: 24px; display: flex; align-items: flex-start; justify-content: space-between; color: #778284; font: 8px "DM Mono", monospace; }
+      .gx-plan.featured .gx-plan-top { color: #356d67; }
+      .gx-plan-top small { padding: 5px 7px; color: var(--ink); font: 6px "DM Mono", monospace; letter-spacing: .08em; background: var(--coral); border-radius: 20px; }
+      .gx-plan h3 { margin: 28px 0 7px; font-size: 23px; letter-spacing: -.04em; }
+      .gx-plan > p { margin: 0; color: #879293; font-size: 10px; }
+      .gx-plan.featured > p { color: #376c66; }
+      .gx-price { margin: 25px 0 28px; display: flex; align-items: flex-end; gap: 12px; }
+      .gx-price strong { font-size: 52px; font-weight: 500; line-height: .9; letter-spacing: -.06em; }
+      .gx-price span { color: #8a9596; font: 7px/1.5 "DM Mono", monospace; }
+      .gx-plan.featured .gx-price span { color: #376c66; }
+      .gx-plan ul { margin: 0 0 24px; padding: 0; display: grid; gap: 12px; color: #b6bfc0; font-size: 9px; list-style: none; }
+      .gx-plan li span { margin-right: 8px; color: var(--teal); }
+      .gx-plan.featured ul { color: #285f59; }
+      .gx-plan.featured li span { color: var(--ink); }
+      .gx-plan > a { min-height: 44px; margin-top: auto; padding: 0 13px; display: flex; align-items: center; justify-content: space-between; color: white; font-size: 9px; font-weight: 700; text-decoration: none; border: 1px solid #4e595c; border-radius: 4px; }
+      .gx-plan > a:hover { color: var(--ink); background: var(--coral); border-color: var(--coral); }
+      .gx-plan.featured > a { color: white; background: var(--ink); border-color: var(--ink); }
+      .gx-pricing-note { margin: 20px 0 0; color: #768183; font: 7px "DM Mono", monospace; letter-spacing: .07em; text-transform: uppercase; }
+      .gx-pricing-note i { width: 6px; height: 6px; margin-right: 7px; display: inline-block; background: var(--coral); border-radius: 50%; }
+      .gx-about { min-height: 600px; display: grid; grid-template-columns: 1fr 1fr; background: var(--gx-paper-light); }
+      .gx-about-visual { position: relative; min-height: 500px; display: grid; place-items: center; overflow: hidden; background: #dbe9e4; }
+      .gx-giant-mark { width: 190px; height: 190px; display: grid; place-items: center; border: 12px solid rgba(44, 159, 145, .55); border-radius: 26px; transform: rotate(45deg); }
+      .gx-giant-mark::before, .gx-giant-mark::after { position: absolute; width: 42px; height: 42px; content: ""; background: var(--coral); }
+      .gx-giant-mark::before { top: 17px; right: 17px; }
+      .gx-giant-mark::after { bottom: 17px; left: 17px; background: var(--teal); }
+      .gx-about-visual > span { position: absolute; right: 4%; bottom: -10%; color: rgba(16, 22, 25, .04); font-size: 240px; font-weight: 800; letter-spacing: -.12em; }
+      .gx-about-visual > span b { color: rgba(255, 154, 103, .12); }
+      .gx-about-copy { padding: 88px clamp(28px, 7vw, 100px); align-self: center; }
+      .gx-about h2 { margin: 32px 0 22px; font-size: clamp(48px, 5.5vw, 78px); font-weight: 500; line-height: .92; letter-spacing: -.06em; }
+      .gx-about h2 em { color: var(--gx-teal-dark); }
+      .gx-about-copy > p { max-width: 480px; margin: 0; color: var(--muted); font-size: 12px; line-height: 1.8; }
+      .gx-values { margin: 30px 0; display: grid; border-top: 1px solid var(--gx-line); }
+      .gx-values span { padding: 11px 0; display: grid; grid-template-columns: 38px 1fr; color: #879092; font: 7px "DM Mono", monospace; border-bottom: 1px solid var(--gx-line); }
+      .gx-values b { color: var(--ink); font: 700 10px Manrope, sans-serif; }
+      .gx-contact { position: relative; min-height: 520px; padding: 92px clamp(24px, 7vw, 112px) 38px; display: grid; grid-template-columns: 1fr auto; overflow: hidden; color: white; background: var(--coral); }
+      .gx-contact .gx-section-index { color: #813f20; }
+      .gx-contact h2 { margin: 32px 0 0; font-size: clamp(48px, 6.5vw, 92px); font-weight: 500; line-height: .95; letter-spacing: -.06em; }
+      .gx-contact h2 em { color: var(--ink); }
+      .gx-contact-orb { z-index: 2; width: 144px; height: 144px; align-self: center; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 15px; color: white; font: 7px "DM Mono", monospace; letter-spacing: .11em; text-decoration: none; background: var(--ink); border-radius: 50%; }
+      .gx-contact-orb span:last-child { font-size: 22px; }
+      .gx-contact-orb:hover { color: var(--ink); background: var(--teal); transform: rotate(5deg); }
+      .gx-contact-bottom { grid-column: 1 / -1; align-self: end; padding-top: 24px; display: grid; grid-template-columns: 1fr auto auto; gap: 50px; border-top: 1px solid rgba(16, 22, 25, .3); }
+      .gx-contact-bottom p { max-width: 310px; margin: 0; color: #703c24; font-size: 10px; }
+      .gx-contact-bottom div { display: flex; flex-direction: column; gap: 7px; }
+      .gx-contact-bottom small { color: #874927; font: 7px "DM Mono", monospace; letter-spacing: .1em; }
+      .gx-contact-bottom a { color: var(--ink); font-size: 10px; font-weight: 700; text-decoration: none; }
+      .gx-footer { padding: 52px clamp(24px, 6vw, 96px) 24px; display: grid; grid-template-columns: 1.4fr .7fr .8fr 1fr; gap: 38px; color: white; background: #080b0c; }
+      .gx-footer .brand { align-self: start; }
+      .gx-footer-col { display: flex; flex-direction: column; gap: 9px; }
+      .gx-footer-col small { margin-bottom: 5px; color: #657173; font: 7px "DM Mono", monospace; letter-spacing: .12em; }
+      .gx-footer-col a { color: #a7b0b1; font-size: 9px; text-decoration: none; }
+      .gx-footer-col a:hover { color: var(--teal); }
+      .gx-footer > p { margin: 0; color: #697476; font-size: 9px; line-height: 1.8; }
+      .gx-footer-bottom { grid-column: 1 / -1; margin-top: 25px; padding-top: 18px; display: flex; gap: 32px; color: #657173; font: 7px "DM Mono", monospace; border-top: 1px solid #202628; }
+      .gx-footer-bottom button { margin-left: auto; padding: 0; color: #8e999a; font: inherit; background: none; border: 0; cursor: pointer; }
+      .gx-footer-bottom button:hover { color: var(--teal); }
+      @media (max-width: 1000px) {
+        .gx-hero { grid-template-columns: 1fr 1fr; gap: 28px; }
+        .gx-hero-stage { transform: scale(.9); transform-origin: center right; }
+        .gx-section-heading { grid-template-columns: .5fr 1.2fr .7fr; gap: 24px; }
+        .gx-flagship { grid-template-columns: .43fr .57fr; }
+        .gx-forge-layout { grid-template-columns: 90px minmax(0, 1fr); }
+        .gx-forge-inspector { display: none; }
+      }
+      @media (max-width: 760px) {
+        .gx-hero { min-height: 0; padding: 130px 22px 72px; grid-template-columns: 1fr; gap: 35px; }
+        .gx-hero h1 { font-size: clamp(56px, 15vw, 76px); }
+        .gx-hero-copy > p { font-size: 13px; }
+        .gx-hero-stage { min-height: 390px; transform: none; }
+        .gx-stage-window { right: 1%; width: 96%; min-height: 350px; padding: 16px; }
+        .gx-stage-note { right: -1%; bottom: 0; width: 126px; padding: 12px; }
+        .gx-prompt-tag { bottom: 32px; }
+        .gx-section { padding: 78px 20px; }
+        .gx-section-heading { margin-bottom: 36px; grid-template-columns: 1fr; gap: 17px; }
+        .gx-section-heading h2 { font-size: 48px; }
+        .gx-flagship { grid-template-columns: 1fr; }
+        .gx-product-copy { min-height: 440px; padding: 28px 24px 38px; }
+        .gx-product-meta { margin-bottom: 40px; }
+        .gx-product-copy h3 { font-size: 58px; }
+        .gx-flagship-visual { min-height: 410px; }
+        .gx-forge-window { width: 120%; transform: translateX(7%) rotate(-1deg) scale(.8); }
+        .gx-product-grid { grid-template-columns: 1fr; }
+        .gx-product-preview { margin: 0 17px; }
+        .gx-secondary-head, .gx-secondary-copy { padding-left: 18px; padding-right: 18px; }
+        .gx-manifesto { min-height: 470px; padding: 76px 22px 145px; }
+        .gx-manifesto > p { margin-top: 34px; font-size: 43px; }
+        .gx-manifesto-note { right: auto; bottom: 55px; left: 22px; }
+        .gx-plans { grid-template-columns: 1fr; gap: 12px; border: 0; }
+        .gx-plan { min-height: 405px; border: 1px solid #354044; border-radius: 6px; }
+        .gx-plan.featured { transform: none; }
+        .gx-about { grid-template-columns: 1fr; }
+        .gx-about-visual { min-height: 320px; }
+        .gx-giant-mark { width: 140px; height: 140px; border-width: 9px; border-radius: 20px; }
+        .gx-about-copy { padding: 70px 22px; }
+        .gx-about h2 { font-size: 59px; }
+        .gx-contact { min-height: 610px; padding: 78px 22px 28px; grid-template-columns: 1fr; }
+        .gx-contact h2 { font-size: 56px; }
+        .gx-contact-orb { width: 125px; height: 125px; justify-self: end; }
+        .gx-contact-bottom { grid-template-columns: 1fr; gap: 19px; }
+        .gx-footer { padding: 46px 22px 22px; grid-template-columns: 1fr 1fr; gap: 30px 20px; }
+        .gx-footer > p { grid-column: 1 / -1; }
+        .gx-footer-bottom { flex-direction: column; gap: 10px; }
+        .gx-footer-bottom button { margin: 0; align-self: flex-start; }
+      }
+      @media (max-width: 600px) { #adminDialog .auth-shell { transform: scale(0.88); } }
+      @media (prefers-reduced-motion: reduce) { .gx-ticker-track { animation: none; } .gx-stage-window { animation: none; } }
     </style>
   </head>
   <body>
@@ -327,38 +587,154 @@
       </div>
     </header>
 
-    <main class="page-wrap">
-      <section class="hero" aria-labelledby="pageTitle">
-        <p class="eyebrow">Guardian-X Digital Solutions</p>
-        <h1 id="pageTitle">Useful tools for work, learning, and ideas.</h1>
-        <p class="hero-copy">We are building a portfolio of practical digital products. Explore the products in development and check back as each public product page launches.</p>
-      </section>
-
-      <section id="products" aria-labelledby="productsTitle" style="scroll-margin-top: 86px">
-        <div class="section-heading"><h2 id="productsTitle">Our products</h2><p>Product pages are being prepared.</p></div>
-        <div class="product-grid">
-          <article class="product" data-search="prompt forge ai prompts desktop files"><span class="product-mark">AI workspace</span><h3>Prompt Forge</h3><p>Create stronger prompts, work with AI, and bring files into one desktop workspace.</p></article>
-          <article class="product" data-search="minutehub productivity"><span class="product-mark">Productivity</span><h3>MinuteHub</h3><p>A Guardian-X digital product. More information will be published soon.</p></article>
-          <article class="product" data-search="actionbook planning actions"><span class="product-mark">Planning</span><h3>ActionBook</h3><p>A Guardian-X digital product. More information will be published soon.</p></article>
-          <article class="product" data-search="guardian-x more products"><span class="product-mark">More products</span><h3>Guardian-X</h3><p>Additional tools and services are in development.</p></article>
+    <main class="gx-main" id="top">
+      <section class="gx-hero" aria-labelledby="pageTitle">
+        <div class="gx-hero-copy">
+          <span class="gx-eyebrow"><i></i> Independent digital product studio</span>
+          <h1 id="pageTitle">Tools for<br /><em>better motion.</em></h1>
+          <p>We build thoughtful digital products that help people think clearly, plan confidently, and move work forward.</p>
+          <div class="gx-hero-actions">
+            <a class="gx-primary" href="#products">Explore products <span aria-hidden="true">↓</span></a>
+            <a class="gx-text-link" href="#about">Meet Guardian-X <span aria-hidden="true">↗</span></a>
+          </div>
         </div>
-        <p class="no-results" id="noResults" aria-live="polite">No products match that search.</p>
+        <div class="gx-hero-stage" aria-label="Guardian-X product ecosystem preview">
+          <div class="gx-orbit gx-orbit-one"></div>
+          <div class="gx-orbit gx-orbit-two"></div>
+          <div class="gx-stage-window">
+            <div class="gx-window-top">
+              <span class="gx-window-brand"><span class="brand-mark" aria-hidden="true">G-X</span> GX / OS</span>
+              <small>WORKSPACE 01</small>
+            </div>
+            <div class="gx-window-intro"><small>YOUR WORKSPACE</small><h2>Good morning.</h2><p>What are you moving forward today?</p></div>
+            <div class="gx-stage-products">
+              <div class="gx-stage-product"><b class="gx-stage-code">PF</b><strong>Prompt Forge<small>AI workspace</small></strong><span class="gx-stage-status">Explore</span></div>
+              <div class="gx-stage-product"><b class="gx-stage-code">MH</b><strong>MinuteHub<small>Productivity</small></strong><span class="gx-stage-status">In development</span></div>
+              <div class="gx-stage-product"><b class="gx-stage-code">AB</b><strong>ActionBook<small>Planning</small></strong><span class="gx-stage-status">In development</span></div>
+            </div>
+          </div>
+          <div class="gx-stage-note"><small>TODAY'S FOCUS</small><strong>03 <span>/ 05</span></strong><div class="gx-progress"><i></i></div><p>Keep moving</p></div>
+          <div class="gx-prompt-tag"><b>PF</b><span>Prompt refined <i aria-hidden="true">✓</i></span></div>
+        </div>
+        <div class="gx-scroll-note"><span>SCROLL TO DISCOVER</span><i></i></div>
       </section>
 
-      <section class="info-section" id="about" aria-labelledby="aboutTitle">
-        <h2 id="aboutTitle">About Guardian-X</h2>
-        <p>Guardian-X Digital Solutions builds practical digital products for work, learning, and creativity. Our portfolio is growing as products are prepared for public launch.</p>
+      <section class="gx-ticker" aria-label="Guardian-X principles">
+        <div class="gx-ticker-track" aria-hidden="true">
+          <span>THINK CLEARLY</span><i></i><span>PLAN SMARTER</span><i></i><span>MOVE FORWARD</span><i></i><span>BUILD BETTER</span><i></i>
+          <span>THINK CLEARLY</span><i></i><span>PLAN SMARTER</span><i></i><span>MOVE FORWARD</span><i></i><span>BUILD BETTER</span><i></i>
+        </div>
       </section>
-      <section class="info-section" id="contact" aria-labelledby="contactTitle">
-        <h2 id="contactTitle">Contact</h2>
-        <p>For company and product enquiries, email <a href="mailto:info@gurdianx.com">info@gurdianx.com</a>.</p>
+
+      <section class="gx-section gx-products" id="products" aria-labelledby="productsTitle">
+        <div class="gx-container">
+          <div class="gx-section-heading">
+            <span class="gx-section-index">01 — PRODUCTS</span>
+            <h2 id="productsTitle">Three tools.<br /><em>One clear purpose.</em></h2>
+            <p>Focused software designed to remove friction from everyday digital work.</p>
+          </div>
+
+          <article class="gx-flagship gx-searchable" data-search="prompt forge ai prompts desktop files">
+            <div class="gx-product-copy">
+              <div class="gx-product-meta"><span>01</span><i>DESKTOP / AI / FILES</i></div>
+              <span class="gx-eyebrow gx-eyebrow-dark">AI workspace</span>
+              <h3>Prompt<br />Forge</h3>
+              <p>Create better prompts, chat with AI, and keep source files in one focused desktop workspace.</p>
+              <ul class="gx-feature-list"><li>Purpose-built prompt creation</li><li>AI chat in one workspace</li><li>Supporting files in your flow</li></ul>
+              <a class="gx-circle-link" href="https://app.gurdianx.com" aria-label="Open Prompt Forge">↗</a>
+            </div>
+            <div class="gx-flagship-visual">
+              <div class="gx-visual-orbit"></div>
+              <div class="gx-forge-window" aria-label="Illustrative Prompt Forge workspace preview">
+                <div class="gx-window-bar"><i></i><i></i><i></i><strong>Prompt Forge</strong><small>Workspace 01</small></div>
+                <div class="gx-forge-layout">
+                  <aside class="gx-forge-sidebar"><b>＋ New prompt</b><small>WORKSPACE</small><span>Product launch brief</span><span>Research notes</span><span>Saved prompts</span></aside>
+                  <div class="gx-forge-main"><small>PROMPT BUILDER</small><h4>Build a product launch brief</h4><p>Add context and shape your request before sending.</p><div class="gx-prompt-box"><span>Act as a product strategist. Create a concise launch plan for...</span><b>↑</b></div></div>
+                  <aside class="gx-forge-inspector"><small>QUALITY CHECK</small><strong>Clear &amp; specific</strong><div class="gx-quality-meter"><i></i></div><p>✓ Context included</p><p>✓ Output defined</p></aside>
+                </div>
+              </div>
+              <span class="gx-forge-tag">PROMPT / CONTEXT / FILES</span>
+            </div>
+          </article>
+
+          <div class="gx-product-grid">
+            <article class="gx-secondary-product minute gx-searchable" data-search="minutehub productivity meeting notes decisions">
+              <div class="gx-secondary-head"><span>02</span><small>PRODUCTIVITY</small></div>
+              <div class="gx-product-preview"><small>TEAM SYNC · TODAY</small><h4>Weekly product review</h4><div class="gx-meeting-row"><b>Key decisions</b><span>03 items</span></div><div class="gx-meeting-row"><span>Simplify onboarding checklist</span><b>01</b></div><div class="gx-meeting-row"><span>Review launch copy Thursday</span><b>02</b></div></div>
+              <div class="gx-secondary-copy"><h3>MinuteHub</h3><p>Turn conversations into clear notes, decisions, and next steps without losing the thread.</p><a href="mailto:info@gurdianx.com?subject=MinuteHub%20updates">Product updates ↗</a></div>
+            </article>
+            <article class="gx-secondary-product action gx-searchable" data-search="actionbook planning tasks actions schedule">
+              <div class="gx-secondary-head"><span>03</span><small>PLANNING</small></div>
+              <div class="gx-product-preview"><small>JUNE / WEEK 02</small><h4>Plan the work ahead</h4><div class="gx-week-grid"><div><small>MON 10</small><b>Finalize brief</b></div><div><small>TUE 11</small><b>Review prototype</b></div><div><small>WED 12</small><b>Launch prep</b></div></div></div>
+              <div class="gx-secondary-copy"><h3>ActionBook</h3><p>Make plans visible, break them into actions, and keep meaningful work moving forward.</p><a href="mailto:info@gurdianx.com?subject=ActionBook%20updates">Product updates ↗</a></div>
+            </article>
+          </div>
+          <p class="no-results" id="noResults" aria-live="polite">No products match that search.</p>
+        </div>
+      </section>
+
+      <section class="gx-manifesto" aria-labelledby="approachTitle">
+        <span class="gx-section-index">OUR APPROACH</span>
+        <p id="approachTitle">Good technology should feel less like <s>more software</s> and more like a <em>clearer way forward.</em></p>
+        <div class="gx-manifesto-note"><span class="brand-mark" aria-hidden="true">G-X</span><span>Practical by design.<br />Purposeful by default.</span></div>
+      </section>
+
+      <section class="gx-section gx-pricing" id="pricing" aria-labelledby="pricingTitle">
+        <div class="gx-container">
+          <div class="gx-section-heading">
+            <span class="gx-section-index">02 — PRICING</span>
+            <h2 id="pricingTitle">Start small.<br /><em>Scale when ready.</em></h2>
+            <p>Draft monthly Prompt Forge options. Pricing and feature scope may change; checkout is not connected yet.</p>
+          </div>
+          <div class="gx-plans">
+            <article class="gx-plan">
+              <div class="gx-plan-top"><span>01</span></div><h3>Starter</h3><p>A simple place to begin</p><div class="gx-price"><strong>$3</strong><span>USD<br />per month</span></div>
+              <ul><li><span>✓</span>Core prompt builder</li><li><span>✓</span>AI chat workspace</li><li><span>✓</span>Basic file uploads</li></ul>
+              <a href="mailto:info@gurdianx.com?subject=Prompt%20Forge%20Starter%20plan">Ask about Starter <span>↗</span></a>
+            </article>
+            <article class="gx-plan featured">
+              <div class="gx-plan-top"><span>02</span><small>MOST POPULAR</small></div><h3>Pro</h3><p>For consistent daily work</p><div class="gx-price"><strong>$10</strong><span>USD<br />per month</span></div>
+              <ul><li><span>✓</span>Everything in Starter</li><li><span>✓</span>Expanded workspace</li><li><span>✓</span>More file capacity</li></ul>
+              <a href="mailto:info@gurdianx.com?subject=Prompt%20Forge%20Pro%20plan">Ask about Pro <span>↗</span></a>
+            </article>
+            <article class="gx-plan">
+              <div class="gx-plan-top"><span>03</span></div><h3>Innovator</h3><p>For deeper workflows</p><div class="gx-price"><strong>$19</strong><span>USD<br />per month</span></div>
+              <ul><li><span>✓</span>Everything in Pro</li><li><span>✓</span>Advanced organization</li><li><span>✓</span>Priority feature access</li></ul>
+              <a href="mailto:info@gurdianx.com?subject=Prompt%20Forge%20Innovator%20plan">Ask about Innovator <span>↗</span></a>
+            </article>
+          </div>
+          <p class="gx-pricing-note"><i></i>Draft pricing and features · Payment integration will be connected before launch.</p>
+        </div>
+      </section>
+
+      <section class="gx-about" id="about" aria-labelledby="aboutTitle">
+        <div class="gx-about-visual"><div class="gx-giant-mark" aria-hidden="true"></div><span>G<b>X</b></span></div>
+        <div class="gx-about-copy">
+          <span class="gx-section-index">03 — ABOUT GUARDIAN-X</span>
+          <h2 id="aboutTitle">Built with<br /><em>purpose.</em></h2>
+          <p>Guardian-X creates clear, practical digital products for real everyday work. We focus on useful tools that help people make sense of ideas, coordinate work, and move forward.</p>
+          <div class="gx-values"><span>01 <b>Useful first</b></span><span>02 <b>Simple always</b></span><span>03 <b>Made to last</b></span></div>
+          <a class="gx-primary" href="#contact">Start a conversation <span>↗</span></a>
+        </div>
+      </section>
+
+      <section class="gx-contact" id="contact" aria-labelledby="contactTitle">
+        <div><span class="gx-section-index">04 — CONTACT</span><h2 id="contactTitle">Have an idea?<br /><em>Let’s move it forward.</em></h2></div>
+        <a class="gx-contact-orb" href="mailto:info@gurdianx.com"><span>GET IN TOUCH</span><span aria-hidden="true">↗</span></a>
+        <div class="gx-contact-bottom"><p>Product questions, partnerships, or company enquiries—we’re ready to talk.</p><div><small>EMAIL US</small><a href="mailto:info@gurdianx.com">info@gurdianx.com</a></div><div><small>VISIT</small><a href="https://www.gurdianx.com">www.gurdianx.com</a></div></div>
       </section>
 
       <section class="admin-status" id="adminStatus" aria-live="polite">
         <div><strong class="auth-status-title" id="accountStatusTitle">Signed in</strong><div id="adminEmail"></div></div>
         <button class="secondary-button" id="adminSignOut" type="button">Sign out</button>
       </section>
-      <footer class="site-footer">&copy; 2026 Guardian-X Digital Solutions</footer>
+      <footer class="gx-footer">
+        <a class="brand" href="#top" aria-label="Guardian-X home"><span class="brand-mark" aria-hidden="true">G-X</span><span class="brand-name">Guardian-X<br /><small>Digital Solutions</small></span></a>
+        <div class="gx-footer-col"><small>EXPLORE</small><a href="#products">Products</a><a href="#pricing">Pricing</a><a href="#about">Company</a></div>
+        <div class="gx-footer-col"><small>PRODUCTS</small><a href="#products">Prompt Forge</a><a href="#products">MinuteHub</a><a href="#products">ActionBook</a></div>
+        <p>Independent digital products.<br />Designed for forward motion.</p>
+        <div class="gx-footer-bottom"><span>&copy; 2026 Guardian-X Digital Solutions</span><span>All rights reserved</span><button id="footerSignIn" type="button">Sign in</button></div>
+      </footer>
     </main>
 
     <dialog id="adminDialog" aria-label="Sign in or create a Guardian-X account">
@@ -415,6 +791,7 @@
       const accountStatusTitle = document.getElementById("accountStatusTitle");
       const emailLabel = document.getElementById("adminEmail");
       const loginTrigger = document.getElementById("adminLoginTrigger");
+      const footerSignIn = document.getElementById("footerSignIn");
       const siteHeader = document.getElementById("siteHeader");
       const siteNav = document.getElementById("siteNav");
       const menuToggle = document.getElementById("menuToggle");
@@ -423,7 +800,7 @@
       const searchClose = document.getElementById("searchClose");
       const searchInput = document.getElementById("productSearch");
       const noResults = document.getElementById("noResults");
-      const productCards = [...document.querySelectorAll(".product")];
+      const productCards = [...document.querySelectorAll(".gx-searchable")];
       const themeToggle = document.getElementById("themeToggle");
       const themeCanvas = document.getElementById("themeCanvas");
       const themeContext = themeCanvas.getContext("2d");
@@ -691,6 +1068,10 @@
       }
 
       loginTrigger.addEventListener("click", () => {
+        setAuthMode("login");
+        dialog.showModal();
+      });
+      footerSignIn.addEventListener("click", () => {
         setAuthMode("login");
         dialog.showModal();
       });
