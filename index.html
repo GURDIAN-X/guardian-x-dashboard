@@ -28,6 +28,7 @@
         background-image: linear-gradient(rgba(98, 214, 197, 0.035) 1px, transparent 1px), linear-gradient(90deg, rgba(98, 214, 197, 0.035) 1px, transparent 1px);
         background-size: 34px 34px;
         font-family: "Segoe UI", sans-serif;
+        transition: background-color 420ms ease, color 320ms ease;
       }
       button, input { font: inherit; }
       .site-header {
@@ -153,7 +154,27 @@
       .admin-trigger, .secondary-button { color: var(--ink); background: var(--panel); border: 1px solid var(--line); }
       .admin-trigger:hover, .secondary-button:hover { border-color: var(--aqua); background: var(--panel-raised); transform: translateY(-1px); }
       .theme-toggle, .menu-toggle { color: var(--ink); background: transparent; border: 1px solid transparent; font-size: 12px; }
-      .theme-toggle { width: 36px; min-height: 36px; display: grid; place-items: center; padding: 0; }
+      .theme-toggle {
+        width: 126px;
+        height: 44px;
+        min-height: 44px;
+        display: grid;
+        place-items: center;
+        padding: 4px;
+        overflow: hidden;
+        border: 1px solid rgba(255, 255, 255, 0.42);
+        border-radius: 999px;
+        color: var(--ink);
+        background: #e8ebf8;
+        box-shadow: 7px 7px 16px rgba(9, 17, 28, 0.22), -7px -7px 16px rgba(255, 255, 255, 0.7), inset 1px 1px 2px rgba(255, 255, 255, 0.8);
+        transition: width 240ms ease, background 300ms ease, box-shadow 300ms ease, transform 180ms ease;
+      }
+      .theme-toggle canvas { display: block; width: 114px; height: 34px; }
+      .theme-toggle:hover { border-color: rgba(255, 255, 255, 0.65); background: #edf0fc; box-shadow: 9px 9px 18px rgba(9, 17, 28, 0.24), -8px -8px 18px rgba(255, 255, 255, 0.78), inset 1px 1px 2px rgba(255, 255, 255, 0.9); }
+      .theme-toggle:active { transform: scale(0.98); }
+      .theme-toggle:focus-visible { outline: 2px solid var(--aqua); outline-offset: 3px; }
+      :root[data-theme="dark"] .theme-toggle { border-color: rgba(255, 255, 255, 0.1); background: #1b2428; box-shadow: 7px 7px 15px rgba(0, 0, 0, 0.35), -5px -5px 13px rgba(255, 255, 255, 0.035), inset 1px 1px 2px rgba(255, 255, 255, 0.045); }
+      :root[data-theme="dark"] .theme-toggle:hover { background: #202b30; }
       .theme-toggle:hover, .menu-toggle:hover { border-color: var(--line); background: rgba(255, 255, 255, 0.06); }
       .menu-toggle { display: none; }
       .no-results { display: none; padding: 24px 0 72px; color: var(--muted); font-size: 14px; }
@@ -166,6 +187,7 @@
       :root[data-theme="light"] { color-scheme: light; --page: #f3f7f6; --panel: #ffffff; --panel-raised: #e8efed; --line: #c9d5d2; --ink: #15201f; --muted: #52635f; }
       :root[data-theme="light"] .site-header { background: rgba(243, 247, 246, 0.88); }
       :root[data-theme="light"] .site-header.is-scrolled { background: rgba(243, 247, 246, 0.94); box-shadow: 0 14px 40px rgba(21, 32, 31, 0.12); }
+      :root[data-theme="light"] .theme-toggle { background: #e8ebf8; box-shadow: 7px 7px 16px rgba(91, 103, 137, 0.18), -7px -7px 16px rgba(255, 255, 255, 0.92), inset 1px 1px 2px rgba(255, 255, 255, 0.95); }
       :root[data-theme="light"] .search-control input { background: rgba(255, 255, 255, 0.78); }
       :root[data-theme="light"] .product { background: linear-gradient(150deg, #fff, #eaf1ef); }
       :root[data-theme="light"] .field input { background: #fff; }
@@ -178,7 +200,7 @@
       .section-heading h2 { margin: 0; font-size: 18px; }
       .section-heading p { margin: 0; color: var(--muted); font-size: 13px; }
       .product-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; padding-bottom: 72px; }
-      .product { min-height: 176px; padding: 18px; border: 1px solid var(--line); border-radius: 8px; background: linear-gradient(150deg, rgba(32, 43, 48, 0.96), rgba(24, 33, 37, 0.94)); animation: arrive 500ms ease-out both; }
+      .product { min-height: 176px; padding: 18px; border: 1px solid var(--line); border-radius: 8px; background: linear-gradient(150deg, rgba(32, 43, 48, 0.96), rgba(24, 33, 37, 0.94)); animation: arrive 500ms ease-out both; transition: background 420ms ease, border-color 320ms ease, color 320ms ease; }
       .product:nth-child(2) { animation-delay: 70ms; }
       .product:nth-child(3) { animation-delay: 140ms; }
       .product:nth-child(4) { animation-delay: 210ms; }
@@ -210,13 +232,15 @@
         .search-control.open { width: 185px; }
         .search-control.open input { width: 101px; }
         .nav-links { gap: 16px; }
+        .theme-toggle { width: 108px; }
+        .theme-toggle canvas { width: 96px; }
       }
       @media (max-width: 720px) {
         .site-header { min-height: 62px; padding: 0 14px; gap: 10px; }
         .site-header.is-scrolled { min-height: 56px; padding: 0 10px; }
-        .brand { margin-right: auto; }
-        .brand-mark { width: 34px; height: 34px; }
-        .brand-name { max-width: 110px; font-size: 12px; }
+        .brand { margin-right: auto; gap: 8px; }
+        .brand-mark { width: 30px; height: 30px; }
+        .brand-name { max-width: 76px; font-size: 11px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         .site-nav { position: absolute; top: 61px; left: 0; right: 0; display: none; padding: 8px 14px 14px; border-bottom: 1px solid var(--line); background: var(--page); }
         .site-nav.open { display: block; }
         .nav-links { align-items: stretch; flex-direction: column; gap: 0; }
@@ -226,7 +250,10 @@
         .search-control.open { position: absolute; top: 0; right: 0; z-index: 4; width: min(210px, calc(100vw - 28px)); background: var(--page); }
         .search-control.open input { width: 126px; }
         .menu-toggle { display: inline-flex; align-items: center; }
-        .theme-toggle, .admin-trigger { min-height: 36px; padding: 0 9px; font-size: 11px; }
+        .theme-toggle { width: 62px; height: 36px; min-height: 36px; padding: 2px; }
+        .theme-toggle canvas { width: 54px; height: 30px; }
+        .admin-trigger { min-height: 36px; padding: 0 6px; font-size: 10px; }
+        .menu-toggle { padding: 0 7px; font-size: 11px; }
         .info-section { grid-template-columns: 1fr; gap: 12px; }
       }
       @media (max-width: 520px) {
@@ -238,6 +265,12 @@
         .admin-status.visible { align-items: flex-start; flex-direction: column; }
         .admin-trigger { padding: 0 8px; }
         .menu-toggle { padding: 0 7px; }
+      }
+      @media (max-width: 360px) {
+        .brand-name { max-width: 58px; }
+        .theme-toggle { width: 52px; }
+        .theme-toggle canvas { width: 44px; }
+        .admin-trigger { padding: 0 4px; font-size: 9px; }
       }
       @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; } }
     </style>
@@ -264,7 +297,7 @@
           <button class="search-close" id="searchClose" type="button" aria-label="Close product search" title="Close search">&times;</button>
         </div>
         <button class="theme-toggle" id="themeToggle" type="button" aria-label="Switch color theme" aria-pressed="false" title="Switch color theme">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3.5"></circle><path d="M12 2.5v2M12 19.5v2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M2.5 12h2m15 0h2M4.93 19.07l1.42-1.42m11.3-11.3 1.42-1.42"></path></svg>
+          <canvas id="themeCanvas" width="228" height="68" aria-hidden="true"></canvas>
         </button>
         <button class="menu-toggle" id="menuToggle" type="button" aria-expanded="false" aria-controls="siteNav">Menu</button>
         <button class="admin-trigger" id="adminLoginTrigger" type="button">Login as Admin</button>
@@ -346,6 +379,176 @@
       const noResults = document.getElementById("noResults");
       const productCards = [...document.querySelectorAll(".product")];
       const themeToggle = document.getElementById("themeToggle");
+      const themeCanvas = document.getElementById("themeCanvas");
+      const themeContext = themeCanvas.getContext("2d");
+      const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+      let themeAnimationFrame = null;
+
+      function sizeThemeCanvas() {
+        const bounds = themeCanvas.getBoundingClientRect();
+        const pixelRatio = Math.min(window.devicePixelRatio || 1, 2);
+        const pixelWidth = Math.max(1, Math.round(bounds.width * pixelRatio));
+        const pixelHeight = Math.max(1, Math.round(bounds.height * pixelRatio));
+        if (themeCanvas.width !== pixelWidth || themeCanvas.height !== pixelHeight) {
+          themeCanvas.width = pixelWidth;
+          themeCanvas.height = pixelHeight;
+        }
+        themeContext.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
+        return { width: bounds.width, height: bounds.height };
+      }
+
+      function drawHole(context, x, y, scale) {
+        context.save();
+        context.translate(x, y);
+        context.scale(scale, scale);
+        context.beginPath();
+        context.ellipse(0, 0, 9, 3.2, 0, 0, Math.PI * 2);
+        context.fillStyle = "rgba(80, 94, 103, 0.36)";
+        context.fill();
+        context.beginPath();
+        context.ellipse(0, -0.5, 9, 3.2, 0, Math.PI, Math.PI * 2);
+        context.strokeStyle = "rgba(255, 255, 255, 0.82)";
+        context.lineWidth = 1.4;
+        context.stroke();
+        context.restore();
+      }
+
+      function drawThemeMark(context, x, y, theme, scale) {
+        context.save();
+        context.translate(x, y);
+        context.scale(scale, scale);
+        if (theme === "light") {
+          context.strokeStyle = "#f19a23";
+          context.fillStyle = "#f6a522";
+          context.lineWidth = 1.7;
+          context.lineCap = "round";
+          for (let ray = 0; ray < 8; ray += 1) {
+            const angle = (Math.PI * 2 * ray) / 8;
+            context.beginPath();
+            context.moveTo(Math.cos(angle) * 7, Math.sin(angle) * 7);
+            context.lineTo(Math.cos(angle) * 9.5, Math.sin(angle) * 9.5);
+            context.stroke();
+          }
+          context.beginPath();
+          context.arc(0, 0, 5.2, 0, Math.PI * 2);
+          context.fill();
+        } else {
+          context.fillStyle = "#c2d7ee";
+          context.beginPath();
+          context.arc(0, 0, 7, 0, Math.PI * 2);
+          context.fill();
+          context.globalCompositeOperation = "destination-out";
+          context.beginPath();
+          context.arc(3.2, -2.6, 6, 0, Math.PI * 2);
+          context.fill();
+        }
+        context.restore();
+      }
+
+      function drawStickman(context, x, y, scale, color, stride) {
+        context.save();
+        context.translate(x, y);
+        context.scale(scale, scale);
+        context.strokeStyle = color;
+        context.fillStyle = color;
+        context.lineWidth = 1.7;
+        context.lineCap = "round";
+        context.beginPath();
+        context.arc(0, -6.5, 2.2, 0, Math.PI * 2);
+        context.fill();
+        context.beginPath();
+        context.moveTo(0, -4.1);
+        context.lineTo(0, 2);
+        context.moveTo(0, -2.4);
+        context.lineTo(-3.3, -0.3 + stride);
+        context.moveTo(0, -2.4);
+        context.lineTo(3.4, -0.3 - stride);
+        context.moveTo(0, 2);
+        context.lineTo(-2.7 + stride, 5.5);
+        context.moveTo(0, 2);
+        context.lineTo(2.7 - stride, 5.5);
+        context.stroke();
+        context.restore();
+      }
+
+      function drawThemeScene(theme, animation = null) {
+        const { width, height } = sizeThemeCanvas();
+        const context = themeContext;
+        context.clearRect(0, 0, width, height);
+        const centerY = height * 0.48;
+        const leftX = Math.max(12, width * 0.19);
+        const rightX = Math.min(width - 12, width * 0.81);
+        const markX = theme === "light" ? leftX : rightX;
+        const holeX = theme === "light" ? rightX : leftX;
+        const startX = animation ? (animation.from === "light" ? leftX : rightX) : markX;
+        const destinationX = animation ? (animation.to === "light" ? leftX : rightX) : markX;
+        drawHole(context, animation ? destinationX : holeX, centerY + 5, Math.min(1, width / 100));
+
+        if (!animation) {
+          drawThemeMark(context, markX, centerY, theme, Math.min(1, width / 100));
+          return;
+        }
+
+        const progress = Math.max(0, Math.min(1, animation.progress));
+        const runProgress = Math.min(progress / 0.72, 1);
+        const easedRun = 1 - Math.pow(1 - runProgress, 2);
+        const runningX = startX + (destinationX - startX) * easedRun;
+        const bounce = progress < 0.72 ? Math.abs(Math.sin(progress * Math.PI * 6)) * 2 : 0;
+        const fallProgress = Math.max(0, (progress - 0.72) / 0.28);
+        const fall = fallProgress * fallProgress * 12;
+        const scale = Math.max(0.08, 1 - fallProgress * 0.84);
+        const runnerColor = animation.from === "dark" ? "#253342" : "#f7f8ff";
+        drawThemeMark(context, startX, centerY, animation.from, Math.min(1, width / 100));
+        if (progress < 0.98) {
+          const stride = progress < 0.72 ? Math.sin(progress * Math.PI * 10) * 2 : 0;
+          drawStickman(context, runningX, centerY + 2 + bounce + fall, scale, runnerColor, stride);
+        }
+      }
+
+      function setTheme(theme) {
+        document.documentElement.dataset.theme = theme;
+        localStorage.setItem("guardianx-theme", theme);
+        const nextLabel = theme === "dark" ? "Switch to light theme" : "Switch to dark theme";
+        themeToggle.setAttribute("aria-label", nextLabel);
+        themeToggle.title = nextLabel;
+        themeToggle.setAttribute("aria-pressed", String(theme === "light"));
+      }
+
+      function animateThemeChange(from, to) {
+        if (themeAnimationFrame !== null) cancelAnimationFrame(themeAnimationFrame);
+        setTheme(to);
+        if (reducedMotion.matches) {
+          drawThemeScene(to);
+          return;
+        }
+        const duration = 820;
+        let startTime = null;
+        const frame = (timestamp) => {
+          if (startTime === null) startTime = timestamp;
+          const progress = Math.min((timestamp - startTime) / duration, 1);
+          drawThemeScene(to, { from, to, progress });
+          if (progress < 1) {
+            themeAnimationFrame = requestAnimationFrame(frame);
+          } else {
+            themeAnimationFrame = null;
+            drawThemeScene(to);
+          }
+        };
+        themeAnimationFrame = requestAnimationFrame(frame);
+      }
+
+      const initialTheme = localStorage.getItem("guardianx-theme") === "light" ? "light" : "dark";
+      setTheme(initialTheme);
+      drawThemeScene(initialTheme);
+      if ("ResizeObserver" in window) {
+        new ResizeObserver(() => drawThemeScene(document.documentElement.dataset.theme)).observe(themeCanvas);
+      } else {
+        window.addEventListener("resize", () => drawThemeScene(document.documentElement.dataset.theme));
+      }
+      themeToggle.addEventListener("click", () => {
+        const currentTheme = document.documentElement.dataset.theme;
+        animateThemeChange(currentTheme, currentTheme === "dark" ? "light" : "dark");
+      });
 
       const updateHeaderOnScroll = () => {
         siteHeader.classList.toggle("is-scrolled", window.scrollY > 48);
@@ -404,20 +607,6 @@
       searchClose.addEventListener("click", () => closeProductSearch());
       searchInput.addEventListener("keydown", (event) => {
         if (event.key === "Escape") closeProductSearch();
-      });
-
-      const initialTheme = localStorage.getItem("guardianx-theme") === "light" ? "light" : "dark";
-      document.documentElement.dataset.theme = initialTheme;
-      themeToggle.setAttribute("aria-label", initialTheme === "dark" ? "Switch to light theme" : "Switch to dark theme");
-      themeToggle.title = initialTheme === "dark" ? "Switch to light theme" : "Switch to dark theme";
-      themeToggle.setAttribute("aria-pressed", String(initialTheme === "light"));
-      themeToggle.addEventListener("click", () => {
-        const nextTheme = document.documentElement.dataset.theme === "dark" ? "light" : "dark";
-        document.documentElement.dataset.theme = nextTheme;
-        localStorage.setItem("guardianx-theme", nextTheme);
-        themeToggle.setAttribute("aria-label", nextTheme === "dark" ? "Switch to light theme" : "Switch to dark theme");
-        themeToggle.title = nextTheme === "dark" ? "Switch to light theme" : "Switch to dark theme";
-        themeToggle.setAttribute("aria-pressed", String(nextTheme === "light"));
       });
 
       async function showAdminSession(user) {
