@@ -221,8 +221,10 @@
         .site-nav.open { display: block; }
         .nav-links { align-items: stretch; flex-direction: column; gap: 0; }
         .nav-links a { display: block; padding: 12px 4px; }
-        .header-tools { gap: 5px; }
-        .search-control { display: none; }
+        .header-tools { position: relative; gap: 5px; }
+        .search-control { display: flex; width: 36px; }
+        .search-control.open { position: absolute; top: 0; right: 0; z-index: 4; width: min(210px, calc(100vw - 28px)); background: var(--page); }
+        .search-control.open input { width: 126px; }
         .menu-toggle { display: inline-flex; align-items: center; }
         .theme-toggle, .admin-trigger { min-height: 36px; padding: 0 9px; font-size: 11px; }
         .info-section { grid-template-columns: 1fr; gap: 12px; }
