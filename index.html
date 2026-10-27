@@ -50,17 +50,48 @@
       .brand-name { font-size: 14px; font-weight: 700; }
       .site-nav { flex: 1 1 auto; }
       .nav-links { display: flex; align-items: center; justify-content: center; gap: 26px; list-style: none; margin: 0; padding: 0; }
-      .nav-links a { color: var(--muted); font-size: 13px; text-decoration: none; transition: color 140ms ease; }
-      .nav-links a:hover, .nav-links a:focus-visible { color: var(--aqua); }
+      .nav-links a {
+        position: relative;
+        display: inline-flex;
+        min-height: 38px;
+        align-items: center;
+        padding: 0 12px;
+        border-radius: 6px;
+        color: var(--muted);
+        font-size: 13px;
+        text-decoration: none;
+        cursor: pointer;
+        transition: color 160ms ease, background 160ms ease, transform 160ms ease;
+      }
+      .nav-links a::after {
+        position: absolute;
+        right: 12px;
+        bottom: 4px;
+        left: 12px;
+        height: 2px;
+        border-radius: 2px;
+        background: var(--aqua);
+        content: "";
+        transform: scaleX(0);
+        transform-origin: left;
+        transition: transform 180ms ease;
+      }
+      .nav-links a:hover, .nav-links a:focus-visible {
+        color: var(--aqua);
+        background: rgba(98, 214, 197, 0.09);
+        transform: translateY(-1px);
+      }
+      .nav-links a:hover::after, .nav-links a:focus-visible::after { transform: scaleX(1); }
+      .nav-links a:focus-visible { outline: 2px solid var(--aqua); outline-offset: 2px; }
       .header-tools { display: flex; align-items: center; gap: 9px; }
       .search-control { position: relative; }
       .search-control input { width: 190px; height: 36px; padding: 0 12px; border: 1px solid var(--line); border-radius: 7px; color: var(--ink); background: rgba(255, 255, 255, 0.04); font-size: 12px; }
       .search-control input:focus { outline: 2px solid var(--aqua); outline-offset: 1px; }
       .admin-trigger, .theme-toggle, .menu-toggle, .primary-button, .secondary-button { min-height: 38px; border-radius: 7px; padding: 0 13px; cursor: pointer; font-weight: 700; }
       .admin-trigger, .secondary-button { color: var(--ink); background: var(--panel); border: 1px solid var(--line); }
-      .admin-trigger:hover, .secondary-button:hover { border-color: var(--aqua); }
+      .admin-trigger:hover, .secondary-button:hover { border-color: var(--aqua); background: var(--panel-raised); transform: translateY(-1px); }
       .theme-toggle, .menu-toggle { color: var(--ink); background: transparent; border: 1px solid transparent; font-size: 12px; }
-      .theme-toggle:hover, .menu-toggle:hover { border-color: var(--line); }
+      .theme-toggle:hover, .menu-toggle:hover { border-color: var(--line); background: rgba(255, 255, 255, 0.06); }
       .menu-toggle { display: none; }
       .no-results { display: none; padding: 24px 0 72px; color: var(--muted); font-size: 14px; }
       .no-results.visible { display: block; }
