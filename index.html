@@ -762,7 +762,472 @@
       }
       @media (max-width: 600px) { #adminDialog .auth-shell { transform: scale(0.88); } }
       @media (prefers-reduced-motion: reduce) { .gx-ticker-track { animation: none; } .gx-stage-window { animation: none; } .gx-loader-eyes span { animation: none; } .gx-loader { transition: none; } .gx-carousel-slide, .gx-carousel-slide img { transition: none; } }
-    </style>
+    
+
+/* ═════════════════════════════════════════════════════════════════════════
+   GUARDIAN-X · AURORA GLASS
+   Weka block hii MWISHO kabisa wa <style> block iliyopo (ndani ya <head>).
+   Haifuti kitu chochote: kila rule hapa ni (a) ku-elekeza upya token
+   zilizopo au (b) kuongeza mng'ao juu ya kilichopo. Ukitaka kurudi
+   nyuma, futa block hii yote — site inarudi kama ilivyo leo.
+
+   Rangi zote zimepimwa (measured, hazikubuniwa) kutoka reference
+   dashboard: hue 199°-248°, cyan rim #77EDFB, violet haze #77479B,
+   glass ya lavender — si nyeupe. Contrast ya chini kabisa: 6.7:1.
+   ═════════════════════════════════════════════════════════════════════════ */
+
+/* ── 1. TOKENS ──────────────────────────────────────────────────────────── */
+/* Site yote ina-run kwa --gx-* tokens, hivyo hapa tunabadilisha mahali
+   pamoja na kurasa yote inafuata. Theme ya "gold" inaachwa kama ilivyo. */
+:root:not([data-theme="gold"]),
+:root[data-theme="dark"] {
+  --gx-deep:        #1E2449;
+  --gx-paper:       #262E58;
+  --gx-paper-light: #313B72;
+  --gx-ink:         #EFF1FF;
+  --gx-copy:        #C2C9EE;
+  --gx-line:        #678CB6;
+  --gx-lola-aqua:   #77EDFB;   /* cyan rim light — accent ya kwanza */
+  --gx-teal-dark:   #98DBF7;
+  --gx-gold:        #C8A8FF;   /* ilikuwa dhahabu; sasa lavender */
+  --gx-lola-coral:  #F097F7;   /* orchid — accent ya pili */
+
+  --page:           #171C3E;
+  --panel:          #222A52;
+  --panel-raised:   #2D3666;
+  --line:           #46548C;
+  --ink:            #EFF1FF;
+  --muted:          #A8B2DE;
+  --aqua:           #77EDFB;
+  --orange:         #F097F7;
+
+  /* aurora field — nambari halisi za measurement */
+  --gx-f0:      #3A4467;
+  --gx-f1:      #485C7F;
+  --gx-f2:      #54789C;
+  --gx-f3:      #5885AC;
+  --gx-f4:      #6C7BB8;
+  --gx-reflect: #8E9FDB;
+  --gx-violet:  #77479B;
+
+  --gx-clay-shadow:
+      18px 22px 48px rgba(10, 14, 40, .52),
+     -10px -10px 28px rgba(142, 159, 219, .07),
+      inset 1px 1px 0 rgba(219, 189, 242, .20);
+}
+
+/* ── 2. GROUND ──────────────────────────────────────────────────────────── */
+body {
+  background-color: var(--page);
+  background-image:
+    radial-gradient(130% 80% at 50% -12%, rgba(108, 123, 184, .22), transparent 62%),
+    linear-gradient(rgba(167, 173, 221, .045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(167, 173, 221, .045) 1px, transparent 1px);
+  background-size: auto, 34px 34px, 34px 34px;
+}
+
+/* ── 3. HERO — hapa mng'ao unaanza ──────────────────────────────────────── */
+.gx-hero {
+  color: #fff;
+  background:
+    /* scrim ya kushoto: inalinda contrast ya maandishi */
+    linear-gradient(90deg, rgba(20, 25, 58, .55) 0%, rgba(20, 25, 58, .18) 34%, transparent 54%),
+    /* reflection chini, kama ya reference */
+    linear-gradient(to top, rgba(142, 159, 219, .28) 0%, rgba(119, 141, 200, .11) 15%, transparent 36%),
+    /* violet haze, kona ya chini-kulia */
+    radial-gradient(92% 72% at 94% 106%, rgba(119, 71, 155, .48), transparent 64%),
+    /* field yenyewe */
+    linear-gradient(118deg, var(--gx-f0) 0%, var(--gx-f1) 22%, var(--gx-f2) 48%,
+                            var(--gx-f3) 68%, var(--gx-f4) 100%);
+}
+
+/* cyan rim light inayotoka pembeni ya kulia — falloff pana na laini */
+.gx-hero::before {
+  inset: 0;
+  width: 100%;
+  background:
+    radial-gradient(60% 125% at 105% 52%,
+      rgba(119, 237, 251, .50) 0%,
+      rgba(120, 231, 248, .25) 17%,
+      rgba(115, 225, 242, .11) 37%,
+      transparent 68%),
+    radial-gradient(30% 48% at 101% 50%, rgba(167, 173, 221, .21), transparent 72%);
+  mix-blend-mode: screen;
+  pointer-events: none;
+}
+
+/* hairline inayong'aa chini ya hero */
+.gx-hero::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent,
+              rgba(219, 189, 242, .39) 32%, rgba(119, 237, 251, .56) 68%, transparent);
+  pointer-events: none;
+  z-index: 2;
+}
+
+.gx-hero h1 { text-shadow: 0 2px 30px rgba(14, 19, 52, .48); }
+.gx-hero h1 em {
+  color: #9FF4FF;
+  text-shadow: 0 0 26px rgba(119, 237, 251, .39), 0 0 64px rgba(119, 237, 251, .18);
+}
+/* Kila section ina accent yake (cyan, orchid, lavender) — mng'ao unafuata
+   rangi ya maandishi yenyewe badala ya kulazimisha cyan juu ya pink. */
+.gx-section-heading h2 em,
+.gx-manifesto em,
+.gx-about h2 em,
+.gx-contact h2 em {
+  text-shadow: 0 0 20px color-mix(in srgb, currentColor 27%, transparent);
+}
+.gx-hero-copy > p { color: rgba(233, 238, 255, .86); }
+
+.gx-eyebrow, .gx-section-index { color: #CFE9FF; }
+.gx-eyebrow i {
+  background: #F097F7;
+  box-shadow: 0 0 0 5px rgba(240, 151, 247, .13), 0 0 15px rgba(240, 151, 247, .60);
+}
+
+.gx-primary {
+  color: #121737;
+  background: linear-gradient(140deg, #9FF4FF, #77EDFB 42%, #62B4F1);
+  border-color: rgba(221, 252, 255, .80);
+  box-shadow:
+    0 10px 26px -6px rgba(119, 237, 251, .41),
+    0 0 48px rgba(119, 237, 251, .17),
+    inset 1px 1px 0 rgba(255, 255, 255, .43);
+}
+.gx-primary:hover {
+  background: linear-gradient(140deg, #E6D2FF, #C8A8FF 45%, #F097F7);
+  border-color: rgba(247, 230, 255, .85);
+  box-shadow:
+    0 10px 26px -6px rgba(200, 168, 255, .41),
+    0 0 48px rgba(240, 151, 247, .18),
+    inset 1px 1px 0 rgba(255, 255, 255, .41);
+}
+.gx-text-link { color: #E6ECFF; }
+.gx-text-link:hover { color: #9FF4FF; }
+
+.gx-orbit {
+  border-color: rgba(167, 173, 221, .28);
+  box-shadow: 0 0 44px rgba(119, 237, 251, .08), inset 0 0 70px rgba(142, 159, 219, .07);
+}
+.gx-orbit-one { border-color: rgba(119, 237, 251, .15); }
+
+/* ── 4. GLASS — lavender, si nyeupe ────────────────────────────────────── */
+.gx-stage-window,
+:root[data-theme="dark"] .gx-stage-window {
+  color: var(--gx-ink);
+  background: linear-gradient(160deg,
+      rgba(219, 189, 242, .24), rgba(175, 159, 240, .13) 44%, rgba(108, 123, 184, .22));
+  border-color: rgba(222, 214, 255, .34);
+  box-shadow:
+    0 40px 92px rgba(11, 15, 46, .56),
+    0 0 72px rgba(119, 237, 251, .09),
+    inset 1px 1px 0 rgba(255, 255, 255, .20);
+  backdrop-filter: blur(26px) saturate(150%);
+}
+.gx-window-top,
+:root[data-theme="dark"] .gx-window-top { border-color: rgba(222, 214, 255, .26); }
+.gx-window-intro small { color: #9FF4FF; }
+.gx-window-top small,
+.gx-window-intro p,
+:root[data-theme="dark"] .gx-window-top small,
+:root[data-theme="dark"] .gx-window-intro p { color: rgba(226, 231, 255, .78); }
+
+.gx-stage-product,
+:root[data-theme="dark"] .gx-stage-product {
+  color: var(--gx-ink);
+  background: rgba(192, 187, 241, .14);
+  border-color: rgba(222, 214, 255, .22);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .15), 0 8px 20px rgba(11, 15, 46, .28);
+}
+/* kadi ya kwanza ni "selected" — nzito na imeng'aa, bila border (kama reference) */
+.gx-stage-product:first-child,
+:root[data-theme="dark"] .gx-stage-product:first-child {
+  background: linear-gradient(135deg, rgba(98, 180, 241, .58), rgba(108, 123, 184, .44));
+  border-color: transparent;
+  box-shadow:
+    0 10px 28px rgba(98, 180, 241, .21),
+    0 0 36px rgba(119, 237, 251, .13),
+    inset 1px 1px 0 rgba(255, 255, 255, .24);
+}
+.gx-stage-code {
+  color: #10254A;
+  background: linear-gradient(140deg, #9FF4FF, #77EDFB);
+  box-shadow: 0 0 16px rgba(119, 237, 251, .32);
+}
+.gx-stage-product:nth-child(2) .gx-stage-code {
+  color: #2E1142;
+  background: linear-gradient(140deg, #F8C9FB, #F097F7);
+  box-shadow: 0 0 16px rgba(240, 151, 247, .29);
+}
+.gx-stage-product:nth-child(3) .gx-stage-code {
+  color: #1B2250;
+  background: linear-gradient(140deg, #C0BBF1, #A7ADDD);
+  box-shadow: 0 0 14px rgba(167, 173, 221, .25);
+}
+.gx-stage-product small { color: rgba(221, 227, 255, .70); }
+.gx-stage-product:first-child small { color: rgba(240, 245, 255, .86); }
+.gx-stage-product:first-child strong { font-weight: 700; }
+.gx-stage-status,
+:root[data-theme="dark"] .gx-stage-status {
+  color: #E8EEFF;
+  background: rgba(119, 237, 251, .16);
+  box-shadow: inset 0 0 0 1px rgba(119, 237, 251, .18);
+}
+
+/* kadi ya dhahabu iliyokuwa inagongana na palette — sasa periwinkle */
+.gx-stage-note,
+:root[data-theme="dark"] .gx-stage-note {
+  color: #141A3E;
+  background: linear-gradient(145deg, #DBBDF2, #AEC3F5 55%, #98DBF7);
+  border-color: rgba(255, 255, 255, .62);
+  box-shadow:
+    0 16px 36px rgba(11, 15, 46, .44),
+    0 0 42px rgba(174, 195, 245, .18),
+    inset 1px 1px 0 rgba(255, 255, 255, .46);
+}
+.gx-stage-note small { color: rgba(20, 26, 62, .62); }
+.gx-stage-note strong span { color: rgba(20, 26, 62, .42); }
+.gx-stage-note p { color: rgba(20, 26, 62, .58); }
+.gx-progress { background: rgba(20, 26, 62, .18); }
+.gx-progress i {
+  background: linear-gradient(90deg, #6C7BB8, #62B4F1 58%, #77EDFB);
+  box-shadow: 0 0 12px rgba(119, 237, 251, .46);
+}
+
+.gx-prompt-tag,
+:root[data-theme="dark"] .gx-prompt-tag {
+  color: var(--gx-ink);
+  background: rgba(46, 56, 112, .74);
+  border-color: rgba(222, 214, 255, .26);
+  box-shadow:
+    0 14px 34px rgba(11, 15, 46, .48),
+    0 0 28px rgba(240, 151, 247, .10),
+    inset 0 1px 0 rgba(255, 255, 255, .15);
+}
+.gx-prompt-tag b {
+  color: #2E1142;
+  background: linear-gradient(140deg, #F8C9FB, #F097F7);
+  box-shadow: 0 0 14px rgba(240, 151, 247, .32);
+}
+.gx-scroll-note { color: rgba(207, 216, 255, .64); }
+.gx-scroll-note i { background: linear-gradient(90deg, rgba(207, 216, 255, .72), transparent); }
+
+/* ── 5. KAMKANDA (TICKER) — familia moja, mwanga wake mwenyewe ─────────── */
+/* Overall ni field tulivu ya blue→indigo. Kamkanda ni counterpoint:
+   accent mbili za palette (orchid + cyan) zenyewe, zikipita taratibu
+   kama aurora — tofauti na overall, ila rangi ni zile zile. */
+.gx-ticker {
+  position: relative;
+  padding: 19px 0;
+  color: #171C3E;
+  background: linear-gradient(100deg,
+      #F097F7 0%, #DBBDF2 17%, #AEC3F5 37%, #98DBF7 55%, #77EDFB 74%, #A7ADDD 100%);
+  background-size: 200% 100%;
+  background-position: 0% 50%;
+  animation: gx-aurora-band 17s ease-in-out infinite alternate;
+  box-shadow:
+      0 -16px 46px rgba(240, 151, 247, .18),
+      0  16px 46px rgba(119, 237, 251, .18),
+      inset 0  1px 0 rgba(255, 255, 255, .49),
+      inset 0 -1px 0 rgba(255, 255, 255, .32);
+}
+@keyframes gx-aurora-band {
+  from { background-position:   0% 50%; }
+  to   { background-position: 100% 50%; }
+}
+.gx-ticker-track {
+  gap: 34px;
+  font: 700 10px "DM Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  letter-spacing: .20em;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, .32);
+}
+.gx-ticker-track i {
+  width: 7px;
+  height: 7px;
+  background: #171C3E;
+  box-shadow: 0 0 10px rgba(23, 28, 62, .32);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gx-ticker { animation: none; background-position: 50% 50%; }
+}
+
+/* ── 6. KURASA YOTE INAYOFUATA ─────────────────────────────────────────── */
+/* Sehemu zilizo chini ya hero zilikuwa zimeandikwa kwa rgb() ngumu (si
+   token), hivyo hazikubadilika na token za sehemu ya 1. Hapa zinaletwa
+   kwenye palette ile ile ili ukurasa uwe kitu kimoja, si hero inayong'aa
+   juu ya site ya kijani-nyeusi. Kina kinabadilishana ili sehemu bado
+   zitofautiane. */
+
+/* header + theme toggle */
+.site-header {
+  border-bottom-color: rgba(167, 173, 221, .20);
+  background: rgba(23, 28, 62, .80);
+  backdrop-filter: blur(20px) saturate(150%);
+}
+.site-header.is-scrolled {
+  border-color: rgba(167, 173, 221, .26);
+  background: rgba(23, 28, 62, .90);
+  box-shadow: 0 14px 44px rgba(9, 12, 38, .46), 0 0 36px rgba(119, 237, 251, .06);
+}
+:root[data-theme="dark"] .theme-toggle {
+  border-color: rgba(222, 214, 255, .16);
+  background: #232B57;
+  box-shadow: 7px 7px 15px rgba(9, 12, 38, .42),
+             -5px -5px 13px rgba(142, 159, 219, .05),
+              inset 1px 1px 2px rgba(219, 189, 242, .09);
+}
+:root[data-theme="dark"] .theme-toggle:hover { background: #2C3568; }
+
+/* section grounds */
+:root:not([data-theme="gold"]) .gx-products { background: linear-gradient(145deg, #1B2146, #232B57); }
+:root:not([data-theme="gold"]) .gx-manifesto,
+:root:not([data-theme="gold"]) .gx-pricing { background: linear-gradient(145deg, #171C3E, #202753); }
+:root:not([data-theme="gold"]) .gx-about { background: linear-gradient(145deg, #252E5E, #1A2048); }
+:root:not([data-theme="gold"]) .gx-contact { background: linear-gradient(145deg, #222A55, #171D41); }
+.gx-footer { background: #101433; }
+
+/* headings, labels, body greys — kijivu-kijani kuwa kijivu-indigo */
+:root:not([data-theme="gold"]) .gx-section-index,
+:root:not([data-theme="gold"]) .gx-manifesto .gx-section-index { color: #A6B0DE; }
+:root:not([data-theme="gold"]) .gx-section-heading > p,
+:root:not([data-theme="gold"]) .gx-product-meta,
+:root:not([data-theme="gold"]) .gx-product-copy > p,
+:root:not([data-theme="gold"]) .gx-feature-list,
+:root:not([data-theme="gold"]) .gx-secondary-head,
+:root:not([data-theme="gold"]) .gx-secondary-copy p,
+:root:not([data-theme="gold"]) .gx-meeting-row span,
+:root:not([data-theme="gold"]) .gx-about-copy > p,
+:root:not([data-theme="gold"]) .gx-plan ul,
+:root:not([data-theme="gold"]) .gx-contact-bottom p,
+:root:not([data-theme="gold"]) .gx-contact-bottom small { color: #B6BEE6; }
+:root:not([data-theme="gold"]) .gx-forge-main p,
+:root:not([data-theme="gold"]) .gx-week-grid small,
+:root:not([data-theme="gold"]) .gx-pricing-note { color: #A2ACDA; }
+
+/* flagship + Prompt Forge window */
+:root:not([data-theme="gold"]) .gx-flagship {
+  color: var(--gx-ink);
+  background: linear-gradient(145deg, #2A3366, #1F2750);
+  border-color: #3A4580;
+}
+:root:not([data-theme="gold"]) .gx-product-meta i {
+  color: #E3D4FF;
+  background: rgba(200, 168, 255, .12);
+  border-color: rgba(200, 168, 255, .28);
+}
+:root:not([data-theme="gold"]) .gx-flagship-visual {
+  background: radial-gradient(circle at 75% 15%, rgba(119, 237, 251, .10), transparent 32%),
+              radial-gradient(circle at 18% 92%, rgba(119, 71, 155, .15), transparent 46%),
+              #171C3E;
+}
+:root:not([data-theme="gold"]) .gx-forge-window {
+  color: var(--gx-ink);
+  background: linear-gradient(145deg, rgba(48, 58, 112, .92), rgba(30, 38, 78, .94));
+  border-color: rgba(222, 214, 255, .22);
+  box-shadow: 0 32px 72px rgba(9, 12, 38, .52), 0 0 56px rgba(119, 237, 251, .06),
+              inset 1px 1px 0 rgba(255, 255, 255, .07);
+}
+:root:not([data-theme="gold"]) .gx-window-bar {
+  background: rgba(26, 33, 70, .84);
+  border-color: rgba(222, 214, 255, .16);
+}
+:root:not([data-theme="gold"]) .gx-forge-main { background: rgba(23, 29, 64, .50); }
+:root:not([data-theme="gold"]) .gx-forge-sidebar { background: rgba(14, 18, 46, .92); }
+:root:not([data-theme="gold"]) .gx-forge-sidebar b { color: #10254A; }
+:root:not([data-theme="gold"]) .gx-forge-inspector {
+  color: #E4E9FF;
+  background: rgba(40, 49, 98, .78);
+  border-color: rgba(222, 214, 255, .14);
+}
+:root:not([data-theme="gold"]) .gx-prompt-box {
+  color: #D7DDF6;
+  background: rgba(50, 60, 116, .83);
+  border-color: rgba(222, 214, 255, .20);
+}
+:root:not([data-theme="gold"]) .gx-quality-meter { background: #3A4480; }
+
+/* MinuteHub / ActionBook */
+:root:not([data-theme="gold"]) .gx-secondary-product.minute {
+  color: var(--gx-ink);
+  background: linear-gradient(145deg, #2A3468, #1E2550);
+  border-color: #3A4580;
+  box-shadow: 10px 12px 26px rgba(9, 12, 38, .34),
+             -7px -7px 18px rgba(142, 159, 219, .04),
+              inset 1px 1px 0 rgba(219, 189, 242, .09);
+}
+:root:not([data-theme="gold"]) .gx-secondary-product.action {
+  color: var(--gx-ink);
+  background: linear-gradient(145deg, #392C63, #241D47);
+  border-color: #50407F;
+  box-shadow: 10px 12px 26px rgba(9, 12, 38, .34),
+             -7px -7px 18px rgba(198, 160, 230, .04),
+              inset 1px 1px 0 rgba(240, 151, 247, .10);
+}
+:root:not([data-theme="gold"]) .gx-product-preview {
+  color: var(--gx-ink);
+  background: linear-gradient(145deg, rgba(49, 59, 114, .90), rgba(32, 40, 82, .88));
+  border-color: rgba(222, 214, 255, .19);
+  box-shadow: 0 20px 44px rgba(9, 12, 38, .28), inset 1px 1px 0 rgba(255, 255, 255, .08);
+}
+:root:not([data-theme="gold"]) .gx-meeting-row { border-color: rgba(222, 214, 255, .16); }
+:root:not([data-theme="gold"]) .gx-week-grid div {
+  background: rgba(18, 23, 54, .58);
+  border-color: rgba(222, 214, 255, .14);
+}
+:root:not([data-theme="gold"]) .gx-week-grid b {
+  color: #E4E9FF;
+  background: rgba(58, 69, 128, .88);
+}
+
+/* pricing */
+:root:not([data-theme="gold"]) .gx-plan {
+  background: linear-gradient(145deg, rgba(45, 55, 108, .84), rgba(25, 31, 66, .94));
+  border-color: #3A4580;
+  box-shadow: inset 1px 1px 0 rgba(219, 189, 242, .07);
+}
+:root:not([data-theme="gold"]) .gx-plan.featured {
+  color: #0F1A3C;
+  background: linear-gradient(145deg, #9FF4FF, #62B4F1);
+  box-shadow: 10px 12px 28px rgba(9, 12, 38, .30),
+              0 0 54px rgba(119, 237, 251, .15),
+              inset 1px 1px 0 rgba(255, 255, 255, .29);
+}
+:root:not([data-theme="gold"]) .gx-plan.featured .gx-plan-top,
+:root:not([data-theme="gold"]) .gx-plan.featured > p,
+:root:not([data-theme="gold"]) .gx-plan.featured .gx-price span { color: #1B4274; }
+:root:not([data-theme="gold"]) .gx-plan.featured ul { color: #16365F; }
+:root:not([data-theme="gold"]) .gx-plan.featured > a {
+  color: var(--gx-ink);
+  background: #171C3E;
+  border-color: #171C3E;
+}
+:root:not([data-theme="gold"]) .gx-plan-top small { color: #241544; }
+
+/* about + contact */
+:root:not([data-theme="gold"]) .gx-values { border-color: #3A4580; }
+:root:not([data-theme="gold"]) .gx-values span { color: #A8B2DE; border-color: #3A4580; }
+:root:not([data-theme="gold"]) .gx-contact-bottom { border-color: rgba(222, 214, 255, .22); }
+:root:not([data-theme="gold"]) .gx-contact-orb {
+  color: #10254A;
+  box-shadow: 0 0 44px rgba(119, 237, 251, .21);
+}
+:root:not([data-theme="gold"]) .gx-contact-orb:hover { color: #241544; }
+
+/* footer */
+.gx-footer .brand { color: var(--gx-ink); }
+.gx-footer .brand-name small { color: #8A93C4; }
+.gx-footer-col small { color: #6E78AE; }
+.gx-footer-col a { color: #A6AEDA; }
+.gx-footer > p { color: #8A93C4; }
+.gx-footer-bottom { color: #6E78AE; border-top-color: #28305C; }
+.gx-footer-bottom button { color: #9AA3D2; }
+
+</style>
   </head>
   <body>
     <div class="gx-loader" id="gxLoader" role="status" aria-live="polite">
