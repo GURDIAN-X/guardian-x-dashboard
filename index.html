@@ -486,10 +486,34 @@
       .gx-pricing-note { margin: 20px 0 0; color: #768183; font: 7px "DM Mono", monospace; letter-spacing: .07em; text-transform: uppercase; }
       .gx-pricing-note i { width: 6px; height: 6px; margin-right: 7px; display: inline-block; background: var(--coral); border-radius: 50%; }
       .gx-about { min-height: 600px; display: grid; grid-template-columns: 1fr 1fr; color: var(--gx-ink); background: linear-gradient(145deg, var(--gx-paper-light), #c2d0c7); }
-      .gx-about-visual { position: relative; min-height: 500px; display: grid; place-items: center; overflow: hidden; background: radial-gradient(circle at 48% 42%, rgba(75, 232, 209, .14), transparent 35%), linear-gradient(145deg, #adc6b9, #9fb8aa); }
-      .gx-about-logo { position: relative; z-index: 2; width: min(270px, 68%); aspect-ratio: 1; object-fit: contain; filter: drop-shadow(0 20px 34px rgba(0, 0, 0, .32)); }
-      .gx-about-visual > span { position: absolute; right: 4%; bottom: -10%; color: rgba(16, 22, 25, .04); font-size: 240px; font-weight: 800; letter-spacing: -.12em; }
-      .gx-about-visual > span b { color: rgba(255, 154, 103, .12); }
+      .gx-about-visual { position: relative; min-height: 500px; overflow: hidden; background: #101619; }
+      .gx-carousel { position: absolute; inset: 0; overflow: hidden; background: #101619; }
+      .gx-carousel-slide { position: absolute; inset: 0; overflow: hidden; opacity: 0; pointer-events: none; transform: scale(1.025); transition: opacity 650ms ease, transform 5.5s linear; }
+      .gx-carousel-slide.is-active { z-index: 1; opacity: 1; pointer-events: auto; transform: scale(1); }
+      .gx-carousel-slide img { width: 100%; height: 100%; display: block; object-fit: cover; transition: transform 7s ease; }
+      .gx-carousel-slide.is-active img { transform: scale(1.07); }
+      .gx-carousel-slide::after { position: absolute; inset: 0; content: ""; background: linear-gradient(180deg, rgba(5, 9, 9, .34), transparent 31%, transparent 42%, rgba(5, 9, 9, .82)); }
+      .gx-carousel-tag { position: absolute; z-index: 2; top: 112px; left: 26px; padding: 8px 10px; color: #fff; font: 8px "DM Mono", monospace; letter-spacing: .1em; background: rgba(7, 12, 12, .58); border: 1px solid rgba(255, 255, 255, .25); border-radius: 3px; backdrop-filter: blur(10px); }
+      .gx-carousel-caption { position: absolute; z-index: 2; right: 0; bottom: 0; left: 0; padding: 92px 32px 30px; color: #fff; }
+      .gx-carousel-caption small { color: var(--gx-lola-aqua); font: 8px "DM Mono", monospace; letter-spacing: .12em; text-transform: uppercase; }
+      .gx-carousel-caption h3 { margin: 8px 0 7px; font-size: 27px; font-weight: 600; }
+      .gx-carousel-caption p { max-width: 350px; margin: 0; color: rgba(255, 255, 255, .82); font-size: 11px; line-height: 1.55; }
+      .gx-carousel-caption a { color: inherit; font-size: 9px; text-underline-offset: 3px; }
+      .gx-carousel-controls { position: absolute; z-index: 3; top: 112px; right: 25px; display: flex; align-items: center; gap: 7px; }
+      .gx-carousel-arrow { width: 34px; height: 34px; display: grid; place-items: center; color: #fff; font-size: 23px; line-height: 1; background: rgba(7, 12, 12, .58); border: 1px solid rgba(255, 255, 255, .4); border-radius: 50%; cursor: pointer; backdrop-filter: blur(8px); }
+      .gx-carousel-arrow:hover, .gx-carousel-arrow:focus-visible { color: var(--gx-lola-aqua); border-color: var(--gx-lola-aqua); }
+      .gx-carousel-arrow:focus-visible, .gx-carousel-dot:focus-visible { outline: 2px solid #fff; outline-offset: 3px; }
+      .gx-carousel-dots { display: flex; align-items: center; gap: 5px; margin: 0 4px; }
+      .gx-carousel-dot { width: 8px; height: 8px; padding: 0; border: 0; border-radius: 50%; background: rgba(255, 255, 255, .55); cursor: pointer; }
+      .gx-carousel-dot[aria-current="true"] { background: var(--gx-lola-aqua); box-shadow: 0 0 0 3px rgba(255, 255, 255, .18); }
+      .gx-carousel-status { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
+      .gx-loader { position: fixed; inset: 0; z-index: 1000; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 25px; color: #f4f1e9; background: #030404; opacity: 1; visibility: visible; transition: opacity 560ms ease, visibility 0s linear 560ms; }
+      .gx-loader.is-hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+      .gx-loader-eyes { display: flex; align-items: center; gap: 24px; }
+      .gx-loader-eyes span { width: 43px; height: 15px; display: block; border: 1px solid rgba(255, 215, 143, .72); border-radius: 50%; background: radial-gradient(ellipse at center, #ffe2a1 0 12%, #d89132 25%, #704016 52%, #100c08 78%); box-shadow: 0 0 9px rgba(255, 173, 66, .72), 0 0 25px rgba(255, 139, 38, .38), inset 0 0 5px rgba(255, 236, 195, .7); transform-origin: center; animation: gx-dog-blink 4.8s infinite; }
+      .gx-loader-eyes span:nth-child(2) { animation-delay: .08s; }
+      .gx-loader p { margin: 0; color: #e5dfd1; font: 500 12px "DM Mono", monospace; letter-spacing: .12em; }
+      @keyframes gx-dog-blink { 0%, 12%, 16%, 64%, 68%, 100% { transform: scaleY(1); } 14%, 66% { transform: scaleY(.08); } }
       .gx-about-copy { padding: 88px clamp(28px, 7vw, 100px); align-self: center; }
       .gx-about h2 { margin: 32px 0 22px; font-size: clamp(48px, 5.5vw, 78px); font-weight: 500; line-height: .92; letter-spacing: -.06em; }
       .gx-about h2 em { color: var(--gx-teal-dark); }
@@ -579,9 +603,6 @@
       :root[data-theme="dark"] .gx-plan.featured > a { color: #edf4f2; background: #101619; border-color: #101619; }
       :root[data-theme="dark"] .gx-pricing-note { color: #a9b5b1; }
       :root[data-theme="dark"] .gx-about { color: #edf4f2; background: linear-gradient(145deg, #1d2928, #151d1e); }
-      :root[data-theme="dark"] .gx-about-visual { background: radial-gradient(circle at 48% 42%, rgba(75, 232, 209, .1), transparent 35%), linear-gradient(145deg, #263632, #182321); }
-      :root[data-theme="dark"] .gx-about-visual > span { color: rgba(237, 244, 242, .04); }
-      :root[data-theme="dark"] .gx-about-visual > span b { color: rgba(255, 191, 91, .1); }
       :root[data-theme="dark"] .gx-about h2 em { color: var(--gx-lola-aqua); }
       :root[data-theme="dark"] .gx-about-copy > p { color: #c4cfcb; }
       :root[data-theme="dark"] .gx-values { border-color: #3b4a47; }
@@ -666,9 +687,6 @@
       :root[data-theme="gold"] .gx-plan.featured > a { color: #f0eadc; background: #22231f; border-color: #22231f; }
       :root[data-theme="gold"] .gx-pricing-note { color: #c7b995; }
       :root[data-theme="gold"] .gx-about { color: #f0eadc; background: linear-gradient(145deg, #2d2b25, #24231f); }
-      :root[data-theme="gold"] .gx-about-visual { background: radial-gradient(circle at 48% 42%, rgba(255, 191, 91, .1), transparent 35%), linear-gradient(145deg, #39352c, #292923); }
-      :root[data-theme="gold"] .gx-about-visual > span { color: rgba(240, 234, 220, .05); }
-      :root[data-theme="gold"] .gx-about-visual > span b { color: rgba(255, 191, 91, .12); }
       :root[data-theme="gold"] .gx-about h2 em { color: #ffbf5b; }
       :root[data-theme="gold"] .gx-about-copy > p { color: #d1c6ae; }
       :root[data-theme="gold"] .gx-values { border-color: #5b5548; }
@@ -720,7 +738,10 @@
         .gx-plan.featured { transform: none; }
         .gx-about { grid-template-columns: 1fr; }
         .gx-about-visual { min-height: 320px; }
-        .gx-about-logo { width: min(220px, 62%); }
+        .gx-carousel-caption { padding: 72px 22px 24px; }
+        .gx-carousel-caption h3 { font-size: 22px; }
+        .gx-carousel-tag { left: 16px; }
+        .gx-carousel-controls { right: 16px; }
         .gx-about-copy { padding: 70px 22px; }
         .gx-about h2 { font-size: 59px; }
         .gx-contact { min-height: 610px; padding: 78px 22px 28px; grid-template-columns: 1fr; }
@@ -732,11 +753,22 @@
         .gx-footer-bottom { flex-direction: column; gap: 10px; }
         .gx-footer-bottom button { margin: 0; align-self: flex-start; }
       }
+      @media (max-width: 360px) {
+        .gx-carousel-tag { padding: 6px; font-size: 7px; }
+        .gx-carousel-controls { right: 10px; gap: 4px; }
+        .gx-carousel-arrow { width: 30px; height: 30px; }
+        .gx-carousel-dots { gap: 3px; margin: 0 2px; }
+        .gx-carousel-dot { width: 6px; height: 6px; }
+      }
       @media (max-width: 600px) { #adminDialog .auth-shell { transform: scale(0.88); } }
-      @media (prefers-reduced-motion: reduce) { .gx-ticker-track { animation: none; } .gx-stage-window { animation: none; } }
+      @media (prefers-reduced-motion: reduce) { .gx-ticker-track { animation: none; } .gx-stage-window { animation: none; } .gx-loader-eyes span { animation: none; } .gx-loader { transition: none; } .gx-carousel-slide, .gx-carousel-slide img { transition: none; } }
     </style>
   </head>
   <body>
+    <div class="gx-loader" id="gxLoader" role="status" aria-live="polite">
+      <div class="gx-loader-eyes" aria-hidden="true"><span></span><span></span></div>
+      <p>Loading Guardian-X ..</p>
+    </div>
     <header class="site-header" id="siteHeader">
       <a class="brand" href="/" aria-label="Guardian-X home">
         <img class="brand-logo" src="/assets/guardian-x-logo.png" alt="" />
@@ -886,7 +918,47 @@
       </section>
 
       <section class="gx-about" id="about" aria-labelledby="aboutTitle">
-        <div class="gx-about-visual"><img class="gx-about-logo" src="/assets/guardian-x-logo.png" alt="Guardian-X shield and flame logo" /></div>
+        <div class="gx-about-visual">
+          <div class="gx-carousel" id="aboutCarousel" role="region" aria-label="Illustrative scenes of people at work and study" aria-roledescription="carousel">
+            <article class="gx-carousel-slide is-active" role="group" aria-roledescription="slide" aria-label="1 of 5" aria-hidden="false">
+              <img src="/assets/carousel/students-prompt-forge.jpg" alt="Two students leaning over a laptop in a library" fetchpriority="high" />
+              <span class="gx-carousel-tag">ILLUSTRATIVE · 01 / 05</span>
+              <div class="gx-carousel-caption"><small>Prompt Forge</small><h3>Ideas take shape</h3><p>Students exploring ideas together with Prompt Forge.</p><a href="https://unsplash.com" target="_blank" rel="noreferrer">Photo via Unsplash</a></div>
+            </article>
+            <article class="gx-carousel-slide" role="group" aria-roledescription="slide" aria-label="2 of 5" aria-hidden="true">
+              <img src="/assets/carousel/office-minutehub.jpg" alt="Coworkers collaborating around a laptop in an office" />
+              <span class="gx-carousel-tag">ILLUSTRATIVE · 02 / 05</span>
+              <div class="gx-carousel-caption"><small>MinuteHub</small><h3>Work, shared</h3><p>Teams bringing their next project into focus with MinuteHub.</p><a href="https://unsplash.com/photos/four-coworkers-smiling-around-laptop-at-table-Of_m3hMsoAA" target="_blank" rel="noreferrer">Photo by Jud Mackrill on Unsplash</a></div>
+            </article>
+            <article class="gx-carousel-slide" role="group" aria-roledescription="slide" aria-label="3 of 5" aria-hidden="true">
+              <img src="/assets/carousel/manager-actionbook.jpg" alt="A manager working at a laptop in a modern office" />
+              <span class="gx-carousel-tag">ILLUSTRATIVE · 03 / 05</span>
+              <div class="gx-carousel-caption"><small>ActionBook</small><h3>One clear next step</h3><p>A focused moment with ActionBook for the work ahead.</p><a href="https://unsplash.com/photos/man-smiling-in-room-fXVx1opWGxM" target="_blank" rel="noreferrer">Photo by Jason Goodman on Unsplash</a></div>
+            </article>
+            <article class="gx-carousel-slide" role="group" aria-roledescription="slide" aria-label="4 of 5" aria-hidden="true">
+              <img src="/assets/carousel/friends-guardian-x.jpg" alt="Friends sharing a laptop at home" />
+              <span class="gx-carousel-tag">ILLUSTRATIVE · 04 / 05</span>
+              <div class="gx-carousel-caption"><small>Guardian-X</small><h3>Make room to create</h3><p>Turning a shared idea into a practical plan with Guardian-X.</p><a href="https://unsplash.com" target="_blank" rel="noreferrer">Photo via Unsplash</a></div>
+            </article>
+            <article class="gx-carousel-slide" role="group" aria-roledescription="slide" aria-label="5 of 5" aria-hidden="true">
+              <img src="/assets/carousel/remote-work-guardian-x.jpg" alt="A remote creative working on a laptop in a cafe" />
+              <span class="gx-carousel-tag">ILLUSTRATIVE · 05 / 05</span>
+              <div class="gx-carousel-caption"><small>Work anywhere</small><h3>Built around your day</h3><p>Digital tools that fit the rhythm of remote work.</p><a href="https://unsplash.com" target="_blank" rel="noreferrer">Photo via Unsplash</a></div>
+            </article>
+            <div class="gx-carousel-controls" role="group" aria-label="Carousel controls">
+              <button class="gx-carousel-arrow" type="button" data-carousel-step="-1" aria-label="Previous slide">&#x2039;</button>
+              <div class="gx-carousel-dots" role="group" aria-label="Choose a slide">
+                <button class="gx-carousel-dot" type="button" data-carousel-slide="0" aria-label="Show slide 1" aria-current="true"></button>
+                <button class="gx-carousel-dot" type="button" data-carousel-slide="1" aria-label="Show slide 2"></button>
+                <button class="gx-carousel-dot" type="button" data-carousel-slide="2" aria-label="Show slide 3"></button>
+                <button class="gx-carousel-dot" type="button" data-carousel-slide="3" aria-label="Show slide 4"></button>
+                <button class="gx-carousel-dot" type="button" data-carousel-slide="4" aria-label="Show slide 5"></button>
+              </div>
+              <button class="gx-carousel-arrow" type="button" data-carousel-step="1" aria-label="Next slide">&#x203A;</button>
+            </div>
+            <span class="gx-carousel-status" id="carouselStatus" aria-live="polite" aria-atomic="true"></span>
+          </div>
+        </div>
         <div class="gx-about-copy">
           <span class="gx-section-index">03 — ABOUT GUARDIAN-X</span>
           <h2 id="aboutTitle">Built with<br /><em>purpose.</em></h2>
@@ -956,6 +1028,78 @@
         </aside>
       </div>
     </dialog>
+
+    <script>
+      const loader = document.getElementById("gxLoader");
+      const loaderStartedAt = performance.now();
+      let loaderDismissed = false;
+      const hideLoader = () => {
+        if (!loader || loaderDismissed) return;
+        loaderDismissed = true;
+        const remainingTime = Math.max(0, 1400 - (performance.now() - loaderStartedAt));
+        window.setTimeout(() => loader.classList.add("is-hidden"), remainingTime);
+      };
+      if (document.readyState === "complete") hideLoader();
+      else window.addEventListener("load", hideLoader, { once: true });
+      window.setTimeout(hideLoader, 7000);
+
+      const carousel = document.getElementById("aboutCarousel");
+      if (carousel) {
+        const slides = Array.from(carousel.querySelectorAll(".gx-carousel-slide"));
+        const dots = Array.from(carousel.querySelectorAll("[data-carousel-slide]"));
+        const status = document.getElementById("carouselStatus");
+        const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+        const pauseReasons = new Set();
+        let currentSlide = 0;
+        let timer = 0;
+
+        const resetTimer = () => {
+          window.clearTimeout(timer);
+          if (pauseReasons.size || reducedMotion.matches || document.hidden) return;
+          timer = window.setTimeout(() => showSlide(currentSlide + 1), 6000);
+        };
+
+        const showSlide = (nextSlide, announce = false) => {
+          currentSlide = (nextSlide + slides.length) % slides.length;
+          slides.forEach((slide, index) => {
+            const active = index === currentSlide;
+            slide.classList.toggle("is-active", active);
+            slide.setAttribute("aria-hidden", String(!active));
+            slide.toggleAttribute("inert", !active);
+            if (active) slide.setAttribute("aria-label", `${index + 1} of ${slides.length}`);
+          });
+          dots.forEach((dot, index) => {
+            if (index === currentSlide) dot.setAttribute("aria-current", "true");
+            else dot.removeAttribute("aria-current");
+          });
+          if (announce && status) {
+            status.textContent = `Slide ${currentSlide + 1} of ${slides.length}: ${slides[currentSlide].querySelector("h3").textContent}`;
+          }
+          resetTimer();
+        };
+
+        carousel.querySelectorAll("[data-carousel-step]").forEach((button) => {
+          button.addEventListener("click", () => showSlide(currentSlide + Number(button.dataset.carouselStep), true));
+        });
+        dots.forEach((button) => {
+          button.addEventListener("click", () => showSlide(Number(button.dataset.carouselSlide), true));
+        });
+        const setPauseReason = (reason, paused) => {
+          if (paused) pauseReasons.add(reason);
+          else pauseReasons.delete(reason);
+          resetTimer();
+        };
+        carousel.addEventListener("mouseenter", () => setPauseReason("hover", true));
+        carousel.addEventListener("mouseleave", () => setPauseReason("hover", false));
+        carousel.addEventListener("focusin", () => setPauseReason("focus", true));
+        carousel.addEventListener("focusout", (event) => {
+          if (!carousel.contains(event.relatedTarget)) setPauseReason("focus", false);
+        });
+        document.addEventListener("visibilitychange", () => setPauseReason("visibility", document.hidden));
+        reducedMotion.addEventListener("change", resetTimer);
+        resetTimer();
+      }
+    </script>
 
     <script type="module">
       import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
