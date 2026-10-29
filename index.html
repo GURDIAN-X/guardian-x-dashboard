@@ -655,7 +655,6 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')finish()},{o
     <p class="rsec lbl">GUNDUA</p>
     <button class="ri" data-sec="jinsi"><span class="ric"><i data-lucide="workflow"></i></span><span class="lbl">Inavyofanya kazi</span></button>
     <button class="ri" data-sec="bei"><span class="ric"><i data-lucide="tag"></i></span><span class="lbl">Bei na vifurushi</span></button>
-    <button class="ri" data-sec="lugha"><span class="ric"><i data-lucide="languages"></i></span><span class="lbl">Lugha</span></button>
     <button class="ri" data-sec="mawasiliano"><span class="ric"><i data-lucide="message-circle"></i></span><span class="lbl">Wasiliana nasi</span></button>
   </div>
   <div class="rbot">
@@ -810,19 +809,9 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')finish()},{o
       </div>
     </section>
 
-    <section class="block" id="lugha" aria-labelledby="langT">
-      <span class="kick"><i></i>Lugha</span>
-      <h2 class="h2" id="langT">Chagua <span class="gc">lugha yako</span>.</h2>
-      <p class="lead">Soma Guardian-X kwa lugha unayoielewa vizuri zaidi. Unaweza kubadilisha wakati wowote.</p>
-      <div class="langsec">
-        <button class="lcard" data-lang="en" lang="en"><span class="rd" aria-hidden="true"></span><span><b>English</b><small>International edition</small></span></button>
-        <button class="lcard" data-lang="sw" lang="sw"><span class="rd" aria-hidden="true"></span><span><b>Kiswahili</b><small>Toleo la Kiswahili</small></span></button>
-      </div>
-    </section>
-
     <footer>
       <div class="fb"><b>Guardian-X Digital Solutions</b><span>Programu zinazoendeshwa na AI kwa timu na taasisi.</span></div>
-      <nav class="fl" aria-label="Footer"><button data-jump="jinsi">Jinsi inavyofanya kazi</button><button data-jump="kwanini">Kwa nini Guardian-X</button><button data-jump="bei">Bei</button><button data-jump="mawasiliano">Wasiliana</button><button data-jump="lugha">Lugha</button></nav>
+      <nav class="fl" aria-label="Footer"><button data-jump="jinsi">Jinsi inavyofanya kazi</button><button data-jump="kwanini">Kwa nini Guardian-X</button><button data-jump="bei">Bei</button><button data-jump="mawasiliano">Wasiliana</button></nav>
       <div class="fm"><span>© 2026 Guardian-X Digital Solutions. Haki zote zimehifadhiwa.</span><span>Makao makuu: Dodoma, Tanzania</span></div>
     </footer>
 
@@ -955,9 +944,9 @@ document.querySelectorAll('[data-open]').forEach(b=>b.onclick=()=>openL(b.datase
 $('copyMail').onclick=()=>{const t=$('mailTxt').textContent,s=$('copyMail').querySelector('span');const ok=()=>{s.textContent='Imenakiliwa';setTimeout(()=>s.textContent='Nakili',1800)};try{navigator.clipboard.writeText(t).then(ok,()=>{selectMail();s.textContent='Bonyeza Ctrl+C'})}catch(e){selectMail()}};
 function selectMail(){const r=document.createRange();r.selectNodeContents($('mailTxt'));const sl=getSelection();sl.removeAllRanges();sl.addRange(r)}
 /* scroll spy: light up the matching rail item as sections pass */
-const secMap={jinsi:'jinsi',kwanini:'jinsi',bei:'bei',mawasiliano:'mawasiliano',lugha:'lugha'};
+const secMap={jinsi:'jinsi',kwanini:'jinsi',bei:'bei',mawasiliano:'mawasiliano'};
 const spy=new IntersectionObserver(es=>{es.forEach(e=>{if(!e.isIntersecting)return;const id=e.target.id;if(id==='stage'||id==='heroTop'){setActive(rail.querySelector('.ri[data-k="'+cur+'"]'))}else if(secMap[id]){setActive(rail.querySelector('.ri[data-sec="'+secMap[id]+'"]'))}})},{rootMargin:'-45% 0px -50% 0px'});
-['stage','jinsi','kwanini','bei','mawasiliano','lugha'].forEach(i=>$(i)&&spy.observe($(i)));
+['stage','jinsi','kwanini','bei','mawasiliano'].forEach(i=>$(i)&&spy.observe($(i)));
 new ResizeObserver(moveNotch).observe($('rnav'));
 select('home');
 
