@@ -967,7 +967,7 @@ let tx=null;slider.addEventListener('touchstart',e=>tx=e.touches[0].clientX,{pas
 
 /* ===== account (Supabase) ===== */
 const MAIL='mailto:info@gurdianx.com';
-const sb=window.supabase?window.supabase.createClient('https://jurkvvygivalohhezezq.supabase.co','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imp1cmt2dnlnaXZhbG9oaGV6ZXpxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjAwMzUxMTYsImV4cCI6MjA3NTYxMTExNn0.mLCI1De4-PAfSdSZk9ZbPwwOoG0D3rZKC5O_WBUIzTo',{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}}):null;
+const sb=window.supabase?window.supabase.createClient('https://djshmmpjrvymrjpumegj.supabase.co','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRqc2htbXBqcnZ5bXJqcHVtZWdqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTk0ODMwOTUsImV4cCI6MjA3NTA1OTA5NX0.gFlX4nSudLOhcupnzqLaDcPKX_pRgTKqnzeQFe3y7VQ',{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}}):null;
 const ov=$('ov'),lc=$('lc'),lb=$('loginBtn');let user=null,pend={email:'',name:''};
 function drawShards(){const c=$('shards'),r=window.devicePixelRatio||1,W=innerWidth,H=innerHeight;c.width=W*r;c.height=H*r;const x=c.getContext('2d');x.scale(r,r);
  const C=Math.ceil(W/140)+1,R=Math.ceil(H/120)+1,Pt=[];for(let i=0;i<=R;i++){Pt[i]=[];for(let j=0;j<=C;j++){const e=(i>0&&i<R&&j>0&&j<C)?1:0;Pt[i][j]=[j*W/C+(Math.random()-.5)*70*e,i*H/R+(Math.random()-.5)*70*e]}}
@@ -1002,11 +1002,11 @@ $('lform').addEventListener('submit',async e=>{e.preventDefault();if(!sb){msg($(
  if(!pw){$('fp').classList.add('bad');msg($('le'),'Weka nenosiri lako');return}
  const b=$('lbtn');bsy(b,true);
  try{const r=await sb.auth.signInWithPassword({email:em,password:pw});
-  if(r.error){bsy(b,false,'Ingia');if(/confirm/i.test(r.error.message)){pend={email:em,name:''};try{await sb.auth.resend({type:'signup',email:em})}catch(x){}showOtp(em);return}
-   $('fp').classList.add('bad');msg($('le'),/invalid|credentials/i.test(r.error.message)?'Barua pepe au nenosiri si sahihi':netErr());return}
+  if(r.error){bsy(b,false,'Ingia');if(/confirm/i.test(r.error.message)){pend={email:em,name:''};let rs=null;try{rs=await sb.auth.resend({type:'signup',email:em})}catch(x){}if(rs&&rs.error&&!/rate|seconds/i.test(rs.error.message)){msg($('le'),authMsg(rs.error));return}showOtp(em);return}
+   $('fp').classList.add('bad');msg($('le'),/invalid|credentials/i.test(r.error.message)?'Barua pepe au nenosiri si sahihi':authMsg(r.error));return}
   done(b,r.data.user,'Ingia')}catch(x){bsy(b,false,'Ingia');msg($('le'),netErr())}});
 $('forgot').onclick=async()=>{if(!sb)return;const em=$('lu').value.trim().toLowerCase();if(!EM.test(em)){$('fu').classList.add('bad');msg($('le'),'Andika barua pepe yako kwanza, kisha bofya "Umesahau nenosiri?"');$('lu').focus();return}
- msg($('le'),'');try{const r=await sb.auth.resetPasswordForEmail(em,{redirectTo:location.origin+'/?auth=recovery'});msg($('le'),r.error?'Imeshindwa kutuma kiungo. Jaribu tena.':'Kama akaunti ipo, kiungo cha kuweka nenosiri jipya kimetumwa.',!r.error)}catch(x){msg($('le'),netErr())}};
+ msg($('le'),'');try{const r=await sb.auth.resetPasswordForEmail(em,{redirectTo:location.origin+'/?auth=recovery'});msg($('le'),r.error?authMsg(r.error):'Kama akaunti ipo, kiungo cha kuweka nenosiri jipya kimetumwa.',!r.error)}catch(x){msg($('le'),netErr())}};
 $('forgot').addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();$('forgot').click()}});
 $('sform').addEventListener('submit',async e=>{e.preventDefault();if(!sb){msg($('se2'),netErr());return}
  const n=$('sn'),m=$('se'),p=$('sp'),em=m.value.trim().toLowerCase();
@@ -1045,9 +1045,9 @@ otpIn.addEventListener('input',()=>{otpIn.value=otpIn.value.replace(/\D/g,'').sl
 ['click','focus','keyup'].forEach(ev=>otpIn.addEventListener(ev,()=>{const n=otpIn.value.length;try{otpIn.setSelectionRange(n,n)}catch(e){}}));
 $('otpForm').addEventListener('submit',async e=>{e.preventDefault();if(otpBusy||otpIn.value.length<OTP_LEN||!sb)return;otpBusy=true;otpBtn.classList.add('ld');
  try{const r=await sb.auth.verifyOtp({email:pend.email,token:otpIn.value,type:'signup'});
-  if(r.error){otpBusy=false;otpBtn.classList.remove('ld');otpRow.classList.remove('bad');void otpRow.offsetWidth;otpRow.classList.add('bad');otpNote(/expired|invalid/i.test(r.error.message)?'Msimbo si sahihi au umekwisha muda. Jaribu tena au tuma mpya.':netErr());return}
+  if(r.error){otpBusy=false;otpBtn.classList.remove('ld');otpRow.classList.remove('bad');void otpRow.offsetWidth;otpRow.classList.add('bad');otpNote(/expired|invalid/i.test(r.error.message)?'Msimbo si sahihi au umekwisha muda. Jaribu tena au tuma mpya.':authMsg(r.error));return}
   otpOk(r.data.user)}catch(x){otpBusy=false;otpBtn.classList.remove('ld');otpNote(netErr())}});
-$('otpRe').onclick=async()=>{if(otpBusy||!sb)return;otpBusy=true;try{const r=await sb.auth.resend({type:'signup',email:pend.email});otpBusy=false;if(r.error){otpNote(/rate|seconds|too many/i.test(r.error.message)?'Subiri kidogo kabla ya kutuma tena.':netErr());return}
+$('otpRe').onclick=async()=>{if(otpBusy||!sb)return;otpBusy=true;try{const r=await sb.auth.resend({type:'signup',email:pend.email});otpBusy=false;if(r.error){otpNote(authMsg(r.error));return}
   otpIn.value='';otpPaint();otpRow.classList.remove('bad');otpStart();otpNote('Msimbo mpya umetumwa',true);otpIn.focus()}catch(x){otpBusy=false;otpNote(netErr())}};
 $('otpBack').onclick=()=>{if(otpBusy)return;ov.classList.remove('otp');otpReset();setTimeout(()=>$('se').focus(),500)};
 
@@ -1055,7 +1055,7 @@ $('otpBack').onclick=()=>{if(otpBusy)return;ov.classList.remove('otp');otpReset(
 function showRec(){drawShards();ov.classList.remove('otp');lc.classList.remove('out');ov.classList.add('op','rec');setTimeout(()=>$('rp1').focus(),650)}
 $('recForm').addEventListener('submit',async e=>{e.preventDefault();if(!sb)return;const a=$('rp1').value,c=$('rp2').value,er=$('recErr');
  if(a.length<6){msg(er,'Nenosiri liwe na herufi 6 au zaidi');return}if(a!==c){msg(er,'Manenosiri hayafanani');return}
- const b=$('recBtn');b.disabled=true;try{const r=await sb.auth.updateUser({password:a});b.disabled=false;if(r.error){msg(er,/same|different/i.test(r.error.message)?'Chagua nenosiri tofauti na la awali.':netErr());return}
+ const b=$('recBtn');b.disabled=true;try{const r=await sb.auth.updateUser({password:a});b.disabled=false;if(r.error){msg(er,/same|different/i.test(r.error.message)?'Chagua nenosiri tofauti na la awali.':authMsg(r.error));return}
   msg(er,'Nenosiri limehifadhiwa',true);history.replaceState(null,'',location.pathname);setTimeout(()=>{closeL();if(r.data&&r.data.user)applyUser(r.data.user)},900)}catch(x){b.disabled=false;msg(er,netErr())}});
 if(sb){sb.auth.onAuthStateChange((ev,ses)=>{if(ev==='PASSWORD_RECOVERY'){setTimeout(showRec,0)}else if(ev==='SIGNED_OUT'){clearUser()}else if((ev==='INITIAL_SESSION'||ev==='SIGNED_IN'||ev==='TOKEN_REFRESHED')&&ses&&ses.user&&!ov.classList.contains('rec')){setTimeout(()=>{if(!user||user.id!==ses.user.id)applyUser(ses.user)},0)}})}
 
