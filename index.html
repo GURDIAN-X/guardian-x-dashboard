@@ -86,12 +86,12 @@ main{min-width:0;max-width:1520px;display:flex;flex-direction:column;gap:20px}
 .login{height:36px;padding:0 16px;border-radius:12px;border:1px solid rgba(255,255,255,.25);background:rgba(255,255,255,.1);cursor:pointer;font-size:14px;font-weight:600;white-space:nowrap;transition:transform .35s var(--spring)}
 .login:hover{transform:translateY(-2px)}
 .acct{display:flex;align-items:center;gap:8px;min-width:0}.acct [hidden]{display:none!important}
-.who{display:inline-flex;align-items:center;gap:8px;height:36px;padding:0 14px 0 4px;border-radius:999px;border:1px solid rgba(255,255,255,.25);background:rgba(255,255,255,.1);font-size:14px;font-weight:600;min-width:0;max-width:190px}
+.acct .who{display:inline-flex;align-items:center;gap:8px;height:36px;padding:0 14px 0 4px;border-radius:999px;border:1px solid rgba(255,255,255,.25);background:rgba(255,255,255,.1);font-size:14px;font-weight:600;min-width:0;max-width:190px}
 .whoav{flex:none;width:28px;height:28px;border-radius:50%;display:grid;place-items:center;background:linear-gradient(135deg,var(--flame1),var(--flame2));color:#fff;font-size:12px;font-weight:700}
 .whon{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
 .lout{flex:none;height:36px;padding:0 14px;display:inline-flex;align-items:center;gap:7px;border-radius:12px;border:1px solid rgba(255,255,255,.25);background:rgba(255,255,255,.1);color:inherit;cursor:pointer;font:inherit;font-size:14px;font-weight:600;white-space:nowrap;transition:transform .35s var(--spring),background .2s}
 .lout:hover{transform:translateY(-2px);background:rgba(255,255,255,.18)}.lout [data-lucide],.lout svg{width:16px;height:16px}
-@media (max-width:560px){.lout{width:36px;padding:0;justify-content:center}.lout span{display:none}.signed .top{height:auto;min-height:56px;flex-wrap:wrap;row-gap:6px;padding-top:8px;padding-bottom:8px}.signed .crumb{flex:1 1 100%}.signed .lang{margin-left:auto}.signed .who{max-width:150px}}
+@media (max-width:560px){.lout{width:36px;padding:0;justify-content:center}.lout span{display:none}.signed .top{height:auto;min-height:56px;flex-wrap:wrap;row-gap:6px;padding-top:8px;padding-bottom:8px}.signed .crumb{flex:1 1 100%}.signed .lang{margin-left:auto}.signed .acct .who{max-width:150px}}
 .login.av{width:36px;padding:0;border-radius:50%;background:linear-gradient(135deg,var(--flame1),var(--flame2));color:#fff}
 .grid{display:grid;grid-template-columns:minmax(0,1fr) 330px;gap:20px;align-items:start}
 
@@ -561,6 +561,83 @@ a.b1,a.b2{text-decoration:none}a.b2{color:var(--ink)}
 @media (max-width:1240px){.rc{grid-template-rows:none;align-items:stretch}.hangbox,.slider{height:380px}}
 @media (max-width:520px){.crumb .cs,.crumb .cur{display:none}}
 @media (max-width:640px){.hangbox,.slider{height:360px}footer{grid-template-columns:minmax(0,1fr)}footer .fl{justify-content:flex-start}.crumb .cm{display:none}.hero{gap:22px}}
+/* ---------- REORGANISATION PASS: grouping, rules, justified copy, reveal ---------- */
+:root{--rule:linear-gradient(90deg,rgba(255,179,71,.6),rgba(119,237,251,.4) 55%,transparent)}
+.sechead{position:relative;padding-bottom:20px}
+.sechead::after{content:"";position:absolute;left:0;bottom:0;width:min(220px,45%);height:2px;border-radius:2px;background:var(--rule);opacity:.85}
+.long-form-copy{text-align:justify;text-align-last:start;text-justify:inter-word;hyphens:auto;overflow-wrap:break-word}
+/* shared parent surfaces: one box per group instead of one box per item */
+.surf,.steps,.feats,.prices,.contact{gap:0;border:1px solid var(--line);border-radius:26px;background:linear-gradient(165deg,rgba(255,255,255,.07),rgba(255,255,255,.02));margin-top:26px}
+.steps>.step,.feats>.feat,.prices>.plan,.contact>.cbox,.pitems>.pitem{border:0;border-radius:0;background:none;box-shadow:none;padding:24px}
+.steps>.step:hover,.feats>.feat:hover,.prices>.plan:hover,.pitems>.pitem:hover{transform:none;background:none}
+.feat .fi{border:0}
+/* hairline dividers between peer cells (3 columns) */
+.steps>.step+.step,.feats>.feat:not(:nth-child(3n+1)),.pitems--3>.pitem+.pitem{border-left:1px solid var(--line)}
+.feats>.feat:nth-child(n+4){border-top:1px solid var(--line)}
+.prices>.plan+.plan,.pitems--2>.pitem+.pitem,.contact>.cbox+.cbox{border-left:1px solid var(--line)}
+.prices>.plan.best{border:2px solid rgba(255,179,71,.75);border-radius:22px;margin:-1px;position:relative;z-index:1;background:linear-gradient(170deg,rgba(255,179,71,.14),rgba(255,106,61,.04));box-shadow:0 20px 50px rgba(255,106,61,.18)}
+.prices>.plan.best+.plan{border-left:0}
+.plan .pb{left:22px}
+.plan ul{position:relative;padding-bottom:16px}
+.plan ul::after{content:"";position:absolute;left:0;right:0;bottom:0;height:1px;background:var(--rule);opacity:.75}
+.steps .step p,.feats .feat p{text-wrap:pretty}
+/* products and services */
+.pgroups{display:flex;flex-direction:column}
+.pgrp{padding-top:24px}
+.pgrp+.pgrp{border-top:1px solid var(--line)}
+.pgrp__head{display:flex;align-items:baseline;flex-wrap:wrap;gap:4px 16px;padding:0 24px 18px}
+.pgrp__head h3{font-family:var(--display);font-size:20px;font-weight:600;margin:0}
+.pgrp__head p{margin:0;color:var(--mute);font-size:14px}
+.pitems{display:grid;border-top:1px solid var(--line)}
+.pitems--2{grid-template-columns:minmax(0,1.35fr) minmax(0,1fr)}
+.pitems--3{grid-template-columns:repeat(3,minmax(0,1fr))}
+.pitem{display:flex;flex-direction:column;gap:10px;min-width:0}
+.pitem__top{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.pic{width:42px;height:42px;border-radius:14px;display:grid;place-items:center;font-size:20px;background:rgba(119,237,251,.1);color:var(--cyan)}
+.pitem h4{font-family:var(--display);font-size:22px;font-weight:600;margin:4px 0 0;line-height:1.15}
+.pitem p{margin:0;color:#c7cbe8;font-size:14.5px;text-wrap:pretty}
+.pitem__act{position:relative;margin-top:auto;padding-top:18px}
+.pitem__act::before{content:"";position:absolute;left:0;right:0;top:0;height:1px;background:var(--rule);opacity:.75}
+.pitem__act::before{top:6px}
+.pitem__act{padding-top:24px}
+.pst{font-size:11px;font-weight:600;padding:2px 9px;border-radius:999px;white-space:nowrap}
+.pst.new{background:rgba(119,237,251,.14);color:var(--cyan);border:1px solid rgba(119,237,251,.35)}
+.pst.soon{background:rgba(169,139,255,.16);color:#d4c6ff;border:1px solid rgba(169,139,255,.35)}
+.pst.svc{font-family:var(--mono);font-weight:500;letter-spacing:.04em;color:var(--mute);border:1px solid var(--line);white-space:normal;text-align:right;min-width:0;border-radius:12px}
+/* scroll reveal: opt-in by script, uses individual transform properties so hover transforms are untouched */
+.js-rv .rv{opacity:0;translate:0 16px;transition:opacity .45s ease,translate .5s cubic-bezier(.22,1,.36,1);transition-delay:calc(var(--i,0)*60ms)}
+.js-rv .rv.in{opacity:1;translate:none}
+@media print{.js-rv .rv{opacity:1;translate:none}}
+@media (max-width:1100px){
+  .feats>.feat{border-left:0;border-top:0}
+  .feats>.feat:nth-child(even){border-left:1px solid var(--line)}
+  .feats>.feat:nth-child(n+3){border-top:1px solid var(--line)}
+  .prices>.plan{border-left:0;border-top:0}
+  .prices>.plan:nth-child(even){border-left:1px solid var(--line)}
+  .prices>.plan:nth-child(n+3){border-top:1px solid var(--line)}
+  .prices>.plan.best,.prices>.plan.best+.plan{border-top:0}
+  .prices>.plan.best{border:2px solid rgba(255,179,71,.75)}
+}
+@media (max-width:900px){
+  .steps>.step{border-left:0}.steps>.step+.step{border-top:1px solid var(--line)}
+}
+@media (max-width:900px){
+  .pitems--3{grid-template-columns:minmax(0,1fr)}
+  .pitems--3>.pitem+.pitem{border-left:0;border-top:1px solid var(--line)}
+}
+@media (max-width:760px){
+  .long-form-copy{text-align:start;hyphens:manual}
+  .pitems--2{grid-template-columns:minmax(0,1fr)}
+  .pitems--2>.pitem+.pitem{border-left:0;border-top:1px solid var(--line)}
+}
+@media (max-width:640px){
+  .feats>.feat,.feats>.feat:nth-child(even),.prices>.plan,.prices>.plan:nth-child(even),.contact>.cbox{border-left:0}
+  .feats>.feat+.feat,.prices>.plan+.plan,.contact>.cbox+.cbox{border-top:1px solid var(--line)}
+  .prices>.plan.best{border:2px solid rgba(255,179,71,.75)}
+  .prices>.plan.best+.plan{border-top:0}
+  .steps>.step,.feats>.feat,.prices>.plan,.contact>.cbox,.pitems>.pitem{padding:20px}
+  .pgrp__head{padding:0 20px 16px}
+}
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
 </style>
 </head>
@@ -569,6 +646,7 @@ a.b1,a.b2{text-decoration:none}a.b2{color:var(--ink)}
 <script>
 (function(){
 var D={"BIDHAA": "PRODUCTS", "Nyumbani": "Home", "Mpya": "New", "Inakuja": "Soon", "Dashibodi za taasisi": "Institution dashboards", "HUDUMA": "SERVICES", "Apps za simu": "Mobile apps", "Tovuti na mifumo": "Websites & systems", "GUNDUA": "EXPLORE", "Inavyofanya kazi": "How it works", "Bei na vifurushi": "Pricing", "Wasiliana nasi": "Contact us", "Arifa": "Notifications", "Mgeni": "Guest", "Ingia au jisajili": "Log in or sign up", "Toka": "Log out", "Karibu Guardian-X": "Welcome to Guardian-X", "Chagua bidhaa kwenye menyu uione katikati": "Pick a product in the menu to preview it", "Toleo jipya la Windows liko tayari": "A new Windows release is ready", "Inaboreshwa, itarudi hivi karibuni": "Being improved, back soon", "Ingia": "Log in", "Zana za kidijitali": "Digital tools", "zilizojengwa Tanzania": "built in Tanzania", ", kwa ajili ya": ", made for", "kazi zako za kila siku": "the work you do every day", "Tunatengeneza programu za kompyuta, simu na tovuti zinazokuokolea muda: kuanzia kuandaa": "We build desktop, mobile and web software that saves you time, from crafting", "prompt bora za AI": "better AI prompts", "hadi kufuatilia bajeti na mipango ya taasisi. Kwa Kiswahili na Kiingereza, kwa bei inayokufaa.": "to tracking institutional budgets and plans. In English and Kiswahili, at a price that works for you.", "Jaribu Prompt Forge": "Try Prompt Forge", "Tazama bei": "See pricing", "Kiswahili + English": "English + Kiswahili", "Lipa kwa simu au PayPal": "Pay by mobile money or PayPal", "Suluhisho dogo,": "Small tools,", "matokeo makubwa": "big results", "Apps za simu na web zinazotatua matatizo madogo ya kazini kwa haraka.": "Mobile and web apps that solve everyday work problems fast.", "Anza sasa": "Start now", "Jifunze zaidi": "Learn more", "Lugha": "Language", "Usalama": "Security", "Data yako ni yako": "Your data stays yours", "Inapatikana": "Available on", "Simu, web, Windows": "Mobile, web, Windows", "Weka tangazo lako hapa": "Advertise here", "Bonyeza kurudi": "Tap to flip back", "Buruta na urushe": "Drag and toss", "Yumba": "Sway", "Prompt Forge · hatua tatu": "Prompt Forge · three steps", "Hakuna haja ya kujua": "No need to speak", "lugha ya AI": "AI's language", ". Wewe sema tu": ". Just say", "unachotaka": "what you want", "AI inakupa majibu bora pale unapoiuliza vizuri. Prompt Forge inafanya kazi hiyo ngumu kwa niaba yako, hatua kwa hatua.": "AI gives better answers when you ask it well. Prompt Forge does that hard part for you, step by step.", "Andika wazo lako": "Write your idea", "Kwa Kiswahili au Kiingereza, jinsi unavyoliwaza. Sentensi moja inatosha kuanza.": "In English or Kiswahili, the way you think it. One sentence is enough to start.", "Bofya majibu": "Tap your answers", "Prompt Forge inakuuliza maswali machache yenye chaguo za kubofya, ili kuelewa hasa unachohitaji.": "Prompt Forge asks a few questions with tap-to-choose options, so it understands exactly what you need.", "Pokea prompt kamili": "Get the finished prompt", "Prompt iliyopangwa pamoja na maelezo ya kiufundi, tayari kunakili kwa mbofyo mmoja na kuitumia kwenye ChatGPT, Claude au Gemini.": "A structured prompt with technical detail, ready to copy in one click and use in ChatGPT, Claude or Gemini.", "Kwa nini Guardian-X": "Why Guardian-X", "Imejengwa kwa": "Built for", "mazingira yetu": "real-world work", ", si kunakiliwa kutoka kwingine.": ", not copied from somewhere else.", "Lugha yako": "Your language", "Kila skrini inapatikana kwa Kiswahili na Kiingereza. Badilisha lugha wakati wowote kwa kubofya mara moja.": "Every screen works in English and Kiswahili. Switch languages any time with one click.", "AI nne nyuma yako": "Four AIs behind you", "Vifurushi vya kulipia vinatumia Claude kwanza. Ikikwama, OpenAI, Grok au Gemini zinaendelea na kazi bila wewe kuona tofauti.": "Paid plans use Claude first. If it stalls, OpenAI, Grok or Gemini carry on without you noticing.", "Usalama kwanza": "Security first", "Funguo za AI zinakaa kwenye seva yetu, si kwenye kompyuta yako. Nenosiri jipya hukaguliwa dhidi ya orodha ya nenosiri zilizowahi kuvuja, bila nenosiri lenyewe kutoka kwenye kifaa chako.": "AI keys stay on our server, never on your computer. New passwords are checked against lists of known leaked passwords, without the password itself leaving your device.", "Lipa kwa njia unayoijua": "Pay your way", "Lipa Namba kwa M-Pesa, Airtel Money, Mixx by Yas, Halopesa au T-Pesa. Wateja wa nje ya nchi wanalipa kwa PayPal.": "Mobile money in Tanzania (M-Pesa, Airtel Money, Mixx by Yas, Halopesa, T-Pesa) through Lipa Namba, and PayPal for customers anywhere else in the world.", "Inakaa juu ya skrini yako": "Lives at the top of your screen", "Prompt Forge ni kisiwa kidogo juu ya skrini ya Windows. Kifungue wakati wowote bila kuacha kazi unayoifanya.": "Prompt Forge is a small island at the top of your Windows screen. Open it any time without leaving what you're doing.", "Inatafuta mtandaoni": "Searches the web", "Inapohitaji taarifa za sasa, inatafuta mtandaoni ili prompt yako ijengwe juu ya ukweli wa leo.": "When it needs current information, it searches the web so your prompt is built on today’s facts.", "Bei na vifurushi · Prompt Forge": "Pricing · Prompt Forge", "Anza": "Start", "bure": "free", ". Panda daraja": ". Upgrade", "unapokua": "as you grow", "Unaweza kujaribu mara moja bila hata kujisajili. Ukipenda, fungua akaunti na uchague kifurushi kinacholingana na kasi ya kazi yako.": "Try it once without even signing up. If you like it, create an account and pick the plan that matches your pace of work.", "Kwa kuanza na kujifunza": "For getting started", "Prompt 3 za kwanza bure": "First 3 prompts free", "Kisha prompt 1 kila baada ya saa 6": "Then 1 prompt every 6 hours", "Inatumia ufunguo wako wa bure wa Gemini": "Uses your own free Gemini key", "Anza bure": "Start free", "Kwa wanafunzi na matumizi mepesi": "For students and light use", "/ mwezi": "/ month", "Prompt 6 kila wiki mpya": "6 prompts each new week", "Kisha 1 kila baada ya saa 3": "Then 1 every 3 hours", "Chagua Starter": "Choose Starter", "INAPENDEKEZWA": "RECOMMENDED", "Kwa kazi za kila siku ofisini": "For everyday office work", "Prompt 12 kila wiki mpya": "12 prompts each new week", "Kisha 1 kila baada ya dakika 90": "Then 1 every 90 minutes", "AI mbadala ziko tayari endapo moja itakwama": "Backup AIs ready if one stalls", "Chagua Pro": "Choose Pro", "Kwa watafiti na wabunifu": "For researchers and creators", "Claude Opus, AI yenye uwezo mkubwa zaidi": "Claude Opus, the most capable AI", "Prompt 24 kila wiki mpya": "24 prompts each new week", "Kisha 1 kila baada ya dakika 45": "Then 1 every 45 minutes", "uliza swali lolote la utafiti, si prompt tu": "ask any research question, not just prompts", "Chagua Innovator": "Choose Innovator", "Bei ni kwa Dola za Marekani kwa mwezi. Kila kifurushi kina kikomo cha haki cha matumizi kwa wiki. Maswali ya ufafanuzi hayahesabiwi; prompt kamili ya mwisho ndiyo inayohesabiwa.": "Prices are in US dollars per month. Every plan has a fair weekly usage limit. Clarifying questions don't count; only the final finished prompt does.", "Wazo lako la kwanza linastahili": "Your first idea deserves a", "prompt bora": "great prompt", "Jaribu Prompt Forge mara moja, bure, bila kujisajili.": "Try Prompt Forge once, free, without signing up.", "Fungua akaunti": "Create account", "Ona mfano": "See an example", "Una changamoto ndogo ya kazini?": "Got a small problem at work?", "Tuambie": "Tell us", "Eleza tatizo lako kwa ufupi. Tutakushauri kama zana iliyopo inatosha, au kama unahitaji suluhisho maalum kwa ajili yako au taasisi yako.": "Describe it briefly. We'll tell you whether an existing tool is enough, or whether you need a custom solution for you or your organisation.", "Barua pepe": "Email", "Nakili": "Copy", "Tunajibu kwa Kiswahili au Kiingereza.": "We reply in English or Kiswahili.", "Mahali": "Headquarters", "Huduma zetu zinapatikana mtandaoni popote ulipo.": "Our services are available online, wherever you are.", "© 2026 Guardian-X. Haki zote zimehifadhiwa.": "© 2026 Guardian-X. All rights reserved.", "Huna akaunti?": "No account?", "Jisajili": "Sign up", "Umesahau nenosiri?": "Forgot password?", "Una akaunti tayari?": "Already have an account?", "HABARI,": "HELLO,", "RAFIKI!": "FRIEND!", "Weka taarifa zako na uanze safari yako pamoja nasi.": "Enter your details and start your journey with us.", "KARIBU": "WELCOME", "TENA!": "BACK!", "Tayari una akaunti? Ingia uendelee ulipoishia.": "Already have an account? Log in and pick up where you left off.", "Menyu ya Guardian-X": "Guardian-X menu", "Panua menyu": "Expand menu", "Onyesho la bidhaa": "Product showcase", "Bidhaa": "Products", "Matangazo na watumiaji": "Ads and users", "Tangazo, buruta kurusha au bonyeza kugeuza": "Ad: drag to toss or tap to flip", "Kwa kila mtu": "For everyone", "Picha iliyotangulia": "Previous photo", "Picha inayofuata": "Next photo", "Funga": "Close", "Jina la mtumiaji": "Username", "Nenosiri": "Password", "Onyesha nenosiri": "Show password", "Jina kamili": "Full name", "barua@mfano.com": "name@example.com", "Nenosiri (herufi 6+)": "Password (6+ characters)", "Nenosiri jipya": "New password", "Bidhaa na huduma": "Products and services", "Chagua <span class=\"gc\">zana</span>, tukuonyeshe <span class=\"gf\">inavyofanya kazi</span>": "Pick a <span class=\"gc\">tool</span> and we’ll show you <span class=\"gf\">how it works</span>", "Bofya bidhaa yoyote hapa chini au kwenye menyu ya kushoto, uone mfano wake ndani ya dirisha hili.": "Tap any product below or in the left menu to preview it in this window.", "Anza na Prompt Forge": "Start with Prompt Forge", "Teknolojia": "Technology", "Kompyuta, simu, web": "Desktop, mobile, web", "Bidhaa mpya": "New product", "Kutoka <span class=\"gv\">wazo ghafi</span> hadi <span class=\"gf\">prompt kamili</span>": "From <span class=\"gv\">rough idea</span> to <span class=\"gf\">finished prompt</span>", "Andika unachotaka kwa maneno yako. Prompt Forge inakuuliza maswali machache yenye chaguo za kubofya, kisha inakuandalia prompt iliyopangwa, tayari kwa ChatGPT, Claude au Gemini.": "Describe what you want in your own words. Prompt Forge asks a few tap-to-choose questions, then prepares a structured prompt ready for ChatGPT, Claude or Gemini.", "Makundi": "Categories", "Aina 9 za prompt": "9 prompt types", "Malipo": "Payments", "Lipa Namba au PayPal": "Lipa Namba or PayPal", "Inakuja hivi karibuni": "Coming soon", "Kila azimio la kikao, <span class=\"gc\">linafuatiliwa</span> hadi <span class=\"gf\">likamilike</span>": "Every meeting resolution, <span class=\"gc\">tracked</span> until <span class=\"gf\">done</span>", "Andika muhtasari, gawa maazimio kwa wahusika na fuatilia utekelezaji hadi kikao kijacho. Tunaiboresha sasa; tuandikie upate taarifa itakapokuwa tayari.": "Write the minutes, assign resolutions to owners and track progress until the next meeting. We are improving it now; write to us to hear when it is ready.", "Nijulishe ikitoka": "Notify me", "Muundo": "Structure", "Muhtasari + Yatokanayo": "Minutes + matters arising", "Ufuatiliaji": "Tracking", "Hali ya kila azimio": "Status of every resolution", "Kiswahili Sanifu": "Standard Kiswahili", "Kwa ofisi na taasisi": "For offices and institutions", "Bajeti, mipango na hatari <span class=\"gc\">kwa mtazamo mmoja</span>": "Budget, plans and risk <span class=\"gc\">at a glance</span>", "Tunajenga dashibodi zinazosoma data ya taasisi yako na kuonyesha matumizi ya bajeti, utekelezaji wa mpango mkakati na rejista ya hatari, tayari kwa kikao cha Menejimenti.": "We build dashboards that read your institution’s data and show budget execution, strategic plan progress and the risk register, ready for the management meeting.", "Omba onyesho": "Request a demo", "Maeneo": "Areas", "Bajeti, mipango, hatari": "Budget, plans, risk", "Ripoti": "Reports", "Kwa Menejimenti": "For management", "Inabaki kuwa yako": "Stays yours", "Android na iOS": "Android and iOS", "App yako, <span class=\"gf\">mfukoni mwa kila mteja</span>": "Your app, <span class=\"gf\">in every customer’s pocket</span>", "Tunajenga apps za simu kwa Flutter, zenye kuingia kwa usalama na data kwenye Supabase, zilizoundwa kukua kadri watumiaji wako wanavyoongezeka.": "We build Flutter mobile apps with secure sign-in and data on Supabase, designed to grow as your users grow.", "Anza mradi wako": "Start your project", "Mifumo": "Platforms", "Tovuti inayo<span class=\"gv\">vutia</span> na <span class=\"gc\">kufanya kazi</span>": "A website that <span class=\"gv\">attracts</span> and <span class=\"gc\">works</span>", "Kurasa za kutua, mifumo ya ndani ya ofisi na dashibodi kwa React na TypeScript, kwa muundo wa kisasa wa kioo kama ukurasa huu unaousoma.": "Landing pages, internal office systems and dashboards in React and TypeScript, with a modern glass design like the page you are reading.", "Mtindo": "Style", "Glass na spatial UI": "Glass and spatial UI", "Hifadhi": "Storage", "Nataka prompt ya kuandaa muhtasari wa kikao cha kamati": "I want a prompt to draft committee meeting minutes", "Muhtasari huu ni wa kikao gani?": "Which meeting are these minutes for?", "Kamati ya Bajeti": "Budget Committee", "Baraza": "Council", "Idara": "Department", "Prompt kamili iko tayari": "Your finished prompt is ready", "Muundo · sauti rasmi · Kiswahili Sanifu": "Structure · formal tone · clear language", "Kikao cha Kamati ya Mipango": "Planning Committee meeting", "Kimepitishwa": "Approved", "Azimio 1 · Kuandaa taarifa ya robo": "Resolution 1 · Prepare the quarterly report", "Imetekelezwa": "Done", "Azimio 2 · Kupitia rejista ya hatari": "Resolution 2 · Review the risk register", "Inaendelea": "In progress", "Azimio 3 · Kuwasilisha bajeti": "Resolution 3 · Submit the budget", "Inasubiri": "Pending", "Matumizi ya bajeti kwa robo": "Budget execution by quarter", "mfano": "example", "R1": "Q1", "R2": "Q2", "R3": "Q3", "R4": "Q4", "tovuti-yako.co.tz": "your-site.co.tz", "Maelekezo bora ya AI kwa sekunde chache": "Better AI prompts in seconds", "Mihtasari ya vikao bila usumbufu": "Meeting minutes without the hassle", "Vikao": "Meetings", "SW · EN": "EN · SW", "Apps za simu na tovuti kwa Flutter na React": "Mobile apps and websites in Flutter and React", "Huduma zetu": "Our services", "Jenga": "Build", "SIMU NA WEB": "MOBILE AND WEB", "Huduma": "Service", "Dashibodi za bajeti, mipango na hatari": "Budget, planning and risk dashboards", "Kwa taasisi": "For institutions", "RIPOTI ZA OFISI": "OFFICE REPORTS", "Taasisi": "Institutions", "DASHIBODI · DASHIBODI": "DASHBOARDS · DASHBOARDS", "Wanafunzi": "Students", "Panga maswali ya utafiti na kazi za darasani kwa prompt sahihi": "Plan research questions and coursework with precise prompts", "Watumishi wa ofisi": "Office staff", "Andaa taarifa, barua na mawasilisho kwa haraka zaidi": "Prepare reports, letters and presentations faster", "Vikundi vya kujisomea": "Study groups", "Shirikianeni kwenye mradi mmoja, kila mmoja na prompt yake": "Work on one project together, each with their own prompt", "Wajasiriamali": "Entrepreneurs", "Tangaza biashara yako kwa maneno yanayouza": "Promote your business with words that sell", "Wanafunzi wakitumia laptop": "Students using a laptop", "Watumishi wa ofisi wakitumia laptop": "Office staff using a laptop", "Vikundi vya kujisomea wakitumia laptop": "A study group using a laptop", "Wajasiriamali wakitumia laptop": "An entrepreneur using a laptop", "Picha 1": "Photo 1", "Picha 2": "Photo 2", "Picha 3": "Photo 3", "Picha 4": "Photo 4", "Andika jina la mtumiaji kwanza": "Enter your username first", "Nenosiri lina herufi chache mno": "That password is too short", "Andika jina lako kamili": "Enter your full name", "Barua pepe si sahihi": "That email address doesn’t look right", "Nenosiri liwe na herufi 6 au zaidi": "Use 6 or more characters", "Umeingia": "Signed in", " (bonyeza kutoka)": " (tap to log out)", "Imenakiliwa": "Copied", "Bonyeza Ctrl+C": "Press Ctrl+C", "Jinsi inavyofanya kazi": "How it works", "Bei": "Pricing", "Wasiliana": "Contact", "Guardian-X Digital Solutions · Programu zinazoendeshwa na AI": "Guardian-X Digital Solutions · AI-powered software", "Programu mahiri,": "Intelligent software,", "zilizobuniwa": "engineered", "kwa jinsi": "for the way", "unavyofanya kazi": "you work", "Guardian-X inabuni programu za kompyuta, simu na tovuti zinazoendeshwa na AI na kurudisha muda wa timu na taasisi: kuanzia": "Guardian-X builds AI-powered desktop, mobile and web software that gives teams and institutions their time back: from", "uhandisi wa prompt za AI": "AI prompt engineering", "hadi mipango na bajeti ya taasisi. Imejengwa kwa lugha nyingi tangu mwanzo, na bei iliyo wazi.": "to institutional planning and budgeting. Multilingual by design, with transparent pricing.", "Chagua": "Choose", "lugha yako": "your language", "Soma Guardian-X kwa lugha unayoielewa vizuri zaidi. Unaweza kubadilisha wakati wowote.": "Read Guardian-X in the language you’re most comfortable with. You can switch at any time.", "Programu zinazoendeshwa na AI kwa timu na taasisi.": "AI-powered software for teams and institutions.", "© 2026 Guardian-X Digital Solutions. Haki zote zimehifadhiwa.": "© 2026 Guardian-X Digital Solutions. All rights reserved.", "Makao makuu: Dodoma, Tanzania": "Headquartered in Dodoma, Tanzania"};
+D['Zana tayari kutumia, na huduma za kujengwa kwa ajili yako.']='Ready-made tools, and services built for you.';D['Bidhaa zilizo tayari']='Ready-made products';D['Zinatumika sasa au zinakaribia kutoka.']='Available now or coming soon.';D['Huduma maalum']='Custom services';D['Tunazijenga kulingana na mahitaji ya ofisi au taasisi yako.']='We build them around the needs of your office or institution.';D['Tazama onyesho']='See the demo';
 D['Rock anaamka…']='Rock is waking up…';D['Ruka']='Skip';D['Thibitisha ni wewe']='Verify it’s you';D['Weka msimbo wa tarakimu 4 tuliotuma kwa']='Enter the 4-digit code we just sent to';D['Thibitisha msimbo']='Verify code';D['Imethibitishwa']='Verified';D['Hukupata msimbo?']='Didn’t get a code?';D['Tuma tena baada ya']='Resend in';D['Tuma tena msimbo']='Resend code';D['Badilisha barua pepe']='Change email';D['Onyesho: msimbo wako ni']='Demo: your code is';D['Hakuna barua pepe halisi inayotumwa kwenye onyesho hili']='No real email is sent in this demo';D['Msimbo si sahihi. Jaribu tena.']='That code is incorrect. Try again.';D['Msimbo mpya umetumwa']='A new code has been sent';D['Msimbo wa tarakimu 4']='4-digit code';D['Jaza msimbo']='Fill in the code';D["barua@mfano.com"]="name@example.com";D["Weka msimbo wa tarakimu 6 tuliotuma kwa"]="Enter the 6-digit code we sent to";D["Msimbo wa tarakimu 6"]="6-digit code";D["Au bofya kiungo cha uthibitisho kwenye barua pepe hiyo."]="Or click the confirmation link in that email.";D["Weka nenosiri jipya"]="Set a new password";D["Chagua nenosiri jipya lenye herufi 6 au zaidi."]="Choose a new password with at least 6 characters.";D["Nenosiri jipya"]="New password";D["Rudia nenosiri"]="Repeat password";D["Hifadhi nenosiri"]="Save password";D["Pata Prompt Forge"]="Get Prompt Forge";D["Uliza kuhusu Starter"]="Ask about Starter";D["Uliza kuhusu Pro"]="Ask about Pro";D["Uliza kuhusu Innovator"]="Ask about Innovator";D["Uliza kuhusu toleo la desktop kwa barua pepe"]="Ask about the desktop version by email";D["Inakuja hivi karibuni. Omba taarifa kwa barua pepe"]="Coming soon. Request updates by email";D["Wanafunzi wawili wakiegemea laptop maktabani"]="Two students leaning over a laptop in a library";D["Wafanyakazi wakishirikiana kwenye laptop ofisini"]="Coworkers collaborating around a laptop in an office";D["Meneja akifanya kazi kwenye laptop ofisini"]="A manager working on a laptop in an office";D["Marafiki wakishiriki laptop nyumbani"]="Friends sharing a laptop at home";D["Mbunifu anayefanya kazi kwa mbali kwenye laptop mkahawani"]="A designer working remotely on a laptop in a cafe";D["Mawazo yanapata umbo"]="Ideas take shape";D["Wanafunzi wakichunguza mawazo pamoja na Prompt Forge."]="Students exploring ideas together with Prompt Forge.";D["Kazi, kwa pamoja"]="Work, together";D["Timu zikileta mradi wao ujao kwenye mwelekeo mmoja na MinuteHub."]="Teams bringing their next project into focus with MinuteHub.";D["Hatua moja iliyo wazi"]="One clear next step";D["Muda wa kuzingatia kazi inayofuata, pamoja na ActionBook."]="Time to focus on the next piece of work, with ActionBook.";D["Tengeneza nafasi ya kubuni"]="Make room to create";D["Kugeuza wazo la pamoja kuwa mpango wa vitendo na Guardian-X."]="Turning a shared idea into an action plan with Guardian-X.";D["Fanya kazi popote"]="Work from anywhere";D["Imejengwa kuzunguka siku yako"]="Built around your day";D["Zana za kidijitali zinazoendana na kasi ya kazi ya mbali."]="Digital tools that keep pace with remote work.";D["Hitilafu imetokea. Jaribu tena baadaye."]="Something went wrong. Please try again later.";D["Hakuna mtandao. Angalia muunganisho wako."]="No connection. Check your internet and try again.";D["Barua pepe si sahihi"]="Enter a valid email address";D["Weka nenosiri lako"]="Enter your password";D["Barua pepe au nenosiri si sahihi"]="Incorrect email or password";D["Andika barua pepe yako kwanza, kisha bofya \"Umesahau nenosiri?\""]="Enter your email first, then select \"Forgot password?\"";D["Imeshindwa kutuma kiungo. Jaribu tena."]="Could not send the link. Please try again.";D["Kama akaunti ipo, kiungo cha kuweka nenosiri jipya kimetumwa."]="If an account exists, a link to set a new password has been sent.";D["Andika jina lako kamili"]="Enter your full name";D["Nenosiri liwe na herufi 6 au zaidi"]="Password must be at least 6 characters";D["Barua pepe hii tayari imesajiliwa. Ingia badala yake."]="This email is already registered. Sign in instead.";D["Nenosiri ni dhaifu. Tumia herufi 6 au zaidi."]="Password is too weak. Use 6 or more characters.";D["Msimbo si sahihi au umekwisha muda. Jaribu tena au tuma mpya."]="The code is incorrect or has expired. Try again or request a new one.";D["Subiri kidogo kabla ya kutuma tena."]="Please wait a moment before resending.";D["Msimbo mpya umetumwa"]="A new code has been sent";D["Manenosiri hayafanani"]="Passwords do not match";D["Chagua nenosiri tofauti na la awali."]="Choose a password different from the previous one.";D["Nenosiri limehifadhiwa"]="Password saved";D["Picha 1"]="Photo 1";D["Picha 2"]="Photo 2";D["Picha 3"]="Photo 3";D["Picha 4"]="Photo 4";D["Picha 5"]="Photo 5";D["Imethibitishwa"]="Verified";D["Admin"]="Admin";D["Umeingia"]="Signed in";D["Barua pepe nyingi zimeombwa. Subiri kwa muda kisha ujaribu tena."]="Too many emails were requested. Please wait a while and try again.";D["Imeshindwa kutuma barua ya uthibitisho. Jaribu tena baadaye."]="We could not send the verification email. Please try again later.";D["Usajili umezimwa kwa sasa."]="Sign-ups are currently disabled.";D['Thibitisha barua pepe']='Verify email';var L='en';try{if(localStorage.getItem('gx-lang')==='sw')L='sw'}catch(e){}
 var orig=new WeakMap(),AT=['placeholder','aria-label','alt','title'];
 function tn(n){var v=n.nodeValue,t=v.trim();if(!t)return;
@@ -715,7 +793,7 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')finish()},{o
         <h1 id="h1">Programu mahiri, <span class="gf">zilizobuniwa</span> kwa jinsi <span class="gc">unavyofanya kazi</span>.</h1>
       </div>
       <div style="min-width:0">
-        <p class="lead">Guardian-X inabuni programu za kompyuta, simu na tovuti zinazoendeshwa na AI na kurudisha muda wa timu na taasisi: kuanzia <span class="gv">uhandisi wa prompt za AI</span> hadi mipango na bajeti ya taasisi. Imejengwa kwa lugha nyingi tangu mwanzo, na bei iliyo wazi.</p>
+        <p class="lead long-form-copy">Guardian-X inabuni programu za kompyuta, simu na tovuti zinazoendeshwa na AI na kurudisha muda wa timu na taasisi: kuanzia <span class="gv">uhandisi wa prompt za AI</span> hadi mipango na bajeti ya taasisi. Imejengwa kwa lugha nyingi tangu mwanzo, na bei iliyo wazi.</p>
         <div class="hcta"><button class="b1" id="heroPf">Jaribu Prompt Forge <i data-lucide="arrow-right"></i></button><button class="b2" data-jump="bei">Tazama bei</button></div>
         <div class="chips"><span><i data-lucide="languages"></i>Kiswahili + English</span><span><i data-lucide="monitor"></i>Windows</span><span><i data-lucide="wallet"></i>Lipa kwa simu au PayPal</span></div>
       </div>
@@ -779,10 +857,61 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')finish()},{o
       </aside>
     </div>
 
+    <section class="block" id="bidhaa" aria-labelledby="bidhaaT">
+      <div class="sechead">
+        <span class="kick"><i></i>Bidhaa na huduma</span>
+        <h2 class="h2" id="bidhaaT">Zana tayari kutumia, na huduma za kujengwa kwa ajili yako.</h2>
+      </div>
+      <div class="surf pgroups">
+        <div class="pgrp" aria-labelledby="pgBid">
+          <div class="pgrp__head"><h3 id="pgBid">Bidhaa zilizo tayari</h3><p>Zinatumika sasa au zinakaribia kutoka.</p></div>
+          <div class="pitems pitems--2">
+            <article class="pitem">
+              <div class="pitem__top"><span class="pic"><i data-lucide="sparkles"></i></span><span class="pst new">Mpya</span></div>
+              <h4>Prompt Forge</h4>
+              <p>Andika unachotaka kwa maneno yako. Prompt Forge inakuuliza maswali machache yenye chaguo za kubofya, kisha inakuandalia prompt iliyopangwa, tayari kwa ChatGPT, Claude au Gemini.</p>
+              <div class="pitem__act"><button class="b1" type="button" data-pk="pf">Tazama onyesho <i data-lucide="arrow-right"></i></button></div>
+            </article>
+            <article class="pitem">
+              <div class="pitem__top"><span class="pic"><i data-lucide="notebook-pen"></i></span><span class="pst soon">Inakuja</span></div>
+              <h4>MinuteHub</h4>
+              <p>Andika muhtasari, gawa maazimio kwa wahusika na fuatilia utekelezaji hadi kikao kijacho. Tunaiboresha sasa; tuandikie upate taarifa itakapokuwa tayari.</p>
+              <div class="pitem__act"><button class="b2" type="button" data-pk="mh">Tazama onyesho</button></div>
+            </article>
+          </div>
+        </div>
+        <div class="pgrp" aria-labelledby="pgHud">
+          <div class="pgrp__head"><h3 id="pgHud">Huduma maalum</h3><p>Tunazijenga kulingana na mahitaji ya ofisi au taasisi yako.</p></div>
+          <div class="pitems pitems--3">
+            <article class="pitem">
+              <div class="pitem__top"><span class="pic"><i data-lucide="chart-pie"></i></span><span class="pst svc">Kwa ofisi na taasisi</span></div>
+              <h4>Dashibodi za taasisi</h4>
+              <p>Tunajenga dashibodi zinazosoma data ya taasisi yako na kuonyesha matumizi ya bajeti, utekelezaji wa mpango mkakati na rejista ya hatari, tayari kwa kikao cha Menejimenti.</p>
+              <div class="pitem__act"><button class="b2" type="button" data-pk="dash">Tazama onyesho</button></div>
+            </article>
+            <article class="pitem">
+              <div class="pitem__top"><span class="pic"><i data-lucide="smartphone"></i></span><span class="pst svc">Android na iOS</span></div>
+              <h4>Apps za simu</h4>
+              <p>Tunajenga apps za simu kwa Flutter, zenye kuingia kwa usalama na data kwenye Supabase, zilizoundwa kukua kadri watumiaji wako wanavyoongezeka.</p>
+              <div class="pitem__act"><button class="b2" type="button" data-pk="apps">Tazama onyesho</button></div>
+            </article>
+            <article class="pitem">
+              <div class="pitem__top"><span class="pic"><i data-lucide="globe"></i></span><span class="pst svc">Web</span></div>
+              <h4>Tovuti na mifumo</h4>
+              <p>Kurasa za kutua, mifumo ya ndani ya ofisi na dashibodi kwa React na TypeScript, kwa muundo wa kisasa wa kioo kama ukurasa huu unaousoma.</p>
+              <div class="pitem__act"><button class="b2" type="button" data-pk="web">Tazama onyesho</button></div>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <section class="block" id="jinsi" aria-labelledby="jinsiT">
-      <span class="kick"><i></i>Prompt Forge · hatua tatu</span>
-      <h2 class="h2" id="jinsiT">Hakuna haja ya kujua <span class="gc">lugha ya AI</span>. Wewe sema tu <span class="gf">unachotaka</span>.</h2>
-      <p class="lead">AI inakupa majibu bora pale unapoiuliza vizuri. Prompt Forge inafanya kazi hiyo ngumu kwa niaba yako, hatua kwa hatua.</p>
+      <div class="sechead">
+        <span class="kick"><i></i>Prompt Forge · hatua tatu</span>
+        <h2 class="h2" id="jinsiT">Hakuna haja ya kujua <span class="gc">lugha ya AI</span>. Wewe sema tu <span class="gf">unachotaka</span>.</h2>
+        <p class="lead long-form-copy">AI inakupa majibu bora pale unapoiuliza vizuri. Prompt Forge inafanya kazi hiyo ngumu kwa niaba yako, hatua kwa hatua.</p>
+      </div>
       <div class="steps">
         <article class="step"><i data-lucide="pencil-line" class="si"></i><span class="no">01</span><h3>Andika wazo lako</h3><p>Kwa Kiswahili au Kiingereza, jinsi unavyoliwaza. Sentensi moja inatosha kuanza.</p></article>
         <article class="step"><i data-lucide="list-checks" class="si"></i><span class="no">02</span><h3>Bofya majibu</h3><p>Prompt Forge inakuuliza maswali machache yenye chaguo za kubofya, ili kuelewa hasa unachohitaji.</p></article>
@@ -791,8 +920,10 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')finish()},{o
     </section>
 
     <section class="block" id="kwanini" aria-labelledby="kwaniniT">
-      <span class="kick"><i></i>Kwa nini Guardian-X</span>
-      <h2 class="h2" id="kwaniniT">Imejengwa kwa <span class="gv">mazingira yetu</span>, si kunakiliwa kutoka kwingine.</h2>
+      <div class="sechead">
+        <span class="kick"><i></i>Kwa nini Guardian-X</span>
+        <h2 class="h2" id="kwaniniT">Imejengwa kwa <span class="gv">mazingira yetu</span>, si kunakiliwa kutoka kwingine.</h2>
+      </div>
       <div class="feats">
         <article class="feat"><span class="fi"><i data-lucide="languages"></i></span><h3>Lugha yako</h3><p>Kila skrini inapatikana kwa Kiswahili na Kiingereza. Badilisha lugha wakati wowote kwa kubofya mara moja.</p></article>
         <article class="feat"><span class="fi"><i data-lucide="cpu"></i></span><h3>AI nne nyuma yako</h3><p>Vifurushi vya kulipia vinatumia Claude kwanza. Ikikwama, OpenAI, Grok au Gemini zinaendelea na kazi bila wewe kuona tofauti.</p></article>
@@ -804,9 +935,11 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')finish()},{o
     </section>
 
     <section class="block" id="bei" aria-labelledby="beiT">
-      <span class="kick"><i></i>Bei na vifurushi · Prompt Forge</span>
-      <h2 class="h2" id="beiT">Anza <span class="gc">bure</span>. Panda daraja <span class="gf">unapokua</span>.</h2>
-      <p class="lead">Unaweza kujaribu mara moja bila hata kujisajili. Ukipenda, fungua akaunti na uchague kifurushi kinacholingana na kasi ya kazi yako.</p>
+      <div class="sechead">
+        <span class="kick"><i></i>Bei na vifurushi · Prompt Forge</span>
+        <h2 class="h2" id="beiT">Anza <span class="gc">bure</span>. Panda daraja <span class="gf">unapokua</span>.</h2>
+        <p class="lead long-form-copy">Unaweza kujaribu mara moja bila hata kujisajili. Ukipenda, fungua akaunti na uchague kifurushi kinacholingana na kasi ya kazi yako.</p>
+      </div>
       <div class="prices">
         <article class="plan"><h3>Free</h3><p class="who">Kwa kuanza na kujifunza</p><div class="amt">$0</div>
           <ul><li><i data-lucide="check"></i>Prompt 3 za kwanza bure</li><li><i data-lucide="check"></i>Kisha prompt 1 kila baada ya saa 6</li><li><i data-lucide="check"></i>Inatumia ufunguo wako wa bure wa Gemini</li></ul>
@@ -821,7 +954,7 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')finish()},{o
           <ul><li><i data-lucide="check"></i>Claude Opus, AI yenye uwezo mkubwa zaidi</li><li><i data-lucide="check"></i>Prompt 24 kila wiki mpya</li><li><i data-lucide="check"></i>Kisha 1 kila baada ya dakika 45</li><li class="crown"><i data-lucide="crown"></i><span><b class="gf">Crown Privilege:</b> uliza swali lolote la utafiti, si prompt tu</span></li></ul>
           <a class="b2" href="mailto:info@gurdianx.com?subject=Prompt%20Forge%20Innovator%20plan">Uliza kuhusu Innovator</a></article>
       </div>
-      <p class="fine">Bei ni kwa Dola za Marekani kwa mwezi. Kila kifurushi kina kikomo cha haki cha matumizi kwa wiki. Maswali ya ufafanuzi hayahesabiwi; prompt kamili ya mwisho ndiyo inayohesabiwa.</p>
+      <p class="fine long-form-copy">Bei ni kwa Dola za Marekani kwa mwezi. Kila kifurushi kina kikomo cha haki cha matumizi kwa wiki. Maswali ya ufafanuzi hayahesabiwi; prompt kamili ya mwisho ndiyo inayohesabiwa.</p>
       <div class="pay"><span>Lipa Namba: M-Pesa</span><span>Airtel Money</span><span>Mixx by Yas</span><span>Halopesa</span><span>T-Pesa</span><span>PayPal</span></div>
     </section>
 
@@ -831,9 +964,11 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')finish()},{o
     </section>
 
     <section class="block" id="mawasiliano" aria-labelledby="mawT">
-      <span class="kick"><i></i>Wasiliana nasi</span>
-      <h2 class="h2" id="mawT">Una changamoto ndogo ya kazini? <span class="gc">Tuambie</span>.</h2>
-      <p class="lead">Eleza tatizo lako kwa ufupi. Tutakushauri kama zana iliyopo inatosha, au kama unahitaji suluhisho maalum kwa ajili yako au taasisi yako.</p>
+      <div class="sechead">
+        <span class="kick"><i></i>Wasiliana nasi</span>
+        <h2 class="h2" id="mawT">Una changamoto ndogo ya kazini? <span class="gc">Tuambie</span>.</h2>
+        <p class="lead long-form-copy">Eleza tatizo lako kwa ufupi. Tutakushauri kama zana iliyopo inatosha, au kama unahitaji suluhisho maalum kwa ajili yako au taasisi yako.</p>
+      </div>
       <div class="contact">
         <div class="cbox"><span class="kick" style="color:var(--mute)">Barua pepe</span><div class="mail"><a class="mlink" href="mailto:info@gurdianx.com"><span id="mailTxt">info@gurdianx.com</span></a><button class="copy" id="copyMail" type="button"><i data-lucide="copy"></i><span>Nakili</span></button></div><p style="margin:0;color:var(--mute);font-size:13px">Tunajibu kwa Kiswahili au Kiingereza.</p></div>
         <div class="cbox"><span class="kick" style="color:var(--mute)">Mahali</span><div class="cmain"><i data-lucide="map-pin"></i>Dodoma, Tanzania</div><p style="margin:0;color:var(--mute);font-size:13px">Huduma zetu zinapatikana mtandaoni popote ulipo.</p></div>
@@ -842,7 +977,7 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')finish()},{o
 
     <footer>
       <div class="fb"><b>Guardian-X Digital Solutions</b><span>Programu zinazoendeshwa na AI kwa timu na taasisi.</span></div>
-      <nav class="fl" aria-label="Footer"><button data-jump="jinsi">Jinsi inavyofanya kazi</button><button data-jump="kwanini">Kwa nini Guardian-X</button><button data-jump="bei">Bei</button><button data-jump="mawasiliano">Wasiliana</button></nav>
+      <nav class="fl" aria-label="Footer"><button data-jump="bidhaa">Bidhaa na huduma</button><button data-jump="jinsi">Jinsi inavyofanya kazi</button><button data-jump="kwanini">Kwa nini Guardian-X</button><button data-jump="bei">Bei</button><button data-jump="mawasiliano">Wasiliana</button></nav>
       <div class="fm"><span>© 2026 Guardian-X Digital Solutions. Haki zote zimehifadhiwa.</span><span>Makao makuu: Dodoma, Tanzania</span></div>
     </footer>
 
@@ -971,6 +1106,7 @@ $('wcta').onclick=()=>{if(cur==='home')select('pf',true);else if(cur==='pf')loca
 $('wcta2').onclick=()=>{if(cur==='home'||cur==='pf')jump('jinsi');else jump('mawasiliano')};
 $('heroPf').onclick=()=>select('pf',true);$('bandPf').onclick=()=>select('pf',true);
 document.querySelectorAll('[data-jump]').forEach(b=>b.onclick=()=>jump(b.dataset.jump));
+document.querySelectorAll('[data-pk]').forEach(b=>b.onclick=()=>select(b.dataset.pk,true));
 document.querySelectorAll('[data-open]').forEach(b=>b.onclick=()=>openL(b.dataset.open==='signup'?'su':''));
 $('copyMail').onclick=()=>{const t=$('mailTxt').textContent,s=$('copyMail').querySelector('span');const ok=()=>{s.textContent='Imenakiliwa';setTimeout(()=>s.textContent='Nakili',1800)};try{navigator.clipboard.writeText(t).then(ok,()=>{selectMail();s.textContent='Bonyeza Ctrl+C'})}catch(e){selectMail()}};
 function selectMail(){const r=document.createRange();r.selectNodeContents($('mailTxt'));const sl=getSelection();sl.removeAllRanges();sl.addRange(r)}
@@ -1133,6 +1269,19 @@ function syncLangUI(){const L=gxLang.get();document.querySelectorAll('[data-lang
 document.querySelectorAll('[data-lang]').forEach(b=>b.addEventListener('click',()=>gxLang.set(b.dataset.lang)));
 document.addEventListener('gxlang',()=>{select(cur,false);setAd(ai);if(user)$('who').title=userName;syncLangUI();LI()});
 syncLangUI();
+</script>
+<script>
+/* scroll reveal: progressive enhancement, once per element, off for reduced motion */
+(function(){try{
+ if(!('IntersectionObserver' in window)||matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+ var els=[];function mark(el,i){el.classList.add('rv');el.style.setProperty('--i',Math.min(i,5));els.push(el)}
+ document.querySelectorAll('main .sechead,main .band,main .pgrp__head,main .fine,main .pay').forEach(function(e){mark(e,0)});
+ document.querySelectorAll('main .steps,main .feats,main .prices,main .contact,main .pitems').forEach(function(box){Array.prototype.forEach.call(box.children,function(c,i){mark(c,i)})});
+ if(!els.length)return;
+ var io=new IntersectionObserver(function(es){es.forEach(function(en){if(!en.isIntersecting)return;var e=en.target;io.unobserve(e);e.classList.add('in');setTimeout(function(){e.classList.remove('rv','in');e.style.removeProperty('--i')},1200)})},{threshold:.12,rootMargin:'0px 0px -6% 0px'});
+ document.documentElement.classList.add('js-rv');
+ els.forEach(function(e){io.observe(e)});
+}catch(e){}})();
 </script>
 </body>
 </html>
