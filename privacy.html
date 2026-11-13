@@ -9,7 +9,7 @@
 <link rel="icon" href="/assets/favicon/favicon.ico" sizes="48x48">
 <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon/favicon-32.png">
 <link rel="apple-touch-icon" href="/assets/favicon/apple-touch-icon-180.png">
-<script>try{if(localStorage.getItem('gx-theme')==='light')document.documentElement.setAttribute('data-theme','light')}catch(e){}</script>
+<script>(function(){var r=document.documentElement,t=null;try{t=localStorage.getItem('gx-theme')}catch(e){}if(t!=='light'&&t!=='dark'){t=(window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches)?'dark':'light'}r.setAttribute('data-theme',t)})();</script>
 <style>
 :root{--bg:#0a0a17;--ink:#eef0ff;--mute:#a5a9cc;--line:rgba(255,255,255,.13);--cyan:#77edfb;--flame:#ffb347;color-scheme:dark}
 *{box-sizing:border-box}
@@ -159,7 +159,7 @@ function set(x,save){l=x;document.documentElement.setAttribute('data-l',x);docum
  if(save){try{localStorage.setItem('gx-lang',x)}catch(e){}}}
 document.querySelectorAll('.lang button').forEach(function(b){b.addEventListener('click',function(){set(b.dataset.l,true)})});
 set(l,false);
-document.getElementById('themeBtn').addEventListener('click',function(){var r=document.documentElement,l=r.getAttribute('data-theme')==='light';if(l)r.removeAttribute('data-theme');else r.setAttribute('data-theme','light');try{localStorage.setItem('gx-theme',l?'dark':'light')}catch(e){}});
+document.getElementById('themeBtn').addEventListener('click',function(){var r=document.documentElement,n=r.getAttribute('data-theme')==='light'?'dark':'light';r.setAttribute('data-theme',n);try{localStorage.setItem('gx-theme',n)}catch(e){}});
 })();
 </script>
 </body>
