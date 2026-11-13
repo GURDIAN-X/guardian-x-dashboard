@@ -741,7 +741,7 @@ html[data-theme="light"] :is(.ov,.dlg,.notes){--ink:#eef0ff;--mute:#a5a9cc;--dim
 .pf-l .tl{align-self:flex-start;margin-top:2px;color:#cfe3ff;border-bottom-color:rgba(207,227,255,.45)}
 /* ---------- hanging card: Why Guardian-X ---------- */
 .al{display:none;list-style:none;margin:0;padding:0}
-.fc.why>:nth-child(3),.fc.why>:nth-child(4),.fc.why>:nth-child(5),.fc.why>:nth-child(6),.fc.why>:nth-child(9){display:none}
+.fc.why>:nth-child(3),.fc.why>:nth-child(4),.fc.why>:nth-child(5),.fc.why>:nth-child(6),.fc.why>:nth-child(10){display:none}
 .fc.why .big{font-size:19px;line-height:1.08;margin:10px 0 0}
 .fc.why .al{display:flex;flex-direction:column;gap:6px;margin:10px 0 0;font-size:11px;line-height:1.25}
 .fc.why .al li{display:flex;gap:7px;align-items:flex-start;color:rgba(255,255,255,.88)}
@@ -874,6 +874,23 @@ body.admin .hctl .hint,body.admin .hctl .chip{color:#e8eeff}
 .brandrow span{font-family:var(--display);font-weight:600;font-size:19px;letter-spacing:.01em;color:#fff}
 .cform{transform-origin:100% 100%;transform:translateY(34px) scale(.74)}
 .cform.open{transform:scale(.8)}
+
+/* ---------- v6: bright Advertise back face + "Let's connect" ad ---------- */
+.fc.bk{padding:8px 12px;justify-content:flex-end;align-items:flex-start;text-align:left;gap:4px;color:#fff;background:#038cd6}
+.fc.bk .advimg{position:absolute;left:0;top:-3.5%;width:100%;max-width:none;height:auto;z-index:0;pointer-events:none}
+.fc.bk .advlogo{position:absolute;top:0;left:0;right:0;z-index:2;display:flex;align-items:center;gap:6px;padding:12px 14px 20px;background:linear-gradient(180deg,#038cd6 0%,#038cd6 90%,rgba(3,140,214,0) 100%)}
+.advlogo img{width:22px;height:22px;object-fit:contain}
+.advlogo span{font-family:var(--display);font-weight:600;font-size:13px;color:#fff;text-shadow:0 1px 6px rgba(0,40,120,.65)}
+.fc.bk .advt,.fc.bk .advs{position:absolute;width:1px;height:1px;margin:0;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.fc.bk .advon{background:rgba(6,40,120,.7);border-color:rgba(255,255,255,.4);margin:0;padding:3px 9px;font-size:10px}.fc.bk .advon b{font-size:11.5px}
+.fc.bk .advbtn{height:30px;margin:0;background:#ffd60a;color:#0a2a6b;border:0;font-weight:700;box-shadow:0 8px 18px -8px rgba(0,30,110,.75)}
+.v-connect{background:radial-gradient(80% 55% at 50% 42%,rgba(46,128,255,.65),transparent 72%),linear-gradient(160deg,#0a46b8,#0a2a7a 60%,#071a52);color:#fff}
+.acx{display:none}
+.fc.connect>:nth-child(3),.fc.connect>:nth-child(4),.fc.connect>:nth-child(5),.fc.connect>:nth-child(6),.fc.connect>:nth-child(7),.fc.connect>:nth-child(8),.fc.connect>:nth-child(10){display:none}
+.fc.connect .acx{display:flex;flex-direction:column;align-items:center;gap:8px;margin:auto 0}
+.fc.connect>:last-child{margin-top:0}
+.cnsvg{width:128px;height:auto;filter:drop-shadow(0 0 12px rgba(255,214,10,.45))}
+.cn-t{margin:0;font-family:var(--display);font-weight:700;font-size:23px;line-height:1;text-align:center;color:#fff;text-shadow:0 2px 14px rgba(0,30,110,.6)}
 </style>
 </head>
 <body>
@@ -985,11 +1002,11 @@ window.gxLang={get:function(){return L},T:function(s){return L==='en'&&D[s]!==un
                   <div style="height:1px;background:currentColor;opacity:.25;margin:8px 0 0"></div>
                   <div style="flex:1"></div>
                   <p class="mut" id="ak" style="font-size:11px;margin:0"></p>
-                  <p class="big" id="ab"></p><ul class="al" id="al"></ul>
+                  <p class="big" id="ab"></p><ul class="al" id="al"></ul><div class="acx" id="acx"></div>
                   <p class="sub" id="as"></p>
                   <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-top:6px"><span class="mut" id="atg" style="font-size:11px"></span><span id="an" style="font-size:15px;font-weight:600"></span></div>
                 </div>
-                <div class="fc bk" id="bkf"><div class="hole"></div><i data-lucide="megaphone" style="font-size:26px"></i><p class="advt">Tangaza nasi</p><p class="mut advs">Fikia wageni wa Guardian-X.</p><div class="advon" id="advon" hidden><i class="adot"></i><span><b id="onlN">0</b> <span id="onlL">wageni mtandaoni sasa</span></span></div><button type="button" class="advbtn">Tangaza nasi</button></div>
+                <div class="fc bk" id="bkf"><div class="hole"></div><img class="advimg" src="assets/ads/advertise.jpg" alt="" width="560" height="840" decoding="async"><div class="advlogo"><img src="assets/guardian-x-logo.png" alt=""><span>Guardian-X</span></div><p class="advt">Tangaza nasi</p><p class="mut advs">Fikia wageni wa Guardian-X.</p><div class="advon" id="advon" hidden><i class="adot"></i><span><b id="onlN">0</b> <span id="onlL">wageni mtandaoni sasa</span></span></div><button type="button" class="advbtn">Tangaza nasi</button></div>
               </div></div>
             </div>
           </div></div>
@@ -1242,10 +1259,11 @@ const ADS=[
  {v:'v-holo',id:'AD 02',t:'Maelekezo bora ya AI kwa sekunde chache',k:'Prompt Forge',b:'AI Pro',s:'WINDOWS APP',tg:'Mpya',n:'2.',st:'linear-gradient(180deg,#ff6ad5,#ad8cff,#6ff7c8)',sc:'#1b1530',sx:'PROMPT FORGE · PROMPT FORGE',go:'pf'},
  {v:'v-dark',id:'AD 03',t:'Mihtasari ya vikao bila usumbufu',k:'MinuteHub',b:'Vikao',s:'SW · EN',tg:'Inakuja',n:'3.',st:'#111114',sc:'rgba(255,255,255,.75)',sx:'MINUTEHUB · MINUTEHUB',go:'mh'},
  {v:'v-neon',id:'AD 04',t:'Apps za simu na tovuti kwa Flutter na React',k:'Huduma zetu',b:'Jenga',s:'SIMU NA WEB',tg:'Huduma',n:'4.',st:'#0a0a14',sc:'#67e8f9',sx:'GUARDIAN-X · GUARDIAN-X',go:'cs'},
- {v:'v-ti',id:'AD 05',t:'Dashibodi za bajeti, mipango na hatari',k:'Kwa taasisi',b:'Data',s:'RIPOTI ZA OFISI',tg:'Taasisi',n:'5.',st:'#2b2f38',sc:'#d6dae2',sx:'DASHIBODI · DASHIBODI',go:'cs'}];
+ {v:'v-ti',id:'AD 05',t:'Dashibodi za bajeti, mipango na hatari',k:'Kwa taasisi',b:'Data',s:'RIPOTI ZA OFISI',tg:'Taasisi',n:'5.',st:'#2b2f38',sc:'#d6dae2',sx:'DASHIBODI · DASHIBODI',go:'cs'},
+ {v:'v-connect connect',id:'AD 06',t:'',k:'',b:'',s:'',x:`<svg viewBox="0 0 140 96" class="cnsvg" aria-hidden="true"><defs><radialGradient id="cng" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#ffe45c"/><stop offset="1" stop-color="#ffe45c" stop-opacity="0"/></radialGradient></defs><circle cx="70" cy="48" r="36" fill="url(#cng)" opacity=".55"/><path d="M24 48C44 14 96 82 116 48" fill="none" stroke="#ffd60a" stroke-width="2.2" stroke-dasharray="3 5" stroke-linecap="round"/><circle cx="24" cy="48" r="11" fill="#fff"/><circle cx="116" cy="48" r="11" fill="#7fb6ff"/><path d="M70 30l4 14 12 4-12 4-4 14-4-14-12-4 12-4z" fill="#ffe45c"/></svg><p class="cn-t">Let's connect</p>`,tg:'Wasiliana',n:'6.',st:'#0a2a7a',sc:'#ffd60a',sx:'GUARDIAN-X · LETS CONNECT',go:'contact'}];
 const card=$('card'),cw=$('cw'),fr=$('fr'),bkf=$('bkf'),strap=$('strap'),hang=$('hang'),hb=$('hangbox');
 let ai=0;
-function setAd(i){const a=ADS[i];fr.className='fc '+a.v;bkf.className='fc bk '+a.v.split(' ')[0];const al=$('al');al.innerHTML='';(a.l||[]).forEach(x=>{const li=document.createElement('li');li.textContent=x;al.appendChild(li)});$('aid').textContent=a.id;$('at').textContent=a.t;$('ak').textContent=a.k;$('ab').textContent=a.b;$('as').textContent=a.s;$('atg').textContent=a.tg;$('an').textContent=a.n;strap.style.background=a.st;strap.style.color=a.sc;strap.textContent=a.sx}
+function setAd(i){const a=ADS[i];$('acx').innerHTML=a.x||'';fr.className='fc '+a.v;bkf.className='fc bk '+a.v.split(' ')[0];const al=$('al');al.innerHTML='';(a.l||[]).forEach(x=>{const li=document.createElement('li');li.textContent=x;al.appendChild(li)});$('aid').textContent=a.id;$('at').textContent=a.t;$('ak').textContent=a.k;$('ab').textContent=a.b;$('as').textContent=a.s;$('atg').textContent=a.tg;$('an').textContent=a.n;strap.style.background=a.st;strap.style.color=a.sc;strap.textContent=a.sx}
 setAd(0);
 let hov=false,drag=false,busy=false,th=.5,om=0,ph=0,pw=0,sway=true,off=0,sx0=0,sy0=0,moved=0,lt=0,last=performance.now();
 function nextAd(){if(busy||drag||hov||card.classList.contains('fl'))return;busy=true;cw.animate([{transform:'rotateY(0)'},{transform:'rotateY(90deg)'}],{duration:260,easing:'ease-in'}).onfinish=()=>{ai=(ai+1)%ADS.length;setAd(ai);cw.animate([{transform:'rotateY(-90deg)'},{transform:'rotateY(0)'}],{duration:620,easing:'cubic-bezier(.34,1.56,.64,1)'}).onfinish=()=>busy=false;om+=(Math.random()<.5?-1:1)*1.6}}
@@ -1259,7 +1277,7 @@ card.addEventListener('pointerdown',e=>{window.__dt=e.target;e.preventDefault();
 card.addEventListener('pointermove',e=>{if(!drag)return;const[x,y]=loc(e);moved=Math.max(moved,Math.hypot(x-sx0,y-sy0));const n=Math.max(-1.45,Math.min(1.45,ang(x,y)-off)),now=performance.now(),dt=Math.max(.008,(now-lt)/1000);om=om*.5+((n-th)/dt)*.5;th=n;lt=now});
 card.addEventListener('pointerup',e=>{if(!drag)return;drag=false;if(moved<6){om*=.2;const ab=document.querySelector('.advbtn'),br=ab.getBoundingClientRect();const onBtn=card.classList.contains('fl')&&e.clientX>=br.left&&e.clientX<=br.right&&e.clientY>=br.top&&e.clientY<=br.bottom;if(onBtn){openContact('Advertise with us')}else card.classList.toggle('fl')}else{om=Math.max(-14,Math.min(14,om));$('hint').classList.add('gone')}});
 card.addEventListener('pointercancel',()=>drag=false);
-card.addEventListener('dblclick',()=>select(ADS[ai].go,true));
+card.addEventListener('dblclick',()=>{const g=ADS[ai].go;if(g==='contact')openContact("Let's connect");else select(g,true)});
 $('sway').onclick=()=>{sway=!sway;$('sway').classList.toggle('on',sway)};
 function loop(t){const dt=Math.min(.033,(t-last)/1000);last=t;
  if(!drag){let a=-K*Math.sin(th)-D*om;if(sway&&!reduce)a+=.9*Math.sin(t/850)+.35*Math.sin(t/370);om+=a*dt;th+=om*dt;if(th>1.5){th=1.5;om*=-.4}if(th<-1.5){th=-1.5;om*=-.4}}
