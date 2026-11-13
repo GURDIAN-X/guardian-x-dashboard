@@ -863,6 +863,17 @@ body.admin .hctl .hint,body.admin .hctl .chip{color:#e8eeff}
 .advbtn:hover{filter:brightness(1.08)}
 .cform .cf-co{display:none}
 .cform.adv .cf-co{display:flex}
+
+/* ---------- v5: bigger hanging card, brand lockup in sign-in, smaller contact card ---------- */
+.hw{transform:translateX(-50%) scale(1.3);transform-origin:50% 0}
+@media (max-width:1240px){.hangbox{height:430px}}
+@media (max-width:640px){.hangbox{height:400px}.hw{transform:translateX(-50%) scale(1.12)}}
+.hangbox .stars{border-radius:inherit}
+.brandrow{display:flex;align-items:center;justify-content:flex-start;gap:10px;margin:0 0 12px}
+.brandrow img{width:36px;height:36px;object-fit:contain;filter:drop-shadow(0 2px 8px rgba(230,180,60,.35))}
+.brandrow span{font-family:var(--display);font-weight:600;font-size:19px;letter-spacing:.01em;color:#fff}
+.cform{transform-origin:100% 100%;transform:translateY(34px) scale(.74)}
+.cform.open{transform:scale(.8)}
 </style>
 </head>
 <body>
@@ -962,6 +973,7 @@ window.gxLang={get:function(){return L},T:function(s){return L==='en'&&D[s]!==un
 
       <aside class="rc" aria-label="Matangazo na watumiaji">
         <div class="hangbox" id="hangbox">
+          <canvas class="stars" id="stars2" aria-hidden="true"></canvas>
           <div class="hrail"></div>
           <div class="hang" id="hang"><div class="hw">
             <div class="clip"></div><div class="strap" id="strap"></div><div class="hook"></div>
@@ -1078,7 +1090,7 @@ window.gxLang={get:function(){return L},T:function(s){return L==='en'&&D[s]!==un
   <div class="lc" id="lc">
     <div class="fz">
       <form class="frm lg" id="lform" novalidate>
-        <img class="stg" src="assets/guardian-x-logo.png" alt="" style="width:32px;height:32px;object-fit:contain;margin-bottom:8px">
+        <div class="brandrow stg"><img src="assets/guardian-x-logo.png" alt=""><span>Guardian-X</span></div>
         <p class="ttl stg">Ingia</p>
         <div class="fd stg" id="fu"><i data-lucide="mail"></i><input id="lu" type="email" placeholder="barua@mfano.com" aria-label="Barua pepe" autocomplete="email" inputmode="email"></div>
         <div class="fd stg" id="fp"><i data-lucide="lock"></i><input id="lp" type="password" placeholder="Nenosiri" aria-label="Nenosiri" autocomplete="current-password"><span id="eye" role="button" tabindex="0" aria-label="Onyesha nenosiri" style="cursor:pointer;display:flex;font-size:17px;color:rgba(255,255,255,.7)"><i data-lucide="eye"></i></span></div>
@@ -1088,6 +1100,7 @@ window.gxLang={get:function(){return L},T:function(s){return L==='en'&&D[s]!==un
         <p class="sm2 stg" style="margin-top:4px"><a id="forgot" tabindex="0" style="font-weight:500;opacity:.85">Umesahau nenosiri?</a></p>
       </form>
       <form class="frm sg" id="sform" novalidate>
+        <div class="brandrow stg"><img src="assets/guardian-x-logo.png" alt=""><span>Guardian-X</span></div>
         <p class="ttl">Fungua akaunti</p>
         <div class="fd" id="gn"><i data-lucide="user"></i><input id="sn" placeholder="Jina kamili" aria-label="Jina kamili" autocomplete="name"></div>
         <div class="fd" id="ge"><i data-lucide="mail"></i><input id="se" placeholder="barua@mfano.com" aria-label="Barua pepe" autocomplete="email"></div>
@@ -1244,7 +1257,7 @@ function loc(e){const r=hb.getBoundingClientRect();return[e.clientX-r.left,e.cli
 function ang(x,y){const[px,py]=piv();return Math.atan2(-(x-px),Math.max(y-py,1))}
 card.addEventListener('pointerdown',e=>{window.__dt=e.target;e.preventDefault();card.setPointerCapture(e.pointerId);drag=true;moved=0;const[x,y]=loc(e);sx0=x;sy0=y;off=ang(x,y)-th;om=0;lt=performance.now()});
 card.addEventListener('pointermove',e=>{if(!drag)return;const[x,y]=loc(e);moved=Math.max(moved,Math.hypot(x-sx0,y-sy0));const n=Math.max(-1.45,Math.min(1.45,ang(x,y)-off)),now=performance.now(),dt=Math.max(.008,(now-lt)/1000);om=om*.5+((n-th)/dt)*.5;th=n;lt=now});
-card.addEventListener('pointerup',()=>{if(!drag)return;drag=false;if(moved<6){om*=.2;const bt=window.__dt&&window.__dt.closest&&window.__dt.closest('.advbtn');if(bt&&card.classList.contains('fl')){openContact('Advertise with us')}else card.classList.toggle('fl')}else{om=Math.max(-14,Math.min(14,om));$('hint').classList.add('gone')}});
+card.addEventListener('pointerup',e=>{if(!drag)return;drag=false;if(moved<6){om*=.2;const ab=document.querySelector('.advbtn'),br=ab.getBoundingClientRect();const onBtn=card.classList.contains('fl')&&e.clientX>=br.left&&e.clientX<=br.right&&e.clientY>=br.top&&e.clientY<=br.bottom;if(onBtn){openContact('Advertise with us')}else card.classList.toggle('fl')}else{om=Math.max(-14,Math.min(14,om));$('hint').classList.add('gone')}});
 card.addEventListener('pointercancel',()=>drag=false);
 card.addEventListener('dblclick',()=>select(ADS[ai].go,true));
 $('sway').onclick=()=>{sway=!sway;$('sway').classList.toggle('on',sway)};
@@ -1295,7 +1308,7 @@ async function doLogout(){if(!user)return;clearUser();try{await Promise.race([sb
 $('ubtn').onclick=()=>{if(!user)openL()};$('logout').onclick=doLogout;$('loutBtn').onclick=doLogout;
 lb.onclick=()=>{if(!user)openL()};
 $('cx').onclick=closeL;
-ov.addEventListener('click',e=>{if(e.target===ov||e.target.id==='shards')closeL()});
+/* the sign-in window closes only from its own buttons (X, Esc) - never from a click or text selection that ends outside it */
 document.addEventListener('keydown',e=>{if(e.key==='Escape'){if(ov.classList.contains('op'))closeL();else closeMob()}});
 const sw=on=>{lc.classList.toggle('su',on);msg($('le'),'');msg($('se2'),'');lc.querySelectorAll('.fd').forEach(f=>f.classList.remove('bad'))};
 ['toS','toS2'].forEach(i=>$(i).onclick=()=>sw(true));['toL','toL2'].forEach(i=>$(i).onclick=()=>sw(false));
@@ -1466,7 +1479,8 @@ f.addEventListener('submit',function(e){
 </script>
 <script>
 (function(){
-var c=document.getElementById('stars'),st=document.getElementById('stage');if(!c||!st||!c.getContext)return;
+function mk(cid,hid){
+var c=document.getElementById(cid),st=document.getElementById(hid);if(!c||!st||!c.getContext)return;
 var x=c.getContext('2d'),S=[],W=0,H=0,sh=null,on=true,rm=matchMedia('(prefers-reduced-motion: reduce)').matches,raf=0;
 function size(){var r=Math.min(devicePixelRatio||1,2),b=st.getBoundingClientRect();W=b.width;H=b.height;c.width=W*r;c.height=H*r;x.setTransform(r,0,0,r,0,0);S=[];var n=Math.round(W*H/2300);for(var i=0;i<n;i++)S.push({x:Math.random()*W,y:Math.random()*H,r:Math.random()*1.25+.25,p:Math.random()*6.28,s:Math.random()*1.6+.4,h:Math.random()<.22?'170,200,255':(Math.random()<.12?'255,214,170':'255,255,255')});draw(performance.now())}
 function draw(t){x.clearRect(0,0,W,H);var k=t/1000;for(var i=0;i<S.length;i++){var s=S[i],a=rm?.7:.3+.7*(.5+.5*Math.sin(k*s.s+s.p));x.beginPath();x.arc(s.x,s.y,s.r,0,6.283);x.fillStyle='rgba('+s.h+','+a.toFixed(3)+')';x.fill()}
@@ -1474,6 +1488,8 @@ function draw(t){x.clearRect(0,0,W,H);var k=t/1000;for(var i=0;i<S.length;i++){v
 function loop(t){if(!on){raf=0;return}draw(t);raf=requestAnimationFrame(loop)}
 size();addEventListener('resize',size);
 if(!rm){new IntersectionObserver(function(es){on=es[0].isIntersecting;if(on&&!raf)raf=requestAnimationFrame(loop)}).observe(st);raf=requestAnimationFrame(loop)}
+}
+mk('stars','stage');mk('stars2','hangbox');
 })();
 </script>
 <script>
