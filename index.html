@@ -991,6 +991,34 @@ html[data-theme="light"] .gp-pb{color:#fff}
 /* mobile fixes 2026-11-14 */
 @media (max-width:640px){.hero h1{text-align:left}}
 @media (max-width:520px){.wbar small{display:none}.top{gap:5px;padding:0 8px 0 12px}.lang svg{display:none}.lang button{padding:6px 8px}.crumb .cb{font-size:14px}.ptabs button{padding:4px 7px;font-size:10px}.stage .wbody .ptabs{flex-wrap:nowrap}}
+
+/* ===== 2026-11-14b: sidebar grey, matte dark footer, pricing on phones ===== */
+:root{--rail:radial-gradient(130% 34% at 0% 0%,rgba(255,255,255,.10),transparent 62%),linear-gradient(185deg,#4a4f5a 0%,#3b3f48 52%,#2f333b 100%)}
+html[data-theme="light"]{--rail:radial-gradient(130% 34% at 0% 0%,rgba(255,255,255,.12),transparent 62%),linear-gradient(185deg,#575c68 0%,#444853 52%,#363a43 100%)}
+html[data-theme="light"] .rail{--ink:#fff;--mute:rgba(255,255,255,.86);--dim:rgba(255,255,255,.62);--line:rgba(255,255,255,.22);background:var(--rail)}
+.rail{box-shadow:inset -1px 0 0 rgba(255,255,255,.07)}
+html[data-theme="light"] .rail .ri.on .ric{background:#fff;color:#363a43;box-shadow:0 8px 22px rgba(10,12,20,.4)}
+html[data-theme="light"] .rail .rlogo{filter:drop-shadow(0 2px 8px rgba(0,0,0,.4))}
+html[data-theme="light"] .rail.open,html[data-theme="light"] .rail:hover{box-shadow:24px 0 60px rgba(20,22,32,.35)}
+
+/* footer: matte dark grey card in both themes */
+footer.gxf,.gxf{--ink:#eceef3;--mute:#aab0bd;--dim:#80869a;--line:rgba(255,255,255,.12);--glass:rgba(255,255,255,.05);--glass2:rgba(255,255,255,.1);--cyan:#9cc8ff;background:#1d1f25;border:1px solid rgba(255,255,255,.06);border-radius:24px;padding:36px 32px 16px;margin-bottom:28px}
+html[data-theme="light"] .gxf-reach,html[data-theme="light"] .gxf .gxf-social :is(a,button){background:rgba(255,255,255,.06)}
+html[data-theme="light"] .gxf .soon{color:#c9c2ff;background:rgba(150,140,255,.14);border-color:rgba(150,140,255,.35)}
+.gxf .gxf-name,.gxf-name{background:none!important;-webkit-text-fill-color:#eceef3!important;color:#eceef3!important;text-shadow:none!important}
+@media (max-width:520px){footer.gxf,.gxf{padding:28px 20px 14px;border-radius:20px}}
+
+/* pricing on phones: tabs wrap, cards stack, nothing is cut off */
+#bei{scroll-margin-top:100px}
+@media (max-width:700px){
+ .gp-nav{flex-wrap:wrap}
+ .gp-tabs{flex-wrap:wrap;justify-content:center;overflow:visible;max-width:100%;border-radius:22px}
+ .gp-arr{display:none}
+ .gp-ring{flex-direction:column;align-items:center;overflow:visible;scroll-snap-type:none;padding:30px 0 10px;margin:0}
+ .gp-card{flex:none;width:100%;max-width:340px;min-height:0;scroll-snap-align:none}
+}
+@media (max-width:700px){.gp-tab{flex:1 1 calc(50% - 6px);justify-content:center;padding:9px 8px;font-size:13px}.gp-tab small{display:none}}
+@media (max-width:400px){.crumb{display:none}.top{justify-content:space-between;padding:0 8px}.top .tgl{margin-left:0}}
 </style>
 </head>
 <body>
@@ -1711,7 +1739,7 @@ function pos(instant){if(instant){var t=track.style.transition;track.style.trans
 function go(k,focus){
  k=(k+P.length)%P.length;if(k===cur){return}
  cur=k;
- tabs.querySelectorAll('.gp-tab').forEach(function(b,i){b.setAttribute('aria-selected',i===cur);b.tabIndex=i===cur?0:-1;if(i===cur){try{b.scrollIntoView({block:'nearest',inline:'center',behavior:'smooth'})}catch(e){}if(focus)b.focus()}});
+ tabs.querySelectorAll('.gp-tab').forEach(function(b,i){b.setAttribute('aria-selected',i===cur);b.tabIndex=i===cur?0:-1;if(i===cur){try{tabs.scrollTo({left:b.offsetLeft-(tabs.clientWidth-b.offsetWidth)/2,behavior:'smooth'})}catch(e){}if(focus)b.focus({preventScroll:true})}});
  track.querySelectorAll('.gp-slide').forEach(function(s,i){if(i===cur){s.removeAttribute('inert');s.removeAttribute('aria-hidden')}else{s.setAttribute('inert','');s.setAttribute('aria-hidden','true')}});
  clearAct();pos(false)}
 function clearAct(){view.querySelectorAll('.gp-card.act').forEach(function(c){c.classList.remove('act')});view.querySelectorAll('.gp-ring.has-act').forEach(function(r){r.classList.remove('has-act')})}
